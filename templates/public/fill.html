@@ -1,0 +1,55 @@
+{% extends "base_public.html" %}
+{% load i18n rs_tags %}
+{% block title %}{{ questionnaire.title }}{% endblock %}
+{% block public_nav %}{% endblock %}
+{% block header_cta %}{% endblock %}
+{% block content %}
+<div x-data="survey({ total: {{ sections|length }}, questions: {{ total_questions }}, saveUrl: '{% if not preview %}{% url 'public:autosave' questionnaire.public_id %}{% endif %}', preview: {% if preview %}true{% else %}false{% endif %}, errorStep: {{ error_step|default:'null' }} })" class="max-w-3xl mx-auto px-4 sm:px-6 pb-36 pt-6 sm:pt-10">
+  <div x-ref="top" class="scroll-mt-24"></div>
+  {% if preview %}<div class="rs-alert-warning mb-5 text-sm">{% icon "eye" "h-5 w-5 shrink-0" %}<p><strong>{% translate "Preview mode." %}</strong> {% translate "Answers are not saved." %} <a href="{{ questionnaire.get_absolute_url }}">{% translate "Back to builder" %}</a></p></div>{% endif %}
+  <header class="mb-5">
+    <p class="rs-eyebrow">{% translate "Scientific questionnaire" %}</p>
+    <h1 class="font-serif text-2xl sm:text-3xl font-semibold leading-tight mt-2">{{ questionnaire.title }}</h1>
+  </header>
+  <div class="mb-6 rs-card px-4 py-3 flex items-center gap-4 sticky top-[4.5rem] z-20 shadow-lift">
+      <div class="flex-1">
+        <div class="flex justify-between text-xs text-rs-muted mb-1.5"><span>{% translate "Section" %} <span x-text="step + 1"></span> / <span x-text="total"></span></span><span><span x-text="answered"></span> / {{ total_questions }} {% translate "answered" %}</span></div>
+        <div class="rs-progress" role="progressbar" aria-label="{% translate 'Progress' %}" :aria-valuenow="progress" aria-valuemin="0" aria-valuemax="100"><span :style="`width:${progress}%`" style="width:0%"></span></div>
+      </div>
+      <div class="text-xs w-24 text-right" aria-live="polite">
+        <span x-show="saving" class="text-rs-muted inline-flex items-center gap-1.5" x-cloak><span class="rs-spinner !h-3 !w-3"></span>{% translate "Saving" %}</span>
+        <span x-show="!saving && saved" class="text-rs-success inline-flex items-center gap-1" x-cloak>{% icon "check" "h-3.5 w-3.5" %}{% translate "Saved" %}</span>
+        <span x-show="offline" class="text-rs-danger" x-cloak>{% translate "Offline" %}</span>
+      </div>
+  </div>
+  {% if has_errors %}<div class="rs-alert-danger mb-5" role="alert">{% icon "alert" "h-5 w-5 shrink-0 text-rs-danger" %}<p>{% translate "Some answers are missing or invalid. They are highlighted below; everything else was saved." %}</p></div>{% endif %}
+  <div x-show="offline" x-cloak class="rs-alert-warning mb-5 text-sm" role="status">{% icon "alert" "h-5 w-5 shrink-0" %}<p>{% translate "Connection lost. Keep this page open — your answers stay in the form and will be saved when the connection returns." %}</p></div>
+
+  <form x-ref="form" method="post" action="{% if preview %}#{% else %}{% url 'public:submit' questionnaire.public_id %}{% endif %}" @submit="submit($event)" novalidate>
+    {% csrf_token %}
+    <input type="hidden" name="submission_token" value="{{ submission_token }}">
+    {% for section in sections %}
+    <section data-step="{{ forloop.counter0 }}" x-show="step === {{ forloop.counter0 }}" {% if not forloop.first %}x-cloak{% endif %} x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-1" aria-labelledby="s-{{ section.pk }}">
+      <div class="mb-4">
+        <h2 id="s-{{ section.pk }}" class="text-xl sm:text-2xl font-semibold">{{ section.title }}</h2>
+        {% if section.description %}<p class="mt-2 text-sm text-rs-muted rs-prose">{{ section.description }}</p>{% endif %}
+      </div>
+      <div class="space-y-4">{% for question in section.questions.all %}{% include "public/_question.html" %}{% endfor %}</div>
+    </section>
+    {% endfor %}
+
+    <nav class="fixed inset-x-0 bottom-0 z-30 border-t border-rs-border bg-rs-surface/95 backdrop-blur" aria-label="{% translate 'Questionnaire navigation' %}">
+      <div class="max-w-3xl mx-auto px-4 sm:px-6 py-3 flex items-center gap-3" style="padding-bottom: max(0.75rem, env(safe-area-inset-bottom));">
+        <button type="button" class="rs-btn-secondary" @click="prev()" :disabled="step === 0">{% icon "left" "h-4 w-4" %}<span class="hidden sm:inline">{% translate "Previous" %}</span></button>
+        <p class="flex-1 text-center text-xs text-rs-muted hidden sm:block">{% translate "Your answers are saved automatically on each step." %}</p>
+        <span class="flex-1 sm:hidden"></span>
+        <button type="button" class="rs-btn-primary" x-show="step < total - 1" @click="next()">{% translate "Next" %}{% icon "right" "h-4 w-4" %}</button>
+        <button type="submit" class="rs-btn-gold" x-show="step === total - 1" x-cloak :disabled="submitting">
+          <span x-show="submitting" class="rs-spinner" x-cloak></span>{% translate "Submit answers" %}</button>
+      </div>
+    </nav>
+    <noscript><div class="mt-8"><button type="submit" class="rs-btn-gold w-full">{% translate "Submit answers" %}</button></div></noscript>
+  </form>
+</div>
+{% endblock %}
+{% block footer %}{% endblock %}

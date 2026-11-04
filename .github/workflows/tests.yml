@@ -1,0 +1,42 @@
+name: ResearchSurvey tests
+
+on: [push, pull_request]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: rs
+          POSTGRES_PASSWORD: rs_ci_password
+          POSTGRES_DB: researchsurvey
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U rs" --health-interval 5s --health-timeout 5s --health-retries 10
+    env:
+      DATABASE_URL: postgres://rs:rs_ci_password@localhost:5432/researchsurvey
+      DJANGO_DEBUG: "true"
+      DJANGO_USE_HTTPS: "false"
+      DJANGO_FAST_PASSWORD_HASHER: "1"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - run: pip install -r requirements.txt
+      - run: python manage.py check
+      - run: python manage.py makemigrations --check --dry-run
+      - run: python manage.py test
+      - name: Production checks
+        env:
+          DJANGO_DEBUG: "false"
+          DJANGO_USE_HTTPS: "true"
+          DJANGO_SECRET_KEY: ci-only-secret-key-not-used-anywhere-else-0123456789abcdef
+          DJANGO_ALLOWED_HOSTS: example.org
+        run: |
+          python manage.py collectstatic --noinput
+          python manage.py check --deploy --fail-level ERROR

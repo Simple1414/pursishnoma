@@ -1,0 +1,8 @@
+{% load i18n %}{% if page.paginator.num_pages > 1 %}
+<nav class="flex items-center justify-between gap-3 px-5 py-4 border-t border-rs-border text-sm" aria-label="{% translate 'Pagination' %}">
+  <p class="text-rs-muted">{% blocktranslate with a=page.start_index b=page.end_index n=page.paginator.count %}{{ a }}–{{ b }} of {{ n }}{% endblocktranslate %}</p>
+  <div class="flex gap-2">
+    {% if page.has_previous %}<a class="rs-btn-secondary rs-btn-sm" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page.previous_page_number }}">{% translate "Previous" %}</a>{% endif %}
+    {% if page.has_next %}<a class="rs-btn-secondary rs-btn-sm" href="?{% if querystring %}{{ querystring }}&{% endif %}page={{ page.next_page_number }}">{% translate "Next" %}</a>{% endif %}
+  </div>
+</nav>{% endif %}

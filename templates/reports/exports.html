@@ -1,0 +1,33 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Export Center" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Export Center" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6"><p class="rs-eyebrow">{% translate "Data" %}</p><h1 class="rs-title mt-1.5">{% translate "Export Center" %}</h1><p class="rs-subtitle mt-1">{% translate "Every file is generated on request from the PostgreSQL data. Exports are recorded in the audit log." %}</p></div>
+{% if questionnaires %}
+<div class="space-y-4">
+{% for q in questionnaires %}
+  <section class="rs-card">
+    <div class="rs-card-header"><div class="min-w-0"><h2 class="text-base font-semibold line-clamp-1">{{ q.title }}</h2><p class="text-xs text-rs-muted mt-0.5">N = {{ q.completed_count }} {% translate "completed" %} · {{ q.participant_count }} {% translate "participants" %}</p></div><span class="{{ q.status|status_badge }}">{{ q.get_status_display }}</span></div>
+    <div class="rs-card-pad grid sm:grid-cols-2 lg:grid-cols-4 gap-3 text-sm">
+      <a href="{% url 'reports:export_dataset' q.pk 'xlsx' %}" class="rounded-xl border border-rs-border p-4 hover:border-rs-royal/50 hover:bg-rs-raised transition text-rs-text"><span class="text-rs-success">{% icon "table" %}</span><p class="mt-2 font-semibold">Excel (XLSX)</p><p class="text-xs text-rs-muted mt-1">{% translate "Responses (labels and codes), long format, participants, evaluations, statistics, codebook — separate sheets." %}</p></a>
+      <div class="rounded-xl border border-rs-border p-4 text-rs-text"><span class="text-rs-royal">{% icon "download" %}</span><p class="mt-2 font-semibold">CSV</p><p class="text-xs text-rs-muted mt-1">{% translate "Raw research dataset, one row per response (UTF-8)." %}</p>
+        <div class="mt-2 flex gap-2"><a href="{% url 'reports:export_dataset' q.pk 'csv' %}" class="rs-btn-secondary rs-btn-sm">{% translate "Labels" %}</a><a href="{% url 'reports:export_dataset' q.pk 'csv-codes' %}" class="rs-btn-secondary rs-btn-sm">{% translate "Codes" %}</a></div></div>
+      <div class="rounded-xl border border-rs-border p-4 text-rs-text"><span class="text-rs-accent">{% icon "report" %}</span><p class="mt-2 font-semibold">{% translate "Statistical report" %}</p><p class="text-xs text-rs-muted mt-1">{% translate "All questions with tables and charts." %}</p>
+        <div class="mt-2 flex gap-2"><a href="{% url 'reports:export_dataset' q.pk 'stats-docx' %}" class="rs-btn-secondary rs-btn-sm">Word</a><a href="{% url 'reports:export_dataset' q.pk 'stats-pdf' %}" class="rs-btn-secondary rs-btn-sm">PDF</a></div></div>
+      <a href="{% url 'reports:export_dataset' q.pk 'responses-docx' %}" class="rounded-xl border border-rs-border p-4 hover:border-rs-royal/50 hover:bg-rs-raised transition text-rs-text"><span class="text-rs-navy">{% icon "inbox" %}</span><p class="mt-2 font-semibold">{% translate "Individual responses (Word)" %}</p><p class="text-xs text-rs-muted mt-1">{% translate "One section per participant, with evaluations." %}</p></a>
+    </div>
+  </section>
+{% endfor %}
+</div>
+{% else %}<div class="rs-card">{% translate "Nothing to export yet" as t %}{% include "includes/empty.html" with icon="download" title=t %}</div>{% endif %}
+
+<section class="rs-card mt-8">
+  <div class="rs-card-header"><h2 class="text-base font-semibold flex items-center gap-2">{% icon "history" "h-4 w-4" %}{% translate "Export history" %}</h2></div>
+  {% if history.object_list %}
+  <div class="rs-table-wrap"><table class="rs-table"><thead><tr><th>{% translate "Time" %}</th><th>{% translate "Type" %}</th><th>{% translate "Format" %}</th><th>{% translate "Questionnaire" %}</th><th class="text-right">{% translate "Records" %}</th></tr></thead>
+    <tbody>{% for h in history %}<tr><td class="text-xs text-rs-muted whitespace-nowrap">{{ h.created_at|date:"Y-m-d H:i" }}</td><td class="font-mono text-xs">{{ h.export_type }}</td><td>{{ h.get_file_format_display }}</td><td class="text-sm max-w-[280px] truncate">{{ h.questionnaire.title|default:"—" }}</td><td class="text-right tabular-nums">{{ h.record_count }}</td></tr>{% endfor %}</tbody></table></div>
+  {% with page=history %}{% include "includes/pagination.html" %}{% endwith %}
+  {% else %}<p class="rs-card-pad text-sm text-rs-muted">{% translate "No exports yet." %}</p>{% endif %}
+</section>
+{% endblock %}

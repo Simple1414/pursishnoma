@@ -1,0 +1,34 @@
+{% extends "base_public.html" %}
+{% load i18n static rs_tags %}
+{% block title %}{% translate "Sign in" %}{% endblock %}
+{% block header_cta %}{% endblock %}
+{% block public_nav %}{% endblock %}
+{% block content %}
+<section class="min-h-[calc(100vh-8rem)] grid lg:grid-cols-2">
+  <div class="hidden lg:flex flex-col justify-between bg-[#0E2238] text-slate-200 p-12 relative overflow-hidden">
+    <div aria-hidden="true" class="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-[#C6A15B]/15 blur-3xl"></div>
+    <p class="rs-eyebrow !text-[#C6A15B]">ResearchSurvey</p>
+    <div class="relative">
+      <p class="font-serif text-4xl leading-tight text-white">{% translate "Rigorous data. Transparent analysis. Credible conclusions." %}</p>
+      <p class="mt-5 text-slate-300 max-w-md">{{ site_settings.tagline|default:_("Intelligent Platform for Scientific Research and Survey Analytics") }}</p>
+    </div>
+    <p class="text-xs text-slate-400">© {% now "Y" %} {{ site_settings.organization_name }}</p>
+  </div>
+  <div class="flex items-center justify-center px-4 py-12">
+    <div class="w-full max-w-sm">
+      <h1 class="rs-title">{% translate "Researcher sign in" %}</h1>
+      <p class="rs-subtitle mt-2">{% translate "Participants do not need an account — open the questionnaire link you received." %}</p>
+      <form method="post" class="mt-8 space-y-5" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="rs-alert-danger" role="alert">{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>{% endif %}
+        {% field form.username %}
+        {% field form.password %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <button class="rs-btn-primary w-full !py-3">{% translate "Sign in" %}</button>
+      </form>
+      <p class="mt-6 text-xs text-rs-muted flex items-center gap-2">{% icon "lock" "h-3.5 w-3.5" %}{% translate "Protected connection. Repeated failed attempts are temporarily blocked." %}</p>
+    </div>
+  </div>
+</section>
+{% endblock %}
+{% block footer %}{% endblock %}

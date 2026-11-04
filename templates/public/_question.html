@@ -1,0 +1,66 @@
+{% load i18n rs_tags %}{% with qid=question.pk err=errors|get_item:question.pk %}
+<fieldset id="question-{{ qid }}" class="rs-card p-5 sm:p-6 transition {% if err %}ring-2 ring-rs-danger/50{% endif %}" data-required="{% if question.required %}true{% else %}false{% endif %}" data-kind="{{ question.qtype }}">
+  <legend class="sr-only">{{ question.number }} {{ question.text }}</legend>
+  <div class="flex gap-3">
+    {% if question.number %}<span class="font-serif text-lg font-semibold text-rs-accent leading-snug shrink-0" aria-hidden="true">{{ question.number }}.</span>{% endif %}
+    <div class="min-w-0 flex-1">
+      <p class="font-medium text-[15.5px] leading-snug text-rs-text" aria-hidden="true">{{ question.text }}{% if question.required %} <span class="text-rs-danger" title="{% translate 'Required' %}">*</span>{% endif %}</p>
+      {% if question.help_text %}<p class="mt-1.5 text-sm text-rs-muted rs-prose">{{ question.help_text }}</p>{% endif %}
+    </div>
+  </div>
+  <div class="mt-4">
+  {% if question.qtype == "single" or question.qtype == "yes_no" or question.qtype == "multiple" %}
+    {% answer_key qid as key %}
+    <div class="grid gap-2 {% if question.options.all|length > 4 %}sm:grid-cols-2{% endif %}">
+    {% for o in question.choice_options %}
+      <label class="rs-choice">
+        <input type="{% if question.qtype == 'multiple' %}checkbox{% else %}radio{% endif %}" name="{{ key }}" value="{{ o.pk }}" class="{% if question.qtype == 'multiple' %}rs-checkbox{% else %}rs-radio{% endif %} mt-0.5" {% is_checked values key o.pk %}>
+        <span class="flex-1 text-sm leading-snug">{{ o.text }}
+          {% if o.allows_text %}{% answer_key qid "other" o.pk as okey %}<input type="text" name="{{ okey }}" value="{% first_value values okey %}" maxlength="500" class="rs-input mt-2 !py-1.5 !text-sm" x-data @focus="$el.closest('label').querySelector('input[type=radio],input[type=checkbox]').checked = true; $el.closest('form').dispatchEvent(new Event('change', {bubbles: true}))" placeholder="{% translate 'Please specify' %}" aria-label="{{ o.text }} — {% translate 'Please specify' %}">{% endif %}
+        </span>
+      </label>
+    {% endfor %}</div>
+  {% elif question.qtype == "likert" %}
+    {% answer_key qid as key %}{% with opts=question.choice_options %}
+    <div class="grid grid-cols-1 gap-2 sm:[grid-template-columns:repeat(var(--n),minmax(0,1fr))]" style="--n: {{ opts|length }}" role="radiogroup">
+      {% for o in opts %}
+      <label class="rs-scale-point !flex-row sm:!flex-col !justify-start sm:!justify-center gap-3 sm:gap-1 !px-4 sm:!px-2">
+        <input type="radio" name="{{ key }}" value="{{ o.pk }}" class="sr-only" {% is_checked values key o.pk %}>
+        <span class="font-serif text-xl font-semibold tabular-nums w-6 sm:w-auto text-center">{{ o.value }}</span>
+        <span class="text-xs leading-tight opacity-90">{% if o.text != o.value|stringformat:"s" %}{{ o.text }}{% endif %}</span>
+      </label>
+      {% endfor %}
+    </div>{% endwith %}
+  {% elif question.qtype == "rating" %}
+    {% answer_key qid as key %}{% with vals=question.rating_values %}
+    <div class="grid gap-2 [grid-template-columns:repeat(var(--n),minmax(0,1fr))]" style="--n: {{ vals|length }}" role="radiogroup">
+      {% for v in vals %}<label class="rs-scale-point !py-2.5"><input type="radio" name="{{ key }}" value="{{ v }}" class="sr-only" {% is_checked values key v %}><span class="font-semibold tabular-nums">{{ v }}</span></label>{% endfor %}
+    </div>
+    <div class="mt-2 flex justify-between text-xs text-rs-muted"><span>{{ question.scale_min_label }}</span><span>{{ question.scale_max_label }}</span></div>{% endwith %}
+  {% elif question.qtype == "short_text" %}
+    {% answer_key qid as key %}<input type="text" name="{{ key }}" value="{% first_value values key %}" maxlength="500" class="rs-input" aria-label="{{ question.text }}">
+  {% elif question.qtype == "long_text" %}
+    {% answer_key qid as key %}<textarea name="{{ key }}" rows="4" maxlength="10000" class="rs-input" aria-label="{{ question.text }}">{% first_value values key %}</textarea>
+  {% elif question.qtype == "number" %}
+    {% answer_key qid as key %}<input type="number" step="any" inputmode="decimal" name="{{ key }}" value="{% first_value values key %}" class="rs-input max-w-[200px]" aria-label="{{ question.text }}">
+  {% elif question.qtype == "date" %}
+    {% answer_key qid as key %}<input type="date" name="{{ key }}" value="{% first_value values key %}" class="rs-input max-w-[220px]" aria-label="{{ question.text }}">
+  {% elif question.qtype == "matrix" %}
+    {% with cols=question.matrix_columns %}
+    <div class="hidden md:block overflow-x-auto"><table class="w-full text-sm">
+      <thead><tr><th class="text-left font-medium text-rs-muted pb-2"></th>{% for c in cols %}<th class="px-2 pb-2 text-xs font-medium text-rs-muted text-center">{{ c.text }}</th>{% endfor %}</tr></thead>
+      <tbody>{% for r in question.matrix_rows %}{% answer_key qid "r" r.pk as rkey %}<tr class="border-t border-rs-border"><td class="py-3 pr-3">{{ r.text }}</td>{% for c in cols %}<td class="text-center"><input type="radio" name="{{ rkey }}" value="{{ c.pk }}" class="rs-radio" aria-label="{{ r.text }}: {{ c.text }}" {% is_checked values rkey c.pk %}></td>{% endfor %}</tr>{% endfor %}</tbody>
+    </table></div>
+    <div class="md:hidden space-y-4">{% for r in question.matrix_rows %}{% answer_key qid "r" r.pk as rkey %}<div><p class="text-sm font-medium mb-2">{{ r.text }}</p><div class="grid gap-1.5">{% for c in cols %}<label class="rs-choice !py-2"><input type="radio" name="{{ rkey }}_m" value="{{ c.pk }}" class="rs-radio" data-mirror="{{ rkey }}" x-on:change="document.querySelector('input[name=&quot;{{ rkey }}&quot;][value=&quot;{{ c.pk }}&quot;]').checked = true"><span class="text-sm">{{ c.text }}</span></label>{% endfor %}</div></div>{% endfor %}</div>
+    {% endwith %}
+  {% elif question.qtype == "ranking" %}
+    {% with opts=question.choice_options %}
+    <p class="text-xs text-rs-muted mb-3">{% blocktranslate with n=opts|length %}Assign each rank from 1 (most important) to {{ n }} once.{% endblocktranslate %}</p>
+    <div class="grid gap-2" x-data="ranking">{% for o in opts %}{% answer_key qid "rank" o.pk as rk %}
+      <label class="flex items-center gap-3 rounded-xl border border-rs-border px-3 py-2"><select name="{{ rk }}" class="rs-input !w-20 !py-1.5" @change="fix($event.target)"><option value="">—</option>{% for o2 in opts %}<option value="{{ forloop.counter }}" {% is_checked values rk forloop.counter as sel %}{% if sel %}selected{% endif %}>{{ forloop.counter }}</option>{% endfor %}</select><span class="text-sm">{{ o.text }}</span></label>
+    {% endfor %}</div>{% endwith %}
+  {% endif %}
+  </div>
+  <p class="rs-error mt-3" data-client-error hidden>{% translate "This question is required." %}</p>
+  {% if err %}<p class="rs-error mt-3" role="alert">{{ err }}</p>{% endif %}
+</fieldset>{% endwith %}

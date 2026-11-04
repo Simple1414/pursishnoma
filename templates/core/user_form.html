@@ -1,0 +1,14 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'core:users' %}">{% translate "User Management" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{{ title }}</span>{% endblock %}
+{% block content %}
+<div class="max-w-2xl">
+  <h1 class="rs-title mb-6">{{ title }}</h1>
+  <form method="post" class="rs-card rs-card-pad space-y-5" novalidate>
+    {% csrf_token %}
+    {% for f in form %}{% field f %}{% endfor %}
+    <div class="flex gap-3 pt-2"><button class="rs-btn-primary">{% translate "Save" %}</button><a href="{% url 'core:users' %}" class="rs-btn-ghost">{% translate "Cancel" %}</a></div>
+  </form>
+</div>
+{% endblock %}

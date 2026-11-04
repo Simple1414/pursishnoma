@@ -1,0 +1,23 @@
+{% load static i18n %}<!doctype html>
+{% get_current_language as LANG %}
+<html lang="{{ LANG }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="color-scheme" content="light dark">
+  <meta name="description" content="{% block meta_description %}{{ site_settings.tagline|default:_("Intelligent Platform for Scientific Research and Survey Analytics") }}{% endblock %}">
+  <title>{% block title %}{% endblock %}{% if self.title %} · {% endif %}ResearchSurvey</title>
+  <link rel="icon" href="{% static 'img/logo-mark.svg' %}" type="image/svg+xml">
+  <link rel="preload" href="{% static 'fonts/inter-cyrillic-ext.woff2' %}" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="{% static 'css/app.css' %}">
+  <script src="{% static 'js/theme.js' %}"></script>
+  <script defer src="{% static 'js/app.js' %}"></script>
+  {% block head_scripts %}{% endblock %}
+  <script defer src="{% static 'vendor/alpine.min.js' %}"></script>
+</head>
+<body class="{% block body_class %}{% endblock %}" x-data>
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] rs-btn-primary">{% translate "Skip to content" %}</a>
+  {% block body %}{% endblock %}
+  {% include "includes/toasts.html" %}
+</body>
+</html>

@@ -1,0 +1,18 @@
+# ResearchSurvey — production dependencies (Python 3.12+)
+Django>=5.2.19,<5.3
+djangorestframework>=3.18,<3.19
+psycopg[binary]>=3.3,<3.4
+dj-database-url>=3.1,<4
+python-dotenv>=1.2,<2
+whitenoise>=6.12,<7
+gunicorn>=26.0,<27
+pandas>=3.1,<4
+numpy>=2.5,<3
+scipy>=1.18,<2
+openpyxl>=3.1.5,<3.2
+python-docx>=1.2,<2
+reportlab>=5.1,<6
+matplotlib>=3.11,<4
+qrcode[pil]>=8.2,<9
+requests>=2.34,<3
+anthropic>=2.5,<3

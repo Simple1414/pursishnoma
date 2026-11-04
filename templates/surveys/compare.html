@@ -1,0 +1,12 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Compare responses" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'surveys:responses' %}">{% translate "Individual Responses" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Compare" %}</span>{% endblock %}
+{% block content %}
+<h1 class="rs-title mb-6">{% translate "Compare participants" %}</h1>
+<div class="rs-card"><div class="rs-table-wrap"><table class="rs-table">
+  <thead><tr><th class="min-w-[280px]">{% translate "Question" %}</th>{% for r in responses %}<th class="min-w-[180px]"><a href="{{ r.get_absolute_url }}" class="font-mono normal-case">{{ r.reference }}</a><p class="normal-case font-normal tracking-normal">{{ r.participant|truncatechars:30 }}</p></th>{% endfor %}</tr></thead>
+  <tbody>{% for row in rows %}{% ifchanged row.section.pk %}<tr><td colspan="{{ responses|length|add:1 }}" class="bg-rs-raised font-semibold text-rs-navy">{{ row.section.title }}</td></tr>{% endifchanged %}
+    <tr><td><span class="text-rs-accent font-semibold mr-1">{{ row.question.number }}</span>{{ row.question.text }}</td>{% for v in row.values %}<td class="text-sm font-medium text-rs-royal whitespace-pre-line">{{ v }}</td>{% endfor %}</tr>{% endfor %}</tbody>
+</table></div></div>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base_public.html" %}
+{% load i18n rs_tags %}
+{% block title %}{{ questionnaire.title }}{% endblock %}
+{% block public_nav %}{% endblock %}
+{% block content %}
+<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
+  <p class="rs-eyebrow">{% translate "Scientific questionnaire" %}</p>
+  <h1 class="font-serif text-3xl sm:text-[2.4rem] leading-tight font-semibold mt-3">{{ questionnaire.title }}</h1>
+  <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-rs-muted">
+    {% if questionnaire.author %}<span class="inline-flex items-center gap-1.5">{% icon "book" "h-4 w-4" %}{{ questionnaire.author }}</span>{% endif %}
+    <span class="inline-flex items-center gap-1.5">{% icon "clock" "h-4 w-4" %}{% blocktranslate with m=questionnaire.estimated_minutes %}About {{ m }} minutes{% endblocktranslate %}</span>
+    <span class="inline-flex items-center gap-1.5">{% icon "shield" "h-4 w-4" %}{% if questionnaire.participant_fields.all|length == 0 %}{% translate "Anonymous" %}{% else %}{% translate "Confidential" %}{% endif %}</span>
+  </div>
+
+  {% if not open %}
+  <div class="rs-card rs-card-pad mt-8 text-center">
+    <div class="rs-empty-icon mx-auto">{% icon "lock" "h-6 w-6" %}</div>
+    <h2 class="text-xl font-semibold mt-3">{% translate "This questionnaire is not accepting responses" %}</h2>
+    <p class="text-rs-muted mt-2 text-sm">{% if not_yet_open %}{% translate "It has not opened yet." %}{% else %}{% translate "Data collection has finished or is paused. Thank you for your interest." %}{% endif %}</p>
+  </div>
+  {% else %}
+  <div class="mt-8 space-y-5">
+    {% if questionnaire.objective %}<section class="rs-card rs-card-pad"><h2 class="text-lg font-semibold">{% translate "Purpose of the research" %}</h2><p class="mt-2 text-rs-muted rs-prose">{{ questionnaire.objective }}</p></section>{% endif %}
+    {% if questionnaire.description %}<section class="rs-card rs-card-pad"><p class="text-rs-muted rs-prose text-sm">{{ questionnaire.description }}</p></section>{% endif %}
+    {% if questionnaire.instructions %}<section class="rs-card rs-card-pad"><h2 class="text-lg font-semibold">{% translate "Instructions" %}</h2><div class="mt-2 text-rs-muted rs-prose text-sm leading-relaxed">{{ questionnaire.instructions }}</div></section>{% endif %}
+
+    <form method="post" action="{% url 'public:start' questionnaire.public_id %}" class="rs-card" novalidate x-data="{busy:false}" @submit="busy=true">
+      {% csrf_token %}
+      {% with fields=form.visible_fields %}
+      {% if form.field_defs %}
+      <div class="rs-card-header"><div><h2 class="text-lg font-semibold">{% translate "About you" %}</h2><p class="text-xs text-rs-muted mt-0.5">{% translate "Only the information needed for this research. Optional fields can be left empty." %}</p></div></div>
+      <div class="rs-card-pad grid sm:grid-cols-2 gap-4">{% for f in form %}{% if f.name != "consent" %}{% field f %}{% endif %}{% endfor %}</div>
+      {% endif %}
+      {% endwith %}
+      <div class="rs-card-pad {% if form.field_defs %}border-t border-rs-border{% endif %} space-y-4">
+        {% if questionnaire.require_consent %}
+        <h2 class="text-lg font-semibold">{% translate "Informed consent" %}</h2>
+        <div class="rounded-xl bg-rs-raised border border-rs-border p-4 text-sm text-rs-muted rs-prose">{% if questionnaire.consent_text %}{{ questionnaire.consent_text }}{% else %}{% translate "Participation is voluntary and you may stop at any time. Your answers are used only for scientific analysis and are reported in aggregate form." %}{% endif %}</div>
+        <label class="flex items-start gap-3 text-sm font-medium">{{ form.consent }}<span>{{ form.consent.label }}</span></label>
+        {% for e in form.consent.errors %}<p class="rs-error">{% translate "Consent is required to take part." %}</p>{% endfor %}
+        {% endif %}
+        <button class="rs-btn-primary w-full sm:w-auto !px-6 !py-3" :disabled="busy"><span x-show="busy" class="rs-spinner" x-cloak></span>{% translate "Begin the questionnaire" %}{% icon "right" "h-4 w-4" %}</button>
+      </div>
+    </form>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

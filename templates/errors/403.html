@@ -1,0 +1,9 @@
+{% extends "base_public.html" %}{% load i18n rs_tags %}
+{% block title %}403{% endblock %}
+{% block error_content %}
+<div class="rs-empty-icon mx-auto mb-5">{% icon "lock" "h-6 w-6" %}</div>
+<p class="rs-eyebrow">403</p>
+<h1 class="rs-title mt-2">{% translate "Access denied" %}</h1>
+<p class="text-rs-muted mt-3">{% translate "You do not have permission to open this page." %}</p>
+<a href="{% url 'core:home' %}" class="rs-btn-primary mt-8">{% translate "Back to homepage" %}</a>
+{% endblock %}

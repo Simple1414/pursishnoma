@@ -1,0 +1,6 @@
+{% load rs_tags %}<div class="rs-empty">
+  <div class="rs-empty-icon">{% icon icon|default:"inbox" "h-6 w-6" %}</div>
+  <p class="font-serif text-lg text-rs-navy">{{ title }}</p>
+  {% if text %}<p class="text-sm text-rs-muted max-w-md">{{ text }}</p>{% endif %}
+  {% if url %}<a href="{{ url }}" class="rs-btn-primary mt-1">{{ action }}</a>{% endif %}
+</div>

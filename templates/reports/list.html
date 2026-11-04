@@ -1,0 +1,19 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Reports Generator" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Reports Generator" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6"><p class="rs-eyebrow">{% translate "Reports" %}</p><h1 class="rs-title mt-1.5">{% translate "Scientific Reports Generator" %}</h1><p class="rs-subtitle mt-1">{% translate "Reports combine your editable text with statistics computed from real responses at export time." %}</p></div>
+<form method="post" action="{% url 'reports:create' %}" class="rs-card rs-card-pad flex flex-col sm:flex-row gap-3 sm:items-end mb-6">{% csrf_token %}
+  <div class="flex-1"><label for="rq" class="rs-label">{% translate "Questionnaire" %}</label><select id="rq" name="questionnaire" class="rs-input" required><option value="">—</option>{% for q in questionnaires %}<option value="{{ q.pk }}">{{ q.title|truncatechars:90 }}</option>{% endfor %}</select></div>
+  <button class="rs-btn-primary">{% icon "plus" "h-4 w-4" %}{% translate "Create report draft" %}</button>
+</form>
+<div class="rs-card">
+  {% if reports %}
+  <div class="rs-table-wrap"><table class="rs-table"><thead><tr><th>{% translate "Report" %}</th><th>{% translate "Status" %}</th><th>{% translate "Updated" %}</th><th></th></tr></thead><tbody>
+    {% for r in reports %}<tr><td><a href="{% url 'reports:edit' r.pk %}" class="font-semibold text-rs-text hover:text-rs-royal">{{ r.title }}</a><p class="text-xs text-rs-muted">{{ r.questionnaire.title|truncatechars:80 }}</p></td><td><span class="{{ r.status|status_badge }}">{{ r.get_status_display }}</span></td><td class="text-xs text-rs-muted whitespace-nowrap">{{ r.updated_at|date:"Y-m-d H:i" }}</td>
+    <td class="text-right whitespace-nowrap"><a href="{% url 'reports:preview' r.pk %}" class="rs-btn-ghost rs-btn-sm">{% translate "Preview" %}</a><a href="{% url 'reports:export' r.pk 'docx' %}" class="rs-btn-secondary rs-btn-sm">Word</a> <a href="{% url 'reports:export' r.pk 'pdf' %}" class="rs-btn-secondary rs-btn-sm">PDF</a></td></tr>{% endfor %}
+  </tbody></table></div>
+  {% else %}{% translate "No reports yet" as t %}{% translate "Create a draft from a questionnaire, edit each section, then export to Word or PDF." as tx %}{% include "includes/empty.html" with icon="report" title=t text=tx %}{% endif %}
+</div>
+{% endblock %}

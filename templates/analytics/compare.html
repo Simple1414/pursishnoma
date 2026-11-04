@@ -1,0 +1,48 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Comparative analysis" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'analytics:overview' questionnaire.pk %}" class="truncate max-w-[300px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Comparisons" %}</span>{% endblock %}
+{% block content %}
+{% include "analytics/_tabs.html" with tab="compare" %}
+<div class="grid xl:grid-cols-2 gap-6">
+  <section class="rs-card">
+    <div class="rs-card-header"><h2 class="text-base font-semibold">{% translate "Group comparison" %}</h2></div>
+    <form method="get" class="rs-card-pad grid gap-4">
+      <div><label for="value" class="rs-label">{% translate "Measure (numeric / Likert / section mean)" %}</label><select id="value" name="value" class="rs-input"><option value="">—</option>{% for v, l in numeric %}<option value="{{ v }}" {% if v == value %}selected{% endif %}>{{ l|truncatechars:90 }}</option>{% endfor %}</select></div>
+      <div><label for="group" class="rs-label">{% translate "Grouping variable (year, faculty, specialty, gender, question…)" %}</label><select id="group" name="group" class="rs-input"><option value="">—</option>{% for v, l in groups %}<option value="{{ v }}" {% if v == group %}selected{% endif %}>{{ l|truncatechars:90 }}</option>{% endfor %}</select></div>
+      <input type="hidden" name="x" value="{{ x }}"><input type="hidden" name="y" value="{{ y }}">
+      <div><button class="rs-btn-primary">{% translate "Compare groups" %}</button></div>
+    </form>
+    {% if result %}
+    <div class="px-5 sm:px-6 pb-6">
+      <p class="text-xs text-rs-muted mb-2">n = {{ result.n }} (N = {{ result.N }})</p>
+      <div class="overflow-x-auto"><table class="rs-table"><thead><tr><th>{% translate "Group" %}</th><th class="text-right">n</th><th class="text-right">{% translate "Mean" %}</th><th class="text-right">{% translate "Median" %}</th><th class="text-right">{% translate "SD" %}</th></tr></thead>
+        <tbody>{% for g in result.groups %}<tr><td>{{ g.group }}</td><td class="text-right tabular-nums">{{ g.n }}</td><td class="text-right tabular-nums">{{ g.mean }}</td><td class="text-right tabular-nums">{{ g.median }}</td><td class="text-right tabular-nums">{{ g.std|default:"—" }}</td></tr>{% endfor %}</tbody></table></div>
+      {% include "analytics/_test.html" with test=result.test %}
+      <div class="mt-5">{% include "analytics/_chart.html" with chart_id="chart-groups" height="260px" label="groups" %}</div>
+    </div>{% endif %}
+  </section>
+  <div class="space-y-6">
+    <section class="rs-card">
+      <div class="rs-card-header"><h2 class="text-base font-semibold">{% translate "Correlation" %}</h2></div>
+      <form method="get" class="rs-card-pad grid sm:grid-cols-2 gap-4 items-end">
+        <input type="hidden" name="value" value="{{ value }}"><input type="hidden" name="group" value="{{ group }}">
+        <div><label for="x" class="rs-label">X</label><select id="x" name="x" class="rs-input"><option value="">—</option>{% for v, l in numeric %}<option value="{{ v }}" {% if v == x %}selected{% endif %}>{{ l|truncatechars:70 }}</option>{% endfor %}</select></div>
+        <div><label for="y" class="rs-label">Y</label><select id="y" name="y" class="rs-input"><option value="">—</option>{% for v, l in numeric %}<option value="{{ v }}" {% if v == y %}selected{% endif %}>{{ l|truncatechars:70 }}</option>{% endfor %}</select></div>
+        <div class="sm:col-span-2"><button class="rs-btn-secondary">{% translate "Calculate" %}</button></div>
+      </form>
+      {% if corr %}<div class="px-5 sm:px-6 pb-6"><p class="text-xs text-rs-muted">n = {{ corr.n }} {% translate "paired observations" %} (N = {{ corr.N }})</p>{% include "analytics/_test.html" with test=corr.test %}</div>{% endif %}
+    </section>
+    <section class="rs-card">
+      <div class="rs-card-header"><h2 class="text-base font-semibold">{% translate "Questionnaire sections" %}</h2></div>
+      {% if sections.rows %}
+      <div class="rs-card-pad"><table class="rs-table"><thead><tr><th>{% translate "Section (Likert mean)" %}</th><th class="text-right">n</th><th class="text-right">{% translate "Mean" %}</th><th class="text-right">{% translate "SD" %}</th></tr></thead><tbody>{% for r in sections.rows %}<tr><td>{{ r.section }}</td><td class="text-right">{{ r.n }}</td><td class="text-right">{{ r.mean|default:"—" }}</td><td class="text-right">{{ r.std|default:"—" }}</td></tr>{% endfor %}</tbody></table>
+        <div class="mt-5">{% include "analytics/_chart.html" with chart_id="chart-sections" height="260px" label="sections" %}</div>
+        <p class="text-xs text-rs-muted mt-3">{% translate "Section mean = mean of a respondent's Likert answers in the section (respondents who answered at least half of its items). Descriptive only." %}</p></div>
+      {% else %}<div class="rs-card-pad text-sm text-rs-muted">{% translate "No Likert sections to compare." %}</div>{% endif %}
+    </section>
+  </div>
+</div>
+<p class="mt-6 text-xs text-rs-muted">{% translate "Comparisons use non-parametric tests suitable for ordinal survey data. Groups with fewer than 5 respondents are described but not tested." %}</p>
+{% include "includes/charts_data.html" %}
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Evaluation criteria" %}{% endblock %}
+{% block breadcrumbs %}<a href="{{ questionnaire.get_absolute_url }}" class="truncate max-w-[260px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Evaluation criteria" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6 max-w-3xl"><h1 class="rs-title">{% translate "Evaluation criteria" %}</h1><p class="rs-subtitle mt-1.5">{% translate "Define the scale for evaluating each participant: criterion, maximum score and weight. The weighted final score (0–100%) is calculated automatically." %}</p></div>
+<form method="post" class="rs-card max-w-5xl" novalidate>{% csrf_token %}{{ formset.management_form }}
+  {% if formset.non_form_errors %}<div class="rs-alert-danger m-5">{{ formset.non_form_errors }}</div>{% endif %}
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th>{% translate "Criterion" %}</th><th>{% translate "Description" %}</th><th>{% translate "Max score" %}</th><th>{% translate "Weight" %}</th><th>{% translate "Order" %}</th><th>{% translate "Delete" %}</th></tr></thead>
+    <tbody>{% for f in formset %}<tr>{{ f.id }}<td class="min-w-[200px]">{{ f.name }}{% for e in f.name.errors %}<p class="rs-error">{{ e }}</p>{% endfor %}</td><td class="min-w-[220px]">{{ f.description }}</td><td class="w-28">{{ f.max_score }}{% for e in f.max_score.errors %}<p class="rs-error">{{ e }}</p>{% endfor %}</td><td class="w-24">{{ f.weight }}{% for e in f.weight.errors %}<p class="rs-error">{{ e }}</p>{% endfor %}</td><td class="w-20">{{ f.order }}</td><td class="text-center">{% if f.instance.pk %}{{ f.DELETE }}{% endif %}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  <div class="px-6 py-4 border-t border-rs-border flex gap-2"><button class="rs-btn-primary">{% translate "Save criteria" %}</button><a href="{% url 'evaluation:queue' %}?questionnaire={{ questionnaire.pk }}" class="rs-btn-ghost">{% translate "Go to evaluation queue" %}</a></div>
+</form>
+{% endblock %}

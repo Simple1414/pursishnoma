@@ -1,0 +1,43 @@
+# Render.com Blueprint — one-click test deployment of ResearchSurvey.
+# Render → New → Blueprint → select the pursishnoma repository. You will be asked for
+# DJANGO_ADMIN_USERNAME and DJANGO_ADMIN_PASSWORD (the first administrator).
+databases:
+  - name: researchsurvey-db
+    databaseName: researchsurvey
+    user: researchsurvey
+    plan: free
+
+services:
+  - type: web
+    name: researchsurvey
+    runtime: python
+    plan: free
+    buildCommand: ./deploy/render-build.sh
+    startCommand: ./deploy/render-start.sh
+    healthCheckPath: /healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.13.18"
+      - key: DATABASE_URL
+        fromDatabase:
+          name: researchsurvey-db
+          property: connectionString
+      - key: DJANGO_SECRET_KEY
+        generateValue: true
+      - key: DJANGO_DEBUG
+        value: "false"
+      - key: DJANGO_USE_HTTPS
+        value: "true"
+      - key: DJANGO_LANGUAGE_CODE
+        value: tg
+      - key: DJANGO_ADMIN_USERNAME
+        sync: false
+      - key: DJANGO_ADMIN_PASSWORD
+        sync: false
+      - key: AI_PROVIDER
+        value: none
+      # Free instances have 512 MB RAM: one worker process with threads.
+      - key: WEB_CONCURRENCY
+        value: "1"
+      - key: GUNICORN_THREADS
+        value: "4"

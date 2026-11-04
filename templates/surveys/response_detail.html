@@ -1,0 +1,52 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{{ response.reference }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'surveys:responses' %}">{% translate "Individual Responses" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{{ response.reference }}</span>{% endblock %}
+{% block content %}
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+  <div><p class="rs-eyebrow">{{ response.questionnaire.title|truncatechars:90 }}</p><h1 class="rs-title mt-1.5 font-mono">{{ response.reference }}</h1>
+    <p class="rs-subtitle mt-1"><span class="{{ response.status|status_badge }}">{{ response.get_status_display }}</span> · {% translate "Started" %} {{ response.started_at|date:"Y-m-d H:i" }}{% if response.submitted_at %} · {% translate "Submitted" %} {{ response.submitted_at|date:"Y-m-d H:i:s" }} · {% duration response.duration_seconds %}{% endif %}</p></div>
+  <div class="flex flex-wrap gap-2">
+    {% if prev_id %}<a href="{% url 'surveys:response_detail' prev_id %}" class="rs-btn-ghost rs-btn-sm" aria-label="{% translate 'Previous response' %}">{% icon "left" "h-4 w-4" %}</a>{% endif %}
+    {% if next_id %}<a href="{% url 'surveys:response_detail' next_id %}" class="rs-btn-ghost rs-btn-sm" aria-label="{% translate 'Next response' %}">{% icon "right" "h-4 w-4" %}</a>{% endif %}
+    <a href="?print=1" target="_blank" rel="noopener" class="rs-btn-secondary rs-btn-sm">{% icon "print" "h-4 w-4" %}{% translate "Print" %}</a>
+    <a href="{% url 'reports:export_response' response.pk 'docx' %}" class="rs-btn-secondary rs-btn-sm">Word</a>
+    <a href="{% url 'reports:export_response' response.pk 'pdf' %}" class="rs-btn-secondary rs-btn-sm">PDF</a>
+    <a href="{% url 'reports:export_response' response.pk 'xlsx' %}" class="rs-btn-secondary rs-btn-sm">Excel</a>
+    {% if response.is_completed %}<a href="{% url 'evaluation:evaluate' response.pk %}" class="rs-btn-gold rs-btn-sm">{% icon "award" "h-4 w-4" %}{% translate "Evaluate" %}</a>{% endif %}
+  </div>
+</div>
+<div class="grid xl:grid-cols-[1fr_320px] gap-6 items-start">
+  <section class="rs-card">
+    <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Original answers" %}</h2><span class="rs-badge-draft">{% icon "lock" "h-3 w-3" %}{% translate "Read-only" %}</span></div>
+    {% include "surveys/_answers.html" %}
+  </section>
+  <aside class="space-y-5">
+    <section class="rs-card rs-card-pad text-sm">
+      <h2 class="text-base font-semibold mb-3">{% translate "Participant" %}</h2>
+      {% with p=response.participant %}
+      <dl class="space-y-2">
+        <div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Identity" %}</dt><dd class="text-right">{{ p }}</dd></div>
+        {% if p.age %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Age" %}</dt><dd>{{ p.age }}</dd></div>{% endif %}
+        {% if p.gender %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Gender" %}</dt><dd>{{ p.gender }}</dd></div>{% endif %}
+        {% if p.education_level %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Education level" %}</dt><dd class="text-right">{{ p.education_level }}</dd></div>{% endif %}
+        {% if p.university %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "University" %}</dt><dd class="text-right">{{ p.university }}</dd></div>{% endif %}
+        {% if p.faculty %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Faculty" %}</dt><dd class="text-right">{{ p.faculty }}</dd></div>{% endif %}
+        {% if p.specialty %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Specialty" %}</dt><dd class="text-right">{{ p.specialty }}</dd></div>{% endif %}
+        {% if p.academic_year %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Academic year" %}</dt><dd>{{ p.academic_year }}</dd></div>{% endif %}
+        {% if p.group_name %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Group" %}</dt><dd>{{ p.group_name }}</dd></div>{% endif %}
+        {% for k, v in p.extra.items %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{{ k }}</dt><dd class="text-right">{{ v }}</dd></div>{% endfor %}
+        <div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Consent" %}</dt><dd>{% if p.consent_given %}{% translate "Given" %} {{ p.consent_at|date:"Y-m-d H:i" }}{% else %}—{% endif %}</dd></div>
+      </dl>{% endwith %}
+    </section>
+    <section class="rs-card rs-card-pad text-sm">
+      <h2 class="text-base font-semibold mb-3">{% translate "Evaluation" %}</h2>
+      {% if evaluation %}
+        <p class="font-serif text-3xl text-rs-navy">{% if evaluation.final_score is not None %}{{ evaluation.final_score|floatformat:1 }}%{% else %}—{% endif %}</p>
+        <p class="mt-1"><span class="{{ evaluation.status|status_badge }}">{{ evaluation.get_status_display }}</span> <span class="text-xs text-rs-muted">v{{ evaluation.version }} · {{ evaluation.updated_at|date:"Y-m-d" }}</span></p>
+        {% if evaluation.comment %}<p class="mt-3 text-rs-muted rs-prose">{{ evaluation.comment|truncatechars:300 }}</p>{% endif %}
+      {% else %}<p class="text-rs-muted">{% translate "Not evaluated yet." %}</p>{% endif %}
+    </section>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "User Management" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "User Management" %}</span>{% endblock %}
+{% block content %}
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+  <div><p class="rs-eyebrow">{% translate "Administration" %}</p><h1 class="rs-title mt-1.5">{% translate "User Management" %}</h1><p class="rs-subtitle mt-1">{% translate "Researchers manage only their own questionnaires; administrators manage everything." %}</p></div>
+  <a href="{% url 'core:user_create' %}" class="rs-btn-primary">{% icon "plus" "h-4 w-4" %}{% translate "New user" %}</a>
+</div>
+<div class="rs-card">
+  <form class="rs-card-header" method="get" role="search">
+    <label for="uq" class="sr-only">{% translate "Search" %}</label>
+    <input id="uq" name="q" value="{{ q }}" class="rs-input max-w-xs" placeholder="{% translate 'Search users…' %}">
+  </form>
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th>{% translate "User" %}</th><th>{% translate "Role" %}</th><th>{% translate "Questionnaires" %}</th><th>{% translate "Last login" %}</th><th>{% translate "Status" %}</th><th></th></tr></thead>
+    <tbody>
+    {% for u in page %}
+      <tr><td><p class="font-medium">{{ u }}</p><p class="text-xs text-rs-muted">{{ u.username }}{% if u.email %} · {{ u.email }}{% endif %}</p></td>
+      <td>{{ u.get_role_display }}{% if u.is_superuser %} <span class="rs-badge-gold">superuser</span>{% endif %}</td>
+      <td class="tabular-nums">{{ u.n_questionnaires }}</td>
+      <td class="text-rs-muted text-xs">{{ u.last_login|date:"Y-m-d H:i"|default:"—" }}</td>
+      <td>{% if u.is_active %}<span class="rs-badge-published">{% translate "Active" %}</span>{% else %}<span class="rs-badge-danger">{% translate "Inactive" %}</span>{% endif %}</td>
+      <td class="text-right"><a class="rs-btn-secondary rs-btn-sm" href="{% url 'core:user_edit' u.pk %}">{% translate "Edit" %}</a></td></tr>
+    {% endfor %}
+    </tbody></table></div>
+  {% include "includes/pagination.html" %}
+</div>
+{% endblock %}

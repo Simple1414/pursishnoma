@@ -1,0 +1,20 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Participant fields" %}{% endblock %}
+{% block breadcrumbs %}<a href="{{ questionnaire.get_absolute_url }}" class="truncate max-w-[260px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Participant fields" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6 max-w-3xl"><h1 class="rs-title">{% translate "Participant data & consent" %}</h1><p class="rs-subtitle mt-1.5">{% translate "Collect only what the research needs. If no field is enabled, participation is fully anonymous. The consent statement is edited in the questionnaire details." %}</p></div>
+<div class="grid lg:grid-cols-[1.4fr_1fr] gap-6 items-start">
+  <form method="post" class="rs-card">{% csrf_token %}{{ formset.management_form }}
+    <div class="rs-table-wrap"><table class="rs-table">
+      <thead><tr><th>{% translate "Field label" %}</th><th class="text-center">{% translate "Collect" %}</th><th class="text-center">{% translate "Required" %}</th><th>{% translate "Order" %}</th></tr></thead>
+      <tbody>{% for f in formset %}<tr>{{ f.id }}<td>{{ f.label }}<p class="text-[11px] text-rs-muted mt-1 font-mono">{{ f.instance.get_key_display }}</p></td><td class="text-center">{{ f.enabled }}</td><td class="text-center">{{ f.required }}</td><td class="w-24">{{ f.order }}</td></tr>{% endfor %}</tbody>
+    </table></div>
+    <div class="px-6 py-4 border-t border-rs-border"><button class="rs-btn-primary">{% translate "Save" %}</button></div>
+  </form>
+  <aside class="space-y-6">
+    <form method="post" class="rs-card rs-card-pad space-y-4">{% csrf_token %}<h2 class="text-base font-semibold">{% translate "Add a research-specific field" %}</h2>{% field custom.label %}<button name="add_custom" value="1" class="rs-btn-secondary">{% icon "plus" "h-4 w-4" %}{% translate "Add field" %}</button></form>
+    <div class="rs-card rs-card-pad text-sm"><h2 class="text-base font-semibold">{% translate "Consent statement" %}</h2><p class="mt-2 text-rs-muted rs-prose">{{ questionnaire.consent_text|default:_("No consent statement yet.") }}</p><a href="{% url 'surveys:edit' questionnaire.pk %}" class="rs-btn-secondary rs-btn-sm mt-3">{% translate "Edit" %}</a></div>
+  </aside>
+</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{{ title }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'surveys:list' %}">{% translate "My Questionnaires" %}</a>{% icon "right" "h-4 w-4" %}{% if questionnaire %}<a href="{{ questionnaire.get_absolute_url }}" class="truncate max-w-[220px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}{% endif %}<span class="text-rs-text font-medium">{{ title }}</span>{% endblock %}
+{% block content %}
+<div class="max-w-4xl">
+  <h1 class="rs-title mb-6">{{ title }}</h1>
+  <form method="post" class="space-y-6" novalidate>
+    {% csrf_token %}
+    {% if form.non_field_errors %}<div class="rs-alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+    <section class="rs-card"><div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Research information" %}</h2></div>
+      <div class="rs-card-pad grid sm:grid-cols-2 gap-5">
+        <div class="sm:col-span-2">{% field form.title %}</div>
+        <div class="sm:col-span-2">{% field form.objective %}</div>
+        <div class="sm:col-span-2">{% field form.description %}</div>
+        {% field form.author %}{% field form.language %}
+      </div></section>
+    <section class="rs-card"><div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Participants see" %}</h2></div>
+      <div class="rs-card-pad grid gap-5">{% field form.instructions %}{% field form.consent_text %}{% field form.require_consent %}{% field form.completion_message %}</div></section>
+    <section class="rs-card"><div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Schedule" %}</h2></div>
+      <div class="rs-card-pad grid sm:grid-cols-3 gap-5">{% field form.estimated_minutes %}{% field form.opens_at %}{% field form.closes_at %}</div></section>
+    <div class="flex gap-3"><button class="rs-btn-primary">{% translate "Save" %}</button><a href="{% if questionnaire %}{{ questionnaire.get_absolute_url }}{% else %}{% url 'surveys:list' %}{% endif %}" class="rs-btn-ghost">{% translate "Cancel" %}</a></div>
+  </form>
+</div>
+{% endblock %}

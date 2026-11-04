@@ -1,0 +1,11 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Choose a questionnaire" %}{% endblock %}
+{% block content %}
+<div class="mb-6"><h1 class="rs-title">{% translate "Choose a questionnaire" %}</h1><p class="rs-subtitle mt-1">{% translate "All analyses use only completed responses stored in the database." %}</p></div>
+{% if questionnaires %}
+<div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">{% for q in questionnaires %}{% url view_name q.pk as u %}
+  <a href="{{ u }}" class="rs-card p-5 hover:shadow-lift transition group"><span class="{{ q.status|status_badge }}">{{ q.get_status_display }}</span><p class="mt-3 font-semibold text-rs-text group-hover:text-rs-royal line-clamp-2">{{ q.title }}</p><p class="mt-1 text-xs text-rs-muted">{{ q.created_at|date:"Y-m-d" }}</p></a>
+{% endfor %}</div>
+{% else %}<div class="rs-card">{% translate "No questionnaires yet" as t %}{% url 'surveys:import' as u %}{% translate "Import Word questionnaire" as a %}{% include "includes/empty.html" with icon="chart" title=t url=u action=a %}</div>{% endif %}
+{% endblock %}

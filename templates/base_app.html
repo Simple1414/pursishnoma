@@ -1,0 +1,89 @@
+{% extends "base.html" %}
+{% load i18n static rs_tags %}
+{% block body_class %}min-h-screen{% endblock %}
+{% block body %}
+<div class="min-h-screen lg:pl-[272px]">
+  {# ------------------------------------------------ sidebar #}
+  <div x-show="$store.ui.sidebar" x-transition.opacity class="fixed inset-0 z-40 bg-[#0B1622]/60 backdrop-blur-sm lg:hidden no-print" @click="$store.ui.sidebar=false" x-cloak></div>
+  <aside class="no-print fixed inset-y-0 left-0 z-50 w-[272px] bg-[#0E2238] text-slate-200 flex flex-col transition-transform duration-200 -translate-x-full lg:translate-x-0"
+         :class="$store.ui.sidebar ? 'translate-x-0 shadow-2xl' : ''" aria-label="{% translate 'Main navigation' %}">
+    <div class="flex items-center gap-3 px-5 h-16 border-b border-white/10">
+      <img src="{% static 'img/logo-mark.svg' %}" alt="" class="h-9 w-9">
+      <div class="leading-tight">
+        <a href="{% url 'core:dashboard' %}" class="font-serif text-[17px] font-semibold text-white hover:text-white">ResearchSurvey</a>
+        <p class="text-[10.5px] uppercase tracking-[0.16em] text-[#C6A15B]">{% translate "Research analytics" %}</p>
+      </div>
+      <button class="ml-auto lg:hidden text-slate-300" @click="$store.ui.sidebar=false" aria-label="{% translate 'Close menu' %}">{% icon "x" %}</button>
+    </div>
+    <nav class="flex-1 overflow-y-auto px-3 py-4 space-y-6 text-sm">
+      <div class="space-y-0.5">
+        <a class="rs-nav-link {% nav_active 'core:dashboard' %}" href="{% url 'core:dashboard' %}">{% icon "dashboard" %}{% translate "Dashboard" %}</a>
+        <a class="rs-nav-link {% nav_active 'surveys:list' 'surveys:detail' 'surveys:edit' 'surveys:participant_fields' %}" href="{% url 'surveys:list' %}">{% icon "files" %}{% translate "My Questionnaires" %}</a>
+        <a class="rs-nav-link {% nav_active 'surveys:create' 'surveys:import' 'surveys:question_add' 'surveys:question_edit' 'surveys:section_edit' %}" href="{% url 'surveys:import' %}">{% icon "builder" %}{% translate "Survey Builder" %}</a>
+      </div>
+      <div>
+        <p class="px-3 mb-2 text-[10.5px] font-semibold uppercase tracking-[0.16em] text-slate-400">{% translate "Data" %}</p>
+        <div class="space-y-0.5">
+          <a class="rs-nav-link {% nav_active 'surveys:participants' %}" href="{% url 'surveys:participants' %}">{% icon "users" %}{% translate "Participants" %}</a>
+          <a class="rs-nav-link {% nav_active 'surveys:responses' 'surveys:response_detail' 'surveys:compare' %}" href="{% url 'surveys:responses' %}">{% icon "inbox" %}{% translate "Individual Responses" %}</a>
+          <a class="rs-nav-link {% nav_active 'evaluation:*' %}" href="{% url 'evaluation:queue' %}">{% icon "award" %}{% translate "Response Evaluation" %}</a>
+        </div>
+      </div>
+      <div>
+        <p class="px-3 mb-2 text-[10.5px] font-semibold uppercase tracking-[0.16em] text-slate-400">{% translate "Analysis" %}</p>
+        <div class="space-y-0.5">
+          <a class="rs-nav-link {% nav_active 'analytics:overview' 'analytics:overview_pick' 'analytics:crosstab' 'analytics:compare' %}" href="{% url 'analytics:overview_pick' %}">{% icon "chart" %}{% translate "Statistical Analytics" %}</a>
+          <a class="rs-nav-link {% nav_active 'analytics:intelligence' 'analytics:intelligence_pick' %}" href="{% url 'analytics:intelligence_pick' %}">{% icon "brain" %}{% translate "Research Intelligence" %}</a>
+          <a class="rs-nav-link {% nav_active 'analytics:assistant' 'analytics:assistant_pick' %}" href="{% url 'analytics:assistant_pick' %}">{% icon "sparkles" %}{% translate "AI Research Assistant" %}</a>
+          <a class="rs-nav-link {% nav_active 'reports:list' 'reports:edit' 'reports:preview' %}" href="{% url 'reports:list' %}">{% icon "report" %}{% translate "Reports Generator" %}</a>
+          <a class="rs-nav-link {% nav_active 'reports:exports' %}" href="{% url 'reports:exports' %}">{% icon "download" %}{% translate "Export Center" %}</a>
+        </div>
+      </div>
+      {% if user.is_platform_admin %}
+      <div>
+        <p class="px-3 mb-2 text-[10.5px] font-semibold uppercase tracking-[0.16em] text-slate-400">{% translate "Administration" %}</p>
+        <div class="space-y-0.5">
+          <a class="rs-nav-link {% nav_active 'core:users' 'core:user_create' 'core:user_edit' %}" href="{% url 'core:users' %}">{% icon "user-cog" %}{% translate "User Management" %}</a>
+          <a class="rs-nav-link {% nav_active 'core:settings' %}" href="{% url 'core:settings' %}">{% icon "settings" %}{% translate "Settings" %}</a>
+          <a class="rs-nav-link {% nav_active 'core:security' %}" href="{% url 'core:security' %}">{% icon "shield" %}{% translate "Security" %}</a>
+        </div>
+      </div>
+      {% endif %}
+    </nav>
+    <div class="border-t border-white/10 p-3">
+      <div class="flex items-center gap-3 rounded-xl px-2 py-2">
+        <div class="h-9 w-9 rounded-full bg-[#C6A15B]/20 text-[#E3C88E] grid place-items-center font-semibold uppercase">{{ user.username|slice:":1" }}</div>
+        <div class="min-w-0 flex-1 leading-tight">
+          <p class="truncate text-sm font-medium text-white">{{ user }}</p>
+          <p class="text-[11px] text-slate-400">{{ user.get_role_display }}</p>
+        </div>
+        <form method="post" action="{% url 'logout' %}">{% csrf_token %}
+          <button class="rounded-lg p-2 text-slate-300 hover:text-white hover:bg-white/10" title="{% translate 'Sign out' %}" aria-label="{% translate 'Sign out' %}">{% icon "logout" "h-[18px] w-[18px]" %}</button>
+        </form>
+      </div>
+    </div>
+  </aside>
+
+  {# ------------------------------------------------ top bar #}
+  <header class="no-print sticky top-0 z-30 h-16 bg-rs-bg/85 backdrop-blur border-b border-rs-border">
+    <div class="h-full flex items-center gap-3 px-4 sm:px-6 lg:px-8">
+      <button class="lg:hidden rs-btn-ghost rs-btn-sm" @click="$store.ui.sidebar=true" aria-label="{% translate 'Open menu' %}">{% icon "menu" %}</button>
+      <nav class="hidden sm:flex items-center gap-1.5 text-sm text-rs-muted min-w-0" aria-label="{% translate 'Breadcrumb' %}">
+        {% block breadcrumbs %}{% endblock %}
+      </nav>
+      <div class="ml-auto flex items-center gap-1.5">
+        {% include "includes/language_switcher.html" %}
+        <button type="button" class="rs-btn-ghost rs-btn-sm" @click="$store.ui.toggleTheme()" :aria-label="$store.ui.dark ? '{% translate "Light mode" %}' : '{% translate "Dark mode" %}'">
+          <span x-show="!$store.ui.dark">{% icon "moon" "h-[18px] w-[18px]" %}</span>
+          <span x-show="$store.ui.dark" x-cloak>{% icon "sun" "h-[18px] w-[18px]" %}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="px-4 sm:px-6 lg:px-8 py-6 sm:py-8 max-w-[1400px] mx-auto">
+    {% block page_header %}{% endblock %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

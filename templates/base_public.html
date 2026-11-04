@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load i18n static rs_tags %}
+{% block body_class %}min-h-screen flex flex-col{% endblock %}
+{% block body %}
+<header class="no-print sticky top-0 z-30 bg-rs-surface/85 backdrop-blur border-b border-rs-border">
+  <div class="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center gap-3">
+    <a href="{% url 'core:home' %}" class="flex items-center gap-2.5 text-rs-navy hover:no-underline" aria-label="ResearchSurvey">
+      <img src="{% static 'img/logo-mark.svg' %}" alt="" class="h-8 w-8">
+      <span class="font-serif text-lg font-semibold">ResearchSurvey</span>
+    </a>
+    {% block public_nav %}
+    <nav class="hidden md:flex items-center gap-6 ml-8 text-sm font-medium" aria-label="{% translate 'Main navigation' %}">
+      <a class="text-rs-muted hover:text-rs-navy" href="{% url 'core:home' %}#about">{% translate "About" %}</a>
+      <a class="text-rs-muted hover:text-rs-navy" href="{% url 'core:home' %}#research">{% translate "Research" %}</a>
+      <a class="text-rs-muted hover:text-rs-navy" href="{% url 'core:home' %}#participate">{% translate "Participate" %}</a>
+      <a class="text-rs-muted hover:text-rs-navy" href="{% url 'core:home' %}#contact">{% translate "Contact" %}</a>
+    </nav>
+    {% endblock %}
+    <div class="ml-auto flex items-center gap-1.5">
+      {% include "includes/language_switcher.html" %}
+      <button type="button" class="rs-btn-ghost rs-btn-sm" @click="$store.ui.toggleTheme()" :aria-label="$store.ui.dark ? '{% translate "Light mode" %}' : '{% translate "Dark mode" %}'">
+        <span x-show="!$store.ui.dark">{% icon "moon" "h-[18px] w-[18px]" %}</span><span x-show="$store.ui.dark" x-cloak>{% icon "sun" "h-[18px] w-[18px]" %}</span>
+      </button>
+      {% block header_cta %}
+      {% if user.is_authenticated and user.is_staff_member %}
+        <a href="{% url 'core:dashboard' %}" class="rs-btn-navy rs-btn-sm hidden sm:inline-flex">{% translate "Dashboard" %}</a>
+      {% else %}
+        <a href="{% url 'login' %}" class="rs-btn-secondary rs-btn-sm hidden sm:inline-flex">{% translate "Researcher sign in" %}</a>
+      {% endif %}
+      {% endblock %}
+    </div>
+  </div>
+</header>
+<main id="main" class="flex-1">
+  {% block content %}
+  <section class="max-w-xl mx-auto px-4 py-24 text-center">
+    {% block error_content %}{% endblock %}
+  </section>
+  {% endblock %}
+</main>
+{% block footer %}
+<footer class="no-print border-t border-rs-border bg-rs-surface">
+  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between text-sm text-rs-muted">
+    <div class="flex items-center gap-2.5"><img src="{% static 'img/logo-mark.svg' %}" alt="" class="h-6 w-6"><span>© {% now "Y" %} {{ site_settings.organization_name }}</span></div>
+    <p>{% translate "Intelligent Platform for Scientific Research and Survey Analytics" %}</p>
+  </div>
+</footer>
+{% endblock %}
+{% endblock %}

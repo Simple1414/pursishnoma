@@ -1,0 +1,32 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Settings" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Settings" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6"><p class="rs-eyebrow">{% translate "Administration" %}</p><h1 class="rs-title mt-1.5">{% translate "Settings" %}</h1></div>
+<div class="grid xl:grid-cols-[1.4fr_1fr] gap-6 items-start">
+  <form method="post" class="rs-card" novalidate>
+    {% csrf_token %}
+    <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Public homepage" %}</h2></div>
+    <div class="rs-card-pad space-y-5">{% for f in form %}{% field f %}{% endfor %}
+      <button class="rs-btn-primary">{% translate "Save settings" %}</button></div>
+  </form>
+  <aside class="space-y-6">
+    <section class="rs-card">
+      <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "AI Research Assistant" %}</h2>
+        {% if ai.configured %}<span class="rs-badge-published">{% translate "Connected" %}</span>{% else %}<span class="rs-badge-draft">{% translate "Not configured" %}</span>{% endif %}</div>
+      <div class="rs-card-pad text-sm space-y-3">
+        <p class="text-rs-muted">{% translate "The assistant is optional. The platform works fully without it. Configure it with environment variables on the server:" %}</p>
+        <pre class="rs-kbd block whitespace-pre-wrap !p-3 !text-xs">AI_PROVIDER=anthropic
+AI_API_KEY=…
+AI_MODEL={{ ai.model }}</pre>
+        <p class="text-rs-muted">{% translate "API keys are never stored in the database or shown in the interface." %}</p>
+      </div>
+    </section>
+    <section class="rs-card rs-card-pad text-sm space-y-2">
+      <h2 class="text-lg font-semibold">{% translate "Translations" %}</h2>
+      <p class="text-rs-muted">{% translate "Interface texts are stored in editable translation files (locale/tg, locale/ru). Questionnaire wording is edited directly in the Survey Builder for each questionnaire language." %}</p>
+    </section>
+  </aside>
+</div>
+{% endblock %}

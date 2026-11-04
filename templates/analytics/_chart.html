@@ -1,0 +1,4 @@
+{% load i18n rs_tags %}<div class="relative" x-data="chartExport">
+  <div style="height: {{ height|default:'280px' }}"><canvas id="{{ chart_id }}" role="img" aria-label="{{ label }}"></canvas></div>
+  <button type="button" class="absolute top-0 right-0 rs-btn-ghost rs-btn-sm !px-2 no-print" @click="save('{{ chart_id }}', '{{ chart_id }}')" title="{% translate 'Download chart (PNG)' %}" aria-label="{% translate 'Download chart (PNG)' %}">{% icon "download" "h-4 w-4" %}</button>
+</div>

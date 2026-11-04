@@ -1,0 +1,28 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Participants" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Participants" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6"><p class="rs-eyebrow">{% translate "Data" %}</p><h1 class="rs-title mt-1.5">{% translate "Participants" %}</h1><p class="rs-subtitle mt-1">{% translate "Only fields enabled for each questionnaire are collected. Anonymous participants have no name." %}</p></div>
+<div class="rs-card">
+  <form method="get" class="rs-card-header" role="search">
+    <div class="flex flex-wrap gap-2 w-full">
+      <label for="pq" class="sr-only">{% translate "Questionnaire" %}</label>
+      <select id="pq" name="questionnaire" class="rs-input sm:max-w-xs"><option value="">{% translate "All questionnaires" %}</option>{% for q in questionnaires %}<option value="{{ q.pk }}" {% if qid == q.pk|stringformat:"s" %}selected{% endif %}>{{ q.title|truncatechars:60 }}</option>{% endfor %}</select>
+      <label for="ps" class="sr-only">{% translate "Search" %}</label>
+      <input id="ps" name="q" value="{{ q }}" class="rs-input sm:max-w-xs" placeholder="{% translate 'Name, faculty, specialty…' %}">
+      <button class="rs-btn-primary">{% translate "Apply" %}</button>
+    </div>
+  </form>
+  {% if page.object_list %}
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th>{% translate "Participant" %}</th><th>{% translate "Faculty" %}</th><th>{% translate "Specialty" %}</th><th>{% translate "Year" %}</th><th>{% translate "Gender" %}</th><th>{% translate "Age" %}</th><th>{% translate "Questionnaire" %}</th><th>{% translate "Response" %}</th></tr></thead>
+    <tbody>{% for p in page %}<tr>
+      <td class="font-medium">{{ p }}</td><td>{{ p.faculty|default:"—" }}</td><td>{{ p.specialty|default:"—" }}</td><td>{{ p.academic_year|default:"—" }}</td><td>{{ p.gender|default:"—" }}</td><td>{{ p.age|default:"—" }}</td>
+      <td class="max-w-[240px]"><span class="line-clamp-1 text-sm">{{ p.questionnaire.title }}</span></td>
+      <td>{% if p.response %}<a href="{{ p.response.get_absolute_url }}" class="font-mono text-xs">{{ p.response.reference }}</a> <span class="{{ p.response.status|status_badge }}">{{ p.response.get_status_display }}</span>{% endif %}</td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% include "includes/pagination.html" %}
+  {% else %}{% translate "No participants yet" as t %}{% include "includes/empty.html" with icon="users" title=t %}{% endif %}
+</div>
+{% endblock %}

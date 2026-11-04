@@ -1,0 +1,9 @@
+{% load i18n static %}<!doctype html><html lang="{{ LANGUAGE_CODE|default:'tg' }}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>{{ response.reference }}</title><link rel="stylesheet" href="{% static 'css/app.css' %}"></head>
+<body class="!bg-white !text-black"><main class="max-w-3xl mx-auto p-8">
+<p class="text-xs text-slate-500">ResearchSurvey · {% now "Y-m-d H:i" %}</p>
+<h1 class="font-serif text-2xl font-semibold mt-2">{{ response.questionnaire.title }}</h1>
+<p class="mt-1 text-sm"><strong class="font-mono">{{ response.reference }}</strong> · {{ response.get_status_display }} · {{ response.submitted_at|date:"Y-m-d H:i"|default:"—" }} · {{ response.participant }}</p>
+<div class="mt-6 border rounded-xl">{% include "surveys/_answers.html" %}</div>
+{% if evaluation %}<h2 class="font-serif text-xl mt-8">{% translate "Evaluation" %}</h2><p class="text-sm mt-1">{% translate "Final score" %}: {{ evaluation.final_score|default:"—" }}%</p>{% if evaluation.comment %}<p class="text-sm mt-2 whitespace-pre-line">{{ evaluation.comment }}</p>{% endif %}{% endif %}
+<p class="no-print mt-8"><button class="rs-btn-primary" x-data @click="window.print()">{% translate "Print" %}</button></p>
+</main><script defer src="{% static 'vendor/alpine.min.js' %}"></script></body></html>

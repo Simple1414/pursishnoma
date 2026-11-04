@@ -1,0 +1,11 @@
+{% load i18n %}{% if test %}
+<div class="mt-4 {% if test.performed %}rs-alert-info{% else %}rs-alert-warning{% endif %} text-sm">
+  <div>
+  {% if test.performed %}
+    <p class="font-semibold">{{ test.name }}</p>
+    <p class="mt-1 tabular-nums">{% translate "statistic" %} = {{ test.statistic }}{% if test.df %}, df = {{ test.df }}{% endif %}, p = {{ test.p }}{% if test.effect is not None and test.effect_name %}, {{ test.effect_name }} = {{ test.effect }}{% endif %}{% if test.cramers_v is not None %}, Cramér's V = {{ test.cramers_v }}{% endif %}{% if test.fisher_p is not None %}, Fisher exact p = {{ test.fisher_p }}{% endif %}</p>
+    <p class="mt-1">{% if test.significant %}{% blocktranslate with a=test.alpha %}Statistically significant at α = {{ a }}.{% endblocktranslate %}{% else %}{% blocktranslate with a=test.alpha %}Not statistically significant at α = {{ a }}.{% endblocktranslate %}{% endif %}</p>
+    {% if test.warning %}<p class="mt-1 text-rs-accent">{{ test.warning }}</p>{% endif %}
+  {% else %}<p>{{ test.reason }}</p>{% endif %}
+  </div>
+</div>{% endif %}

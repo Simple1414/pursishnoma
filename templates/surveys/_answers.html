@@ -1,0 +1,14 @@
+{% load i18n %}{% regroup items by section as grouped %}
+<div class="divide-y divide-rs-border">
+{% for group in grouped %}
+  <div class="px-5 sm:px-6 py-4 bg-rs-raised/60"><h3 class="text-sm font-semibold font-sans text-rs-navy">{{ group.grouper.title }}</h3></div>
+  {% for item in group.list %}
+  <div class="px-5 sm:px-6 py-4 grid sm:grid-cols-[2.5rem_1fr] gap-x-3 gap-y-1">
+    <span class="font-serif text-rs-accent font-semibold">{{ item.question.number }}</span>
+    <div><p class="text-sm leading-snug">{{ item.question.text }}</p>
+      {% if item.answers %}<ul class="mt-1.5 space-y-1">{% for a in item.answers %}<li class="text-sm font-semibold text-rs-royal whitespace-pre-line">{{ a.display_value }}</li>{% endfor %}</ul>
+      {% else %}<p class="mt-1.5 text-sm text-rs-muted italic">{% translate "No answer" %}</p>{% endif %}</div>
+  </div>
+  {% endfor %}
+{% endfor %}
+</div>

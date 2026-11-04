@@ -1,0 +1,20 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Preview" %} — {{ report.title }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'reports:edit' report.pk %}" class="truncate max-w-[300px]">{{ report.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Preview" %}</span>{% endblock %}
+{% block content %}
+<div class="no-print flex flex-wrap gap-2 mb-6"><a href="{% url 'reports:edit' report.pk %}" class="rs-btn-secondary">{% icon "builder" "h-4 w-4" %}{% translate "Edit" %}</a><a href="{% url 'reports:export' report.pk 'docx' %}" class="rs-btn-primary">{% icon "download" "h-4 w-4" %}Word</a><a href="{% url 'reports:export' report.pk 'pdf' %}" class="rs-btn-primary">{% icon "download" "h-4 w-4" %}PDF</a></div>
+<article class="rs-card max-w-4xl mx-auto px-6 sm:px-12 py-10 sm:py-14 text-[15px]">
+{% for b in blocks %}
+  {% if b.kind == "h1" %}<h1 class="font-serif text-3xl font-semibold text-center leading-tight">{{ b.text }}</h1>
+  {% elif b.kind == "h2" %}<h2 class="font-serif text-xl font-semibold mt-10 mb-3 pb-2 border-b border-rs-border">{{ b.text }}</h2>
+  {% elif b.kind == "h3" %}<h3 class="font-sans text-[15px] font-semibold text-rs-royal mt-6 mb-2">{{ b.text }}</h3>
+  {% elif b.kind == "small" %}<p class="text-center text-sm text-rs-muted mt-2">{{ b.text }}</p>
+  {% elif b.kind == "p" %}<p class="mb-3 leading-relaxed text-justify">{{ b.text }}</p>
+  {% elif b.kind == "answer" %}<p class="mb-3 pl-5 font-semibold text-rs-royal">{{ b.text }}</p>
+  {% elif b.kind == "table" %}<div class="overflow-x-auto my-4"><table class="w-full text-sm border border-rs-border">{% for row in b.rows %}<tr class="{% if forloop.first %}bg-rs-raised font-semibold{% endif %}">{% for c in row %}<td class="border border-rs-border px-3 py-1.5">{{ c|default_if_none:"" }}</td>{% endfor %}</tr>{% endfor %}</table></div>
+  {% elif b.kind == "image" %}<img src="{{ b.data_uri }}" alt="{% translate 'Chart' %}" class="my-4 mx-auto max-w-full rounded-lg border border-rs-border bg-white">
+  {% endif %}
+{% endfor %}
+</article>
+{% endblock %}

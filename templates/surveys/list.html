@@ -1,0 +1,34 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "My Questionnaires" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "My Questionnaires" %}</span>{% endblock %}
+{% block content %}
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+  <div><p class="rs-eyebrow">{% translate "Research instruments" %}</p><h1 class="rs-title mt-1.5">{% translate "My Questionnaires" %}</h1></div>
+  <div class="flex flex-wrap gap-2"><a href="{% url 'surveys:import' %}" class="rs-btn-secondary">{% icon "upload" "h-4 w-4" %}{% translate "Import Word" %}</a><a href="{% url 'surveys:create' %}" class="rs-btn-primary">{% icon "plus" "h-4 w-4" %}{% translate "New questionnaire" %}</a></div>
+</div>
+<div class="rs-card">
+  <form class="rs-card-header" method="get" role="search">
+    <div class="flex flex-wrap gap-1.5">
+      <a href="?" class="rs-btn-sm rs-btn {% if not status %}bg-rs-navy/10 text-rs-navy{% else %}rs-btn-ghost{% endif %}">{% translate "All" %}</a>
+      {% for value, label in statuses %}<a href="?status={{ value }}" class="rs-btn-sm rs-btn {% if status == value %}bg-rs-navy/10 text-rs-navy{% else %}rs-btn-ghost{% endif %}">{{ label }}</a>{% endfor %}
+    </div>
+    <label for="sq" class="sr-only">{% translate "Search" %}</label>
+    <input id="sq" name="q" value="{{ q }}" placeholder="{% translate 'Search by title or author…' %}" class="rs-input sm:max-w-xs">
+  </form>
+  {% if page.object_list %}
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th>{% translate "Questionnaire" %}</th><th>{% translate "Status" %}</th><th class="text-right">{% translate "Questions" %}</th><th class="text-right">{% translate "Participants" %}</th><th class="text-right">{% translate "Completed" %}</th><th>{% translate "Created" %}</th></tr></thead>
+    <tbody>{% for q in page %}
+      <tr><td class="min-w-[260px]"><a href="{{ q.get_absolute_url }}" class="font-semibold text-rs-text hover:text-rs-royal">{{ q.title }}</a><p class="text-xs text-rs-muted mt-0.5">{{ q.author|default:q.owner }} · {{ q.get_language_display }}</p></td>
+      <td><span class="{{ q.status|status_badge }}">{{ q.get_status_display }}</span>{% if not q.is_active %} <span class="rs-badge-danger">{% translate "Inactive" %}</span>{% endif %}</td>
+      <td class="text-right tabular-nums">{{ q.question_count }}</td><td class="text-right tabular-nums">{{ q.participant_count }}</td><td class="text-right tabular-nums">{{ q.completed_count }}</td>
+      <td class="text-xs text-rs-muted whitespace-nowrap">{{ q.created_at|date:"Y-m-d" }}</td></tr>
+    {% endfor %}</tbody></table></div>
+  {% include "includes/pagination.html" %}
+  {% else %}
+    {% translate "No questionnaires found" as t %}{% translate "Create a new questionnaire or import one from a Word document." as tx %}{% translate "Import Word questionnaire" as a %}{% url 'surveys:import' as u %}
+    {% include "includes/empty.html" with icon="files" title=t text=tx url=u action=a %}
+  {% endif %}
+</div>
+{% endblock %}

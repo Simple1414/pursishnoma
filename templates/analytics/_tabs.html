@@ -1,0 +1,10 @@
+{% load i18n rs_tags %}
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+  <div class="min-w-0"><p class="rs-eyebrow">{% translate "Statistical Analytics" %}</p><h1 class="rs-title mt-1.5">{{ questionnaire.title }}</h1></div>
+  <nav class="flex flex-wrap gap-1 rounded-xl bg-rs-surface border border-rs-border p-1 text-sm shrink-0" aria-label="{% translate 'Analysis views' %}">
+    <a href="{% url 'analytics:overview' questionnaire.pk %}" class="rounded-lg px-3 py-1.5 font-medium {% if tab == 'overview' %}bg-rs-royal text-white dark:text-[#0B1622]{% else %}text-rs-muted hover:text-rs-text{% endif %}">{% translate "Frequencies" %}</a>
+    <a href="{% url 'analytics:crosstab' questionnaire.pk %}" class="rounded-lg px-3 py-1.5 font-medium {% if tab == 'crosstab' %}bg-rs-royal text-white dark:text-[#0B1622]{% else %}text-rs-muted hover:text-rs-text{% endif %}">{% translate "Cross-tabulation" %}</a>
+    <a href="{% url 'analytics:compare' questionnaire.pk %}" class="rounded-lg px-3 py-1.5 font-medium {% if tab == 'compare' %}bg-rs-royal text-white dark:text-[#0B1622]{% else %}text-rs-muted hover:text-rs-text{% endif %}">{% translate "Comparisons" %}</a>
+    <a href="{% url 'analytics:intelligence' questionnaire.pk %}" class="rounded-lg px-3 py-1.5 font-medium text-rs-muted hover:text-rs-text">{% translate "Intelligence" %}</a>
+  </nav>
+</div>

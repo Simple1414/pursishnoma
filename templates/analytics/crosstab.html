@@ -1,0 +1,29 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Cross-tabulation" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'analytics:overview' questionnaire.pk %}" class="truncate max-w-[300px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Cross-tabulation" %}</span>{% endblock %}
+{% block content %}
+{% include "analytics/_tabs.html" with tab="crosstab" %}
+<form method="get" class="rs-card rs-card-pad grid md:grid-cols-[1fr_1fr_auto] gap-4 items-end mb-6">
+  <div><label for="row" class="rs-label">{% translate "Rows" %}</label><select id="row" name="row" class="rs-input"><option value="">—</option>{% for v, l in variables %}<option value="{{ v }}" {% if v == row %}selected{% endif %}>{{ l|truncatechars:90 }}</option>{% endfor %}</select></div>
+  <div><label for="col" class="rs-label">{% translate "Columns" %}</label><select id="col" name="col" class="rs-input"><option value="">—</option>{% for v, l in variables %}<option value="{{ v }}" {% if v == col %}selected{% endif %}>{{ l|truncatechars:90 }}</option>{% endfor %}</select></div>
+  <button class="rs-btn-primary">{% translate "Calculate" %}</button>
+  <p class="md:col-span-3 text-xs text-rs-muted">{% translate "Variables: single-choice, yes/no and Likert questions plus collected participant fields. N =" %} {{ N }}</p>
+</form>
+{% if result %}
+<section class="rs-card">
+  <div class="rs-card-header"><div><h2 class="text-base font-semibold">{{ result.row_label|truncatechars:80 }} × {{ result.col_label|truncatechars:80 }}</h2><p class="text-xs text-rs-muted mt-0.5">n = {{ result.n }} {% translate "respondents answered both" %} (N = {{ result.N }})</p></div></div>
+  {% if result.error %}<div class="rs-card-pad"><div class="rs-alert-warning text-sm"><p>{{ result.error }}</p></div></div>{% else %}
+  <div class="rs-card-pad grid xl:grid-cols-2 gap-6">
+    <div class="overflow-x-auto"><table class="rs-table">
+      <thead><tr><th></th>{% for c in result.cols %}<th class="text-right normal-case tracking-normal">{{ c|truncatechars:30 }}</th>{% endfor %}<th class="text-right">{% translate "Total" %}</th></tr></thead>
+      <tbody>{% for r in result.rows %}<tr><td class="font-medium">{{ r }}</td>{% with counts=result.counts|get_item:forloop.counter0 pcts=result.row_pct|get_item:forloop.counter0 %}{% for c in counts %}<td class="text-right tabular-nums">{{ c }} <span class="text-xs text-rs-muted">({{ pcts|get_item:forloop.counter0 }}%)</span></td>{% endfor %}{% endwith %}<td class="text-right font-semibold tabular-nums">{{ result.row_totals|get_item:forloop.counter0 }}</td></tr>{% endfor %}
+        <tr class="bg-rs-raised"><td class="font-semibold">{% translate "Total" %}</td>{% for t in result.col_totals %}<td class="text-right font-semibold tabular-nums">{{ t }}</td>{% endfor %}<td class="text-right font-semibold tabular-nums">{{ result.n }}</td></tr></tbody>
+    </table><p class="text-xs text-rs-muted mt-2">{% translate "Row percentages in brackets." %}</p>
+    {% include "analytics/_test.html" with test=result.test %}</div>
+    <div>{% include "analytics/_chart.html" with chart_id="chart-crosstab" height="340px" label="crosstab" %}</div>
+  </div>{% endif %}
+</section>
+{% endif %}
+{% include "includes/charts_data.html" %}
+{% endblock %}

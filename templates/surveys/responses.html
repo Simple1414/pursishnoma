@@ -1,0 +1,36 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Individual Responses" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Individual Responses" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6"><p class="rs-eyebrow">{% translate "Data" %}</p><h1 class="rs-title mt-1.5">{% translate "Individual Responses" %}</h1><p class="rs-subtitle mt-1">{% translate "Every submission has a unique ID. Original answers are read-only." %}</p></div>
+<div class="rs-card" x-data="selection">
+  <form method="get" class="rs-card-pad border-b border-rs-border grid sm:grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3 items-end" role="search">
+    <div class="xl:col-span-2">{% field form.q %}</div>{% field form.questionnaire %}{% field form.status %}{% field form.evaluation %}{% field form.date_from %}{% field form.date_to %}
+    <div>{% field form.sort %}</div>
+    <div class="flex gap-2 xl:col-span-2"><button class="rs-btn-primary">{% icon "filter" "h-4 w-4" %}{% translate "Apply" %}</button><a href="{% url 'surveys:responses' %}" class="rs-btn-ghost">{% translate "Reset" %}</a></div>
+  </form>
+  <div class="flex flex-wrap items-center gap-2 px-5 sm:px-6 py-3 border-b border-rs-border bg-rs-raised/60 text-sm">
+    <span class="text-rs-muted" x-text="ids.length + ' {% translate "selected" %}'"></span>
+    <a :href="'{% url 'surveys:compare' %}?' + query()" class="rs-btn-secondary rs-btn-sm" :class="ids.length < 2 || ids.length > 4 ? 'opacity-50 pointer-events-none' : ''">{% icon "compare" "h-4 w-4" %}{% translate "Compare (2–4)" %}</a>
+    <a :href="'{% url 'reports:export_selected' %}?' + query()" class="rs-btn-secondary rs-btn-sm" :class="ids.length < 1 ? 'opacity-50 pointer-events-none' : ''">{% icon "download" "h-4 w-4" %}{% translate "Export selected (Excel)" %}</a>
+  </div>
+  {% if page.object_list %}
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th class="w-10"><span class="sr-only">{% translate "Select" %}</span></th><th>ID</th><th>{% translate "Participant" %}</th><th>{% translate "Questionnaire" %}</th><th>{% translate "Status" %}</th><th>{% translate "Submitted" %}</th><th class="text-right">{% translate "Score" %}</th><th></th></tr></thead>
+    <tbody>{% for r in page %}
+      <tr><td><input type="checkbox" class="rs-checkbox" aria-label="{% translate 'Select' %} {{ r.reference }}" @change="toggle({{ r.pk }}, $event.target.checked)"></td>
+      <td class="font-mono text-xs whitespace-nowrap">{{ r.reference }}</td>
+      <td><p class="font-medium">{{ r.participant }}</p>{% if r.participant.faculty or r.participant.academic_year %}<p class="text-xs text-rs-muted">{{ r.participant.faculty }} {{ r.participant.academic_year }}</p>{% endif %}</td>
+      <td class="max-w-[260px]"><p class="line-clamp-2 text-sm">{{ r.questionnaire.title }}</p></td>
+      <td><span class="{{ r.status|status_badge }}">{{ r.get_status_display }}</span></td>
+      <td class="text-xs text-rs-muted whitespace-nowrap">{{ r.submitted_at|date:"Y-m-d H:i"|default:"—" }}</td>
+      <td class="text-right tabular-nums">{% if r.evaluation and r.evaluation.final_score is not None %}{{ r.evaluation.final_score|floatformat:1 }}%{% else %}—{% endif %}</td>
+      <td class="text-right whitespace-nowrap"><a href="{{ r.get_absolute_url }}" class="rs-btn-secondary rs-btn-sm">{% translate "Open" %}</a></td></tr>
+    {% endfor %}</tbody></table></div>
+  {% include "includes/pagination.html" %}
+  {% else %}
+    {% translate "No responses match the filters" as t %}{% translate "Adjust the filters or wait for participants to submit." as tx %}{% include "includes/empty.html" with icon="inbox" title=t text=tx %}
+  {% endif %}
+</div>
+{% endblock %}

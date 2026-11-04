@@ -1,0 +1,9 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Section" %}{% endblock %}
+{% block breadcrumbs %}<a href="{{ questionnaire.get_absolute_url }}" class="truncate max-w-[260px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Section" %}</span>{% endblock %}
+{% block content %}
+<div class="max-w-2xl"><h1 class="rs-title mb-6">{% translate "Edit section" %}</h1>
+<form method="post" class="rs-card rs-card-pad space-y-5">{% csrf_token %}{% field form.title %}{% field form.description %}
+<div class="flex gap-3"><button class="rs-btn-primary">{% translate "Save" %}</button><a href="{{ questionnaire.get_absolute_url }}" class="rs-btn-ghost">{% translate "Cancel" %}</a></div></form></div>
+{% endblock %}

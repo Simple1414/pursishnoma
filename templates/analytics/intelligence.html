@@ -1,0 +1,96 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Research Intelligence Center" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'analytics:intelligence_pick' %}">{% translate "Research Intelligence" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium truncate max-w-[300px]">{{ questionnaire.title }}</span>{% endblock %}
+{% block content %}
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+  <div><p class="rs-eyebrow">{% translate "Research Intelligence Center" %}</p><h1 class="rs-title mt-1.5">{{ questionnaire.title }}</h1><p class="rs-subtitle mt-1">{% translate "Rule-based analysis of real responses. Every finding links to its evidence; nothing becomes a conclusion until you approve it." %}</p></div>
+  <div class="flex gap-2"><a href="{% url 'analytics:overview' questionnaire.pk %}" class="rs-btn-secondary">{% icon "chart" "h-4 w-4" %}{% translate "Statistics" %}</a>
+    <form method="post" action="{% url 'analytics:generate_findings' questionnaire.pk %}" x-data="{busy:false}" @submit="busy=true">{% csrf_token %}<button class="rs-btn-primary" :disabled="busy"><span x-show="busy" class="rs-spinner" x-cloak></span>{% icon "brain" "h-4 w-4" %}{% translate "Generate findings" %}</button></form></div>
+</div>
+
+<section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <div class="rs-stat"><span class="rs-stat-label">N</span><span class="rs-stat-value">{{ overview.N }}</span><span class="text-xs text-rs-muted">{% translate "completed" %}</span></div>
+  <div class="rs-stat"><span class="rs-stat-label">{% translate "Mean completeness" %}</span><span class="rs-stat-value">{{ missing.mean_completeness|default:"—" }}<span class="text-base text-rs-muted">%</span></span><span class="text-xs text-rs-muted">{{ missing.complete_cases }} {% translate "complete cases" %}</span></div>
+  <div class="rs-stat"><span class="rs-stat-label">{% translate "Very fast responses" %}</span><span class="rs-stat-value">{{ quality.speeders|length }}</span><span class="text-xs text-rs-muted">{% translate "< ⅓ of median time" %}</span></div>
+  <div class="rs-stat"><span class="rs-stat-label">{% translate "Straight-lining" %}</span><span class="rs-stat-value">{{ quality.straight_liners|length }}</span><span class="text-xs text-rs-muted">{% translate "identical Likert answers" %}</span></div>
+</section>
+
+<div class="grid xl:grid-cols-[1.2fr_1fr] gap-6 items-start">
+  <div class="space-y-6">
+    {# ---------------- findings #}
+    <section class="rs-card" id="findings">
+      <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Research findings" %}</h2>
+        <div class="flex flex-wrap gap-1.5 text-xs"><span class="rs-badge-approved">{% translate "Statistical result" %}</span><span class="rs-badge-gold">{% translate "AI interpretation" %}</span><span class="rs-badge-published">{% translate "Researcher-approved" %}</span></div></div>
+      {% if findings %}
+      <ul class="divide-y divide-rs-border">{% for f in findings %}
+        <li id="finding-{{ f.pk }}" class="px-5 sm:px-6 py-4 scroll-mt-24 {% if f.status == 'rejected' %}opacity-60{% endif %}">
+          <div class="flex flex-wrap items-center gap-2 text-xs"><span class="{% if f.source == 'ai' %}rs-badge-gold{% elif f.source == 'researcher' %}rs-badge-published{% else %}rs-badge-approved{% endif %}">{{ f.get_source_display }}</span><span class="{{ f.status|status_badge }}">{{ f.get_status_display }}</span>{% if f.reviewed_by %}<span class="text-rs-muted">{{ f.reviewed_by }} · {{ f.reviewed_at|date:"Y-m-d" }}</span>{% endif %}</div>
+          <p class="mt-2 font-semibold text-sm">{{ f.title }}</p>
+          <form method="post" action="{% url 'analytics:finding_review' questionnaire.pk f.pk %}" class="mt-2 space-y-2">{% csrf_token %}
+            <label for="ft-{{ f.pk }}" class="sr-only">{% translate "Finding text" %}</label>
+            <textarea id="ft-{{ f.pk }}" name="text" rows="3" class="rs-input !text-sm">{{ f.text }}</textarea>
+            {% if f.evidence.response_ids %}<p class="text-xs text-rs-muted">{% translate "Evidence:" %} {% for rid in f.evidence.response_ids|slice:":20" %}<a href="{% url 'surveys:response_detail' rid %}" class="font-mono">R-{{ rid|stringformat:"06d" }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}{% if f.evidence.response_ids|length > 20 %} …{% endif %}</p>{% endif %}
+            {% if f.evidence.question_id %}<p class="text-xs text-rs-muted">{% translate "Evidence:" %} <a href="{% url 'analytics:overview' questionnaire.pk %}#q{{ f.evidence.question_id }}">{% translate "question statistics" %}</a>{% if f.evidence.n %} · n = {{ f.evidence.n }}{% endif %}{% if f.evidence.N %}, N = {{ f.evidence.N }}{% endif %}</p>{% endif %}
+            <div class="flex flex-wrap gap-2"><button name="action" value="approve" class="rs-btn-primary rs-btn-sm">{% translate "Approve" %}</button><button name="action" value="save" class="rs-btn-secondary rs-btn-sm">{% translate "Save edit" %}</button><button name="action" value="reject" class="rs-btn-ghost rs-btn-sm">{% translate "Reject" %}</button><button name="action" value="delete" class="rs-btn-ghost rs-btn-sm hover:!text-rs-danger">{% translate "Delete" %}</button></div>
+          </form>
+        </li>{% endfor %}</ul>
+      {% else %}{% translate "No findings yet" as t %}{% translate "Generate draft findings from the data (at least 5 completed responses), or add your own below." as tx %}{% include "includes/empty.html" with icon="brain" title=t text=tx %}{% endif %}
+      <form method="post" action="{% url 'analytics:finding_add' questionnaire.pk %}" class="px-5 sm:px-6 py-4 border-t border-rs-border bg-rs-raised/60 rounded-b-2xl space-y-2">{% csrf_token %}
+        <p class="text-sm font-semibold">{% translate "Add a researcher finding" %}</p>
+        <label for="nf-title" class="sr-only">{% translate "Title" %}</label><input id="nf-title" name="title" class="rs-input !text-sm" placeholder="{% translate 'Title' %}" maxlength="255">
+        <label for="nf-text" class="sr-only">{% translate "Finding text" %}</label><textarea id="nf-text" name="text" rows="2" class="rs-input !text-sm" placeholder="{% translate 'Finding text' %}" required></textarea>
+        <button class="rs-btn-secondary rs-btn-sm">{% icon "plus" "h-4 w-4" %}{% translate "Add" %}</button>
+      </form>
+    </section>
+
+    {% if conclusions %}<section class="rs-card rs-card-pad"><h2 class="text-lg font-semibold">{% translate "Scientific conclusion draft" %}</h2><p class="text-xs text-rs-muted mt-1">{% translate "Assembled only from approved findings. Edit it in the Reports Generator." %}</p><div class="mt-3 text-sm rs-prose">{{ conclusions }}</div><a href="{% url 'reports:list' %}" class="rs-btn-secondary rs-btn-sm mt-4">{% translate "Create report" %}</a></section>{% endif %}
+
+    {# ---------------- open-ended #}
+    {% for item in open_questions %}
+    <section class="rs-card" id="open-{{ item.question.pk }}">
+      <div class="rs-card-header !items-start"><div><p class="rs-eyebrow">{% translate "Open-ended response analysis" %}</p><h2 class="text-base font-semibold mt-1">{{ item.question.display_label }}</h2>{% if item.analysis %}<p class="text-xs text-rs-muted mt-1">n = {{ item.analysis.n }} · {% translate "mean words" %} {{ item.analysis.mean_words }}</p>{% endif %}</div></div>
+      {% if item.analysis %}{% with a=item.analysis %}
+      <div class="rs-card-pad space-y-6">
+        <div><h3 class="text-sm font-semibold font-sans">{% translate "Frequently used terms" %}</h3>
+          <div class="mt-2 flex flex-wrap gap-1.5">{% for t in a.terms %}<span class="rounded-full bg-rs-royal/10 text-rs-royal px-2.5 py-0.5 text-xs" title="{% for r in t.responses|slice:':10' %}R-{{ r|stringformat:'06d' }} {% endfor %}">{{ t.term }} <strong>{{ t.count }}</strong></span>{% empty %}<span class="text-sm text-rs-muted">—</span>{% endfor %}</div>
+          {% if a.bigrams %}<div class="mt-2 flex flex-wrap gap-1.5">{% for t in a.bigrams %}<span class="rounded-full bg-rs-gold/15 text-rs-accent px-2.5 py-0.5 text-xs">{{ t.term }} <strong>{{ t.count }}</strong></span>{% endfor %}</div>{% endif %}</div>
+        <div><h3 class="text-sm font-semibold font-sans">{% translate "Common themes (similar responses)" %}</h3>
+          {% for g in a.groups|slice:":6" %}<details class="mt-2 rounded-xl border border-rs-border"><summary class="cursor-pointer px-3 py-2 text-sm"><strong>{{ g.label|default:"—" }}</strong> <span class="text-rs-muted">· {{ g.size }} {% translate "responses" %}</span></summary>
+            <ul class="px-3 pb-3 space-y-1.5">{% for it in g.items|slice:":15" %}<li class="text-sm"><a href="{% url 'surveys:response_detail' it.response_id %}" class="font-mono text-[11px] mr-1">R-{{ it.response_id|stringformat:"06d" }}</a>{{ it.text|truncatechars:240 }}</li>{% endfor %}</ul></details>
+          {% empty %}<p class="text-sm text-rs-muted mt-1">{% translate "No groups of similar responses detected." %}</p>{% endfor %}</div>
+        <div><h3 class="text-sm font-semibold font-sans">{% translate "Positive / negative tendencies" %}</h3>
+          <p class="text-xs text-rs-muted">{% translate "Heuristic word-list indicator, not a scientific classification. Read the responses before drawing conclusions." %}</p>
+          <div class="mt-2 grid grid-cols-4 gap-2 text-center text-sm">
+            <div class="rounded-xl bg-rs-success/10 py-2"><p class="font-semibold text-rs-success">{{ a.tendencies.counts.positive }}</p><p class="text-xs text-rs-muted">{% translate "positive" %}</p></div>
+            <div class="rounded-xl bg-rs-danger/10 py-2"><p class="font-semibold text-rs-danger">{{ a.tendencies.counts.negative }}</p><p class="text-xs text-rs-muted">{% translate "negative" %}</p></div>
+            <div class="rounded-xl bg-rs-warning/10 py-2"><p class="font-semibold text-rs-accent">{{ a.tendencies.counts.mixed }}</p><p class="text-xs text-rs-muted">{% translate "mixed" %}</p></div>
+            <div class="rounded-xl bg-rs-raised py-2"><p class="font-semibold">{{ a.tendencies.counts.neutral }}</p><p class="text-xs text-rs-muted">{% translate "neutral" %}</p></div></div></div>
+        {% if a.problems %}<div><h3 class="text-sm font-semibold font-sans">{% translate "Repeated problems mentioned" %} <span class="text-rs-muted font-normal">({{ a.problems|length }})</span></h3>
+          <ul class="mt-2 space-y-1.5 max-h-64 overflow-y-auto pr-2">{% for p in a.problems|slice:":30" %}<li class="text-sm"><a href="{% url 'surveys:response_detail' p.response_id %}" class="font-mono text-[11px] mr-1">R-{{ p.response_id|stringformat:"06d" }}</a>{{ p.text|truncatechars:200 }} <span class="text-xs text-rs-muted">[{{ p.markers|join:", " }}]</span></li>{% endfor %}</ul></div>{% endif %}
+      </div>{% endwith %}
+      {% else %}<p class="rs-card-pad text-sm text-rs-muted">{% translate "No text answers yet." %}</p>{% endif %}
+    </section>
+    {% endfor %}
+  </div>
+
+  <aside class="space-y-6">
+    <section class="rs-card rs-card-pad"><h2 class="text-base font-semibold mb-3">{% translate "Trend" %}</h2>{% include "analytics/_chart.html" with chart_id="chart-trend" height="200px" label="trend" %}<p class="text-xs text-rs-muted mt-2">{% translate "Descriptive trend of submissions over time." %}</p></section>
+    <section class="rs-card"><div class="rs-card-header"><h2 class="text-base font-semibold">{% translate "Data quality" %}</h2></div>
+      <div class="rs-card-pad text-sm space-y-3">
+        <p>{% translate "Median completion time" %}: <strong>{% duration quality.median_seconds %}</strong></p>
+        {% if quality.speeders %}<p>{% translate "Very fast responses" %}: {% for rid in quality.speeders|slice:":20" %}<a href="{% url 'surveys:response_detail' rid %}" class="font-mono text-xs">R-{{ rid|stringformat:"06d" }}</a> {% endfor %}</p>{% endif %}
+        {% if quality.straight_liners %}<p>{% translate "Straight-lining" %}: {% for s in quality.straight_liners|slice:":20" %}<a href="{% url 'surveys:response_detail' s.response_id %}" class="font-mono text-xs" title="{{ s.section }}">R-{{ s.response_id|stringformat:"06d" }}</a> {% endfor %}</p>{% endif %}
+        {% if quality.shared_network %}<p>{% translate "Same network (possible duplicates, or a shared computer lab)" %}: {{ quality.shared_network|length }}</p>{% endif %}
+        {% if not quality.speeders and not quality.straight_liners and not quality.shared_network %}<p class="text-rs-success flex items-center gap-2">{% icon "check" "h-4 w-4" %}{% translate "No data-quality flags." %}</p>{% endif %}
+        <p class="text-xs text-rs-muted">{% translate "Flags are signals for review, not proof of low quality." %}</p>
+      </div></section>
+    <section class="rs-card"><div class="rs-card-header"><h2 class="text-base font-semibold">{% translate "Missing data" %}</h2></div>
+      <div class="max-h-[420px] overflow-y-auto"><table class="rs-table"><thead><tr><th>{% translate "Question" %}</th><th class="text-right">{% translate "Missing" %}</th><th class="text-right">%</th></tr></thead><tbody>
+        {% for m in missing.per_question %}<tr><td class="text-xs"><span class="font-semibold text-rs-accent">{{ m.question.number }}</span> {{ m.question.text|truncatechars:60 }}</td><td class="text-right tabular-nums">{{ m.missing }}</td><td class="text-right tabular-nums {% if m.pct and m.pct >= 20 %}text-rs-danger font-semibold{% endif %}">{{ m.pct|default:"0" }}</td></tr>{% endfor %}
+      </tbody></table></div></section>
+    {% if other_texts %}<section class="rs-card rs-card-pad"><h2 class="text-base font-semibold">{% translate "“Other” free-text answers" %}</h2>{% for o in other_texts %}<p class="text-xs font-semibold mt-3">{{ o.question.number }}. {{ o.question.text|truncatechars:70 }}</p><ul class="mt-1 space-y-1">{% for rid, t in o.docs|slice:":10" %}<li class="text-sm"><a href="{% url 'surveys:response_detail' rid %}" class="font-mono text-[11px] mr-1">R-{{ rid|stringformat:"06d" }}</a>{{ t }}</li>{% endfor %}</ul>{% endfor %}</section>{% endif %}
+  </aside>
+</div>
+{% include "includes/charts_data.html" %}
+{% endblock %}

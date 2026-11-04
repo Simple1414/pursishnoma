@@ -1,0 +1,14 @@
+{% load i18n %}
+<script type="application/json" id="rs-messages">[{% for m in messages %}{"text": "{{ m|escapejs }}", "level": "{{ m.tags|default:'info'|escapejs }}"}{% if not forloop.last %},{% endif %}{% endfor %}]</script>
+<div x-data="toasts" class="pointer-events-none fixed inset-x-0 bottom-4 sm:bottom-auto sm:top-5 sm:right-5 sm:left-auto z-[90] flex flex-col items-center sm:items-end gap-2 px-4 no-print" aria-live="polite" role="status">
+  <template x-for="t in items" :key="t.id">
+    <div x-show="t.show" x-transition:enter="transition ease-out duration-200" x-transition:enter-start="opacity-0 translate-y-2" x-transition:leave="transition ease-in duration-200" x-transition:leave-end="opacity-0"
+         class="pointer-events-auto w-full max-w-sm rs-card flex items-start gap-3 px-4 py-3 border-l-4"
+         :class="{'border-l-rs-success': t.level==='success', 'border-l-rs-danger': t.level==='error', 'border-l-rs-warning': t.level==='warning', 'border-l-rs-royal': t.level==='info'}">
+      <span class="mt-0.5 inline-flex h-2 w-2 rounded-full shrink-0" :class="{'bg-rs-success': t.level==='success', 'bg-rs-danger': t.level==='error', 'bg-rs-warning': t.level==='warning', 'bg-rs-royal': t.level==='info'}"></span>
+      <p class="text-sm flex-1" x-text="t.text"></p>
+      <button type="button" class="text-rs-muted hover:text-rs-text" @click="dismiss(t.id)" aria-label="{% translate 'Close' %}">&times;</button>
+    </div>
+  </template>
+</div>
+<noscript>{% for m in messages %}<div class="rs-alert-info m-4">{{ m }}</div>{% endfor %}</noscript>

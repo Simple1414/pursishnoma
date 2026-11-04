@@ -1,0 +1,19 @@
+# /etc/systemd/system/researchsurvey.service
+[Unit]
+Description=ResearchSurvey (gunicorn)
+After=network.target postgresql.service
+
+[Service]
+User=researchsurvey
+Group=www-data
+RuntimeDirectory=researchsurvey
+WorkingDirectory=/srv/researchsurvey/app
+EnvironmentFile=/srv/researchsurvey/app/.env
+ExecStart=/srv/researchsurvey/venv/bin/gunicorn -c deploy/gunicorn.conf.py config.wsgi:application
+Restart=on-failure
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=full
+
+[Install]
+WantedBy=multi-user.target

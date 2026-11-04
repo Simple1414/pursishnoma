@@ -1,0 +1,44 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "AI Research Assistant" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'analytics:assistant_pick' %}">{% translate "AI Research Assistant" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium truncate max-w-[300px]">{{ questionnaire.title }}</span>{% endblock %}
+{% block content %}
+{% get_current_language as LANG %}
+<div class="mb-6"><p class="rs-eyebrow">{% translate "AI Research Assistant" %}</p><h1 class="rs-title mt-1.5">{{ questionnaire.title }}</h1>
+  <p class="rs-subtitle mt-1 max-w-3xl">{% translate "The assistant receives only aggregated statistics and verbatim open answers with response IDs — never names. Its output is an interpretation draft, kept separate from statistical results until you approve it." %}</p></div>
+<div class="grid xl:grid-cols-[380px_1fr] gap-6 items-start">
+  <form method="post" class="rs-card xl:sticky xl:top-24" x-data="{busy:false}" @submit="busy=true">{% csrf_token %}
+    <div class="rs-card-header"><h2 class="text-base font-semibold">{% translate "New request" %}</h2>{% if configured %}<span class="rs-badge-published">{% translate "Connected" %}</span>{% else %}<span class="rs-badge-draft">{% translate "Not configured" %}</span>{% endif %}</div>
+    <div class="rs-card-pad space-y-4">
+      {% if not configured %}<div class="rs-alert-warning text-sm">{% icon "info" "h-5 w-5 shrink-0" %}<p>{% translate "AI is not configured on this server. All statistics, findings and reports keep working without it. An administrator can enable it with AI_PROVIDER and AI_API_KEY." %}</p></div>{% endif %}
+      <fieldset class="space-y-2"><legend class="rs-label">{% translate "Task" %}</legend>
+        {% for value, label in tasks %}<label class="rs-choice !py-2.5"><input type="radio" name="task" value="{{ value }}" class="rs-radio mt-0.5" {% if forloop.first %}checked{% endif %}><span class="text-sm">{{ label }}</span></label>{% endfor %}</fieldset>
+      <div><label for="ai-lang" class="rs-label">{% translate "Answer language" %}</label><select id="ai-lang" name="language" class="rs-input"><option value="tg" {% if LANG == 'tg' %}selected{% endif %}>Тоҷикӣ</option><option value="ru" {% if LANG == 'ru' %}selected{% endif %}>Русский</option><option value="en" {% if LANG == 'en' %}selected{% endif %}>English</option></select></div>
+      <div><label for="ai-prompt" class="rs-label">{% translate "Additional instructions (optional)" %}</label><textarea id="ai-prompt" name="prompt" rows="3" maxlength="4000" class="rs-input" placeholder="{% translate 'e.g. Focus on differences between Likert sections.' %}"></textarea></div>
+      <button class="rs-btn-primary w-full" {% if not configured %}disabled{% endif %} :disabled="busy || {% if configured %}false{% else %}true{% endif %}"><span x-show="busy" class="rs-spinner" x-cloak></span>{% icon "sparkles" "h-4 w-4" %}{% translate "Run analysis" %}</button>
+      <p x-show="busy" x-cloak class="text-xs text-rs-muted text-center">{% translate "This can take up to a minute…" %}</p>
+    </div>
+  </form>
+  <div class="space-y-5">
+    {% for a in analyses %}
+    <article class="rs-card" id="ai-{{ a.pk }}">
+      <div class="rs-card-header !items-start"><div><div class="flex flex-wrap items-center gap-2 text-xs"><span class="rs-badge-gold">{% icon "sparkles" "h-3 w-3" %}{% translate "AI-generated interpretation" %}</span><span class="{{ a.status|status_badge }}">{{ a.get_status_display }}</span></div>
+        <h2 class="text-base font-semibold mt-2">{{ a.get_task_display }}</h2><p class="text-xs text-rs-muted mt-0.5">{{ a.created_at|date:"Y-m-d H:i" }} · {{ a.created_by }}{% if a.model_name %} · {{ a.model_name }}{% endif %}{% if a.reviewed_by %} · {% translate "reviewed by" %} {{ a.reviewed_by }}{% endif %}</p></div></div>
+      <div class="rs-card-pad">
+        {% if a.error %}<div class="rs-alert-danger text-sm">{% icon "alert" "h-5 w-5 shrink-0 text-rs-danger" %}<p>{{ a.error }}</p></div>
+        {% else %}
+        <form method="post" action="{% url 'analytics:assistant_review' questionnaire.pk a.pk %}" class="space-y-3">{% csrf_token %}
+          <label for="ai-out-{{ a.pk }}" class="sr-only">{% translate "Interpretation text" %}</label>
+          <textarea id="ai-out-{{ a.pk }}" name="edited_text" rows="12" class="rs-input !text-sm leading-relaxed">{{ a.final_text }}</textarea>
+          <div class="flex flex-wrap gap-2"><button name="action" value="approve" class="rs-btn-primary rs-btn-sm">{% translate "Approve as researcher conclusion" %}</button><button name="action" value="save" class="rs-btn-secondary rs-btn-sm">{% translate "Save edit" %}</button><button name="action" value="reject" class="rs-btn-ghost rs-btn-sm">{% translate "Reject" %}</button></div>
+        </form>
+        <details class="mt-4 text-xs"><summary class="cursor-pointer text-rs-muted">{% translate "Data sent to the AI (for verification)" %}</summary><pre class="mt-2 max-h-64 overflow-auto rounded-xl bg-rs-raised p-3 whitespace-pre-wrap">{{ a.context_data|json_attr }}</pre></details>
+        {% endif %}
+      </div>
+    </article>
+    {% empty %}
+    <div class="rs-card">{% translate "No AI analyses yet" as t %}{% translate "Choose a task and run it. Results appear here for review." as tx %}{% include "includes/empty.html" with icon="sparkles" title=t text=tx %}</div>
+    {% endfor %}
+  </div>
+</div>
+{% endblock %}

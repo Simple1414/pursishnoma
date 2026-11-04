@@ -1,0 +1,118 @@
+{% extends "base_public.html" %}
+{% load i18n static rs_tags humanize %}
+{% block title %}{% translate "Scientific research platform" %}{% endblock %}
+{% block content %}
+{# ------------------------------------------------ hero #}
+<section class="relative overflow-hidden border-b border-rs-border bg-rs-surface">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-[0.55] dark:opacity-30"
+       style="background-image: radial-gradient(circle at 1px 1px, rgb(var(--rs-border)) 1px, transparent 0); background-size: 28px 28px;"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-rs-gold/10 blur-3xl"></div>
+  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
+    <div>
+      <p class="rs-eyebrow">{{ site_settings.organization_name }}</p>
+      <h1 class="mt-4 font-serif text-[2.35rem] sm:text-5xl lg:text-[3.4rem] leading-[1.08] font-semibold text-rs-navy">
+        {% translate "Evidence-based research," %}<br><span class="text-rs-royal">{% translate "from questionnaire to findings." %}</span>
+      </h1>
+      <p class="mt-6 text-lg text-rs-muted max-w-xl leading-relaxed">{{ site_settings.tagline|default:_("Intelligent Platform for Scientific Research and Survey Analytics") }}. {% translate "Design scientific questionnaires, collect responses securely, evaluate each participant and turn real data into transparent statistical reports." %}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href="#participate" class="rs-btn-primary !px-5 !py-3">{% translate "Take part in a study" %}</a>
+        <a href="{% url 'login' %}" class="rs-btn-secondary !px-5 !py-3">{% icon "lock" "h-4 w-4" %}{% translate "Researcher sign in" %}</a>
+      </div>
+      <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4 text-sm">
+        <div class="flex items-center gap-2 text-rs-muted">{% icon "shield" "h-4 w-4 text-rs-success" %}{% translate "Anonymous participation supported" %}</div>
+        <div class="flex items-center gap-2 text-rs-muted">{% icon "check" "h-4 w-4 text-rs-success" %}{% translate "Informed consent" %}</div>
+        <div class="flex items-center gap-2 text-rs-muted">{% icon "globe" "h-4 w-4 text-rs-success" %}Тоҷикӣ · Русский · English</div>
+      </dl>
+    </div>
+    <div class="rs-card p-6 sm:p-7 shadow-lift">
+      <p class="rs-eyebrow">{% translate "Research workflow" %}</p>
+      <ol class="mt-5 space-y-5">
+        <li class="flex gap-4"><span class="h-9 w-9 shrink-0 rounded-xl bg-rs-royal/10 text-rs-royal grid place-items-center">{% icon "upload" "h-[18px] w-[18px]" %}</span><div><p class="font-semibold">{% translate "Import or build" %}</p><p class="text-sm text-rs-muted">{% translate "Upload a Word questionnaire; wording is preserved and reviewed before publication." %}</p></div></li>
+        <li class="flex gap-4"><span class="h-9 w-9 shrink-0 rounded-xl bg-rs-royal/10 text-rs-royal grid place-items-center">{% icon "send" "h-[18px] w-[18px]" %}</span><div><p class="font-semibold">{% translate "Collect" %}</p><p class="text-sm text-rs-muted">{% translate "Share a public link or QR code. Every answer is saved to the database." %}</p></div></li>
+        <li class="flex gap-4"><span class="h-9 w-9 shrink-0 rounded-xl bg-rs-gold/15 text-rs-accent grid place-items-center">{% icon "award" "h-[18px] w-[18px]" %}</span><div><p class="font-semibold">{% translate "Evaluate" %}</p><p class="text-sm text-rs-muted">{% translate "Score responses with weighted criteria — originals are never modified." %}</p></div></li>
+        <li class="flex gap-4"><span class="h-9 w-9 shrink-0 rounded-xl bg-rs-success/10 text-rs-success grid place-items-center">{% icon "chart" "h-[18px] w-[18px]" %}</span><div><p class="font-semibold">{% translate "Analyse and report" %}</p><p class="text-sm text-rs-muted">{% translate "Statistics with sample sizes, tests, traceable findings, Word/PDF/Excel exports." %}</p></div></li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+{# ------------------------------------------------ statistics #}
+{% if public_stats %}
+<section aria-label="{% translate 'Platform statistics' %}" class="max-w-6xl mx-auto px-4 sm:px-6 -mt-px">
+  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 py-10">
+    <div class="rs-stat"><span class="rs-stat-value">{{ public_stats.studies|intcomma }}</span><span class="rs-stat-label">{% translate "Studies conducted" %}</span></div>
+    <div class="rs-stat"><span class="rs-stat-value">{{ public_stats.responses|intcomma }}</span><span class="rs-stat-label">{% translate "Completed responses" %}</span></div>
+    <div class="rs-stat"><span class="rs-stat-value">{{ public_stats.open|intcomma }}</span><span class="rs-stat-label">{% translate "Studies open now" %}</span></div>
+  </div>
+</section>
+{% endif %}
+
+{# ------------------------------------------------ about #}
+<section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20 scroll-mt-20">
+  <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10">
+    <div>
+      <p class="rs-eyebrow">{% translate "About the platform" %}</p>
+      <h2 class="mt-3 text-3xl sm:text-[2.2rem] font-semibold leading-tight">{% translate "Built for scientific credibility" %}</h2>
+    </div>
+    <div class="text-rs-muted leading-relaxed space-y-4">
+      {% if site_settings.about_text %}<p class="rs-prose">{{ site_settings.about_text }}</p>{% else %}
+      <p>{% translate "ResearchSurvey supports the full cycle of survey-based research: instrument design, ethical data collection, individual evaluation, statistical analysis and reporting." %}</p>
+      {% endif %}
+      <div class="grid sm:grid-cols-2 gap-4 pt-2">
+        <div class="rs-card p-5"><div class="text-rs-royal">{% icon "table" %}</div><p class="mt-3 font-semibold text-rs-text">{% translate "Transparent statistics" %}</p><p class="text-sm mt-1">{% translate "Every result shows its sample size; significance is reported only with the test used." %}</p></div>
+        <div class="rs-card p-5"><div class="text-rs-royal">{% icon "brain" %}</div><p class="mt-3 font-semibold text-rs-text">{% translate "Traceable findings" %}</p><p class="text-sm mt-1">{% translate "Findings link back to the questions and responses they come from." %}</p></div>
+        <div class="rs-card p-5"><div class="text-rs-royal">{% icon "shield" %}</div><p class="mt-3 font-semibold text-rs-text">{% translate "Privacy by design" %}</p><p class="text-sm mt-1">{% translate "Only the data needed for the research is collected; participants can stay anonymous." %}</p></div>
+        <div class="rs-card p-5"><div class="text-rs-royal">{% icon "sparkles" %}</div><p class="mt-3 font-semibold text-rs-text">{% translate "Responsible AI" %}</p><p class="text-sm mt-1">{% translate "AI interpretations are clearly labelled drafts that researchers review and approve." %}</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{# ------------------------------------------------ research / participate #}
+<section id="research" class="bg-rs-surface border-y border-rs-border scroll-mt-20">
+  <div id="participate" class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20 scroll-mt-20">
+    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div>
+        <p class="rs-eyebrow">{% translate "Survey participation" %}</p>
+        <h2 class="mt-3 text-3xl sm:text-[2.2rem] font-semibold">{% translate "Open studies" %}</h2>
+        <p class="mt-2 text-rs-muted max-w-2xl">{% translate "Participation is voluntary. Each study explains its purpose and how your answers are used before you begin." %}</p>
+      </div>
+    </div>
+    {% if open_studies %}
+    <div class="mt-8 grid md:grid-cols-2 gap-5">
+      {% for s in open_studies %}
+      <article class="rs-card p-6 flex flex-col">
+        <div class="flex items-center gap-2 text-xs text-rs-muted">
+          <span class="rs-badge-published">{% translate "Open" %}</span>
+          <span class="inline-flex items-center gap-1">{% icon "clock" "h-3.5 w-3.5" %}{% blocktranslate with m=s.estimated_minutes %}≈ {{ m }} min{% endblocktranslate %}</span>
+        </div>
+        <h3 class="mt-3 text-xl font-semibold leading-snug">{{ s.title }}</h3>
+        {% if s.objective %}<p class="mt-2 text-sm text-rs-muted line-clamp-3">{{ s.objective }}</p>{% endif %}
+        {% if s.author %}<p class="mt-3 text-xs text-rs-muted">{{ s.author }}</p>{% endif %}
+        <div class="mt-auto pt-5"><a href="{{ s.get_public_url }}" class="rs-btn-primary">{% translate "Open the questionnaire" %}{% icon "right" "h-4 w-4" %}</a></div>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="mt-8 rs-card">{% translate "No studies are open right now. If you received a link from a researcher, open it directly." as t %}{% include "includes/empty.html" with icon="flask" title=t %}</div>
+    {% endif %}
+  </div>
+</section>
+
+{# ------------------------------------------------ contact #}
+<section id="contact" class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20 scroll-mt-20">
+  <div class="rs-card p-6 sm:p-10 grid md:grid-cols-2 gap-8 items-center">
+    <div>
+      <p class="rs-eyebrow">{% translate "Contact" %}</p>
+      <h2 class="mt-3 text-3xl font-semibold">{{ site_settings.organization_name }}</h2>
+      <p class="mt-2 text-rs-muted">{% translate "Questions about a study, your data or the platform? Contact the research team." %}</p>
+    </div>
+    <ul class="space-y-3 text-sm">
+      {% if site_settings.contact_email %}<li class="flex items-center gap-3">{% icon "mail" "h-5 w-5 text-rs-royal" %}<a href="mailto:{{ site_settings.contact_email }}">{{ site_settings.contact_email }}</a></li>{% endif %}
+      {% if site_settings.contact_phone %}<li class="flex items-center gap-3">{% icon "phone" "h-5 w-5 text-rs-royal" %}<span>{{ site_settings.contact_phone }}</span></li>{% endif %}
+      {% if site_settings.address %}<li class="flex items-center gap-3">{% icon "pin" "h-5 w-5 text-rs-royal" %}<span>{{ site_settings.address }}</span></li>{% endif %}
+      {% if not site_settings.contact_email and not site_settings.contact_phone and not site_settings.address %}<li class="text-rs-muted">{% translate "Contact details will be published by the administrator." %}</li>{% endif %}
+    </ul>
+  </div>
+</section>
+{% endblock %}

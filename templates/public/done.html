@@ -1,0 +1,19 @@
+{% extends "base_public.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Thank you" %}{% endblock %}
+{% block public_nav %}{% endblock %}
+{% block content %}
+<div class="max-w-xl mx-auto px-4 py-16 sm:py-24 text-center">
+  <div class="mx-auto h-16 w-16 rounded-full bg-rs-success/10 text-rs-success grid place-items-center">{% icon "check" "h-8 w-8" %}</div>
+  <h1 class="font-serif text-3xl font-semibold mt-6">{% translate "Your answers have been submitted" %}</h1>
+  <p class="mt-3 text-rs-muted rs-prose">{% if questionnaire.completion_message %}{{ questionnaire.completion_message }}{% else %}{% translate "Thank you for contributing to this research." %}{% endif %}</p>
+  <div class="rs-card rs-card-pad mt-8 text-sm text-left">
+    <dl class="space-y-2">
+      <div class="flex justify-between gap-4"><dt class="text-rs-muted">{% translate "Questionnaire" %}</dt><dd class="text-right font-medium">{{ questionnaire.title|truncatechars:80 }}</dd></div>
+      <div class="flex justify-between gap-4"><dt class="text-rs-muted">{% translate "Confirmation ID" %}</dt><dd class="font-mono font-semibold">{{ response.reference }}</dd></div>
+      <div class="flex justify-between gap-4"><dt class="text-rs-muted">{% translate "Submitted" %}</dt><dd>{{ response.submitted_at|date:"Y-m-d H:i" }}</dd></div>
+    </dl>
+  </div>
+  <p class="mt-6 text-xs text-rs-muted">{% translate "Keep the confirmation ID if you want to contact the researchers about your participation." %}</p>
+</div>
+{% endblock %}

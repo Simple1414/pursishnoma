@@ -1,0 +1,28 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Security" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Security" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6"><p class="rs-eyebrow">{% translate "Administration" %}</p><h1 class="rs-title mt-1.5">{% translate "Security" %}</h1><p class="rs-subtitle mt-1">{% translate "Configuration checks and the audit log of security-relevant actions." %}</p></div>
+<div class="grid lg:grid-cols-3 gap-6 items-start">
+  <section class="rs-card lg:col-span-1">
+    <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Configuration" %}</h2></div>
+    <ul class="divide-y divide-rs-border">
+      {% for label, ok in checks %}
+      <li class="px-5 py-3 flex items-center gap-3 text-sm">{% if ok %}<span class="text-rs-success">{% icon "check" "h-5 w-5" %}</span>{% else %}<span class="text-rs-danger">{% icon "alert" "h-5 w-5" %}</span>{% endif %}<span>{{ label }}</span></li>
+      {% endfor %}
+      <li class="px-5 py-3 text-sm flex justify-between"><span>{% translate "Failed / blocked login attempts" %}</span><span class="font-semibold tabular-nums">{{ failed_logins }}</span></li>
+    </ul>
+  </section>
+  <section class="rs-card lg:col-span-2">
+    <form class="rs-card-header" method="get"><h2 class="text-lg font-semibold">{% translate "Audit log" %}</h2>
+      <div class="flex gap-2"><label for="act" class="sr-only">{% translate "Action" %}</label><input id="act" name="action" value="{{ action }}" placeholder="login, export, questionnaire…" class="rs-input !py-1.5 w-48"><button class="rs-btn-secondary rs-btn-sm">{% icon "filter" "h-4 w-4" %}</button></div></form>
+    <div class="rs-table-wrap"><table class="rs-table">
+      <thead><tr><th>{% translate "Time" %}</th><th>{% translate "User" %}</th><th>{% translate "Action" %}</th><th>{% translate "Object" %}</th><th>IP</th></tr></thead>
+      <tbody>{% for e in page %}<tr><td class="text-xs whitespace-nowrap text-rs-muted">{{ e.created_at|date:"Y-m-d H:i:s" }}</td><td>{{ e.user|default:"—" }}</td><td><span class="font-mono text-xs">{{ e.action }}</span></td><td class="text-xs text-rs-muted">{{ e.object_type }} {{ e.object_id }}</td><td class="text-xs text-rs-muted">{{ e.ip_address|default:"" }}</td></tr>
+      {% empty %}<tr><td colspan="5" class="text-center text-rs-muted py-10">{% translate "No entries." %}</td></tr>{% endfor %}</tbody>
+    </table></div>
+    {% with querystring="action="|add:action %}{% include "includes/pagination.html" %}{% endwith %}
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% if question %}{% translate "Edit question" %}{% else %}{% translate "New question" %}{% endif %}{% endblock %}
+{% block breadcrumbs %}<a href="{{ questionnaire.get_absolute_url }}" class="truncate max-w-[260px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% if question %}{% translate "Edit question" %}{% else %}{% translate "New question" %}{% endif %}</span>{% endblock %}
+{% block content %}
+<form method="post" class="max-w-5xl space-y-6" novalidate x-data="{ qtype: '{{ form.qtype.value|default:'single'|escapejs }}' }">
+  {% csrf_token %}
+  <div class="flex items-center justify-between gap-4"><h1 class="rs-title">{% if question %}{% translate "Edit question" %}{% else %}{% translate "New question" %}{% endif %}</h1>
+    <div class="flex gap-2"><a href="{{ questionnaire.get_absolute_url }}" class="rs-btn-ghost">{% translate "Cancel" %}</a><button class="rs-btn-primary">{% translate "Save question" %}</button></div></div>
+  {% if locked %}<div class="rs-alert-info text-sm">{% icon "lock" "h-5 w-5 text-rs-royal shrink-0" %}<p>{% translate "This question already has answers. Its type, code and scale are locked; options with answers cannot be deleted." %}</p></div>{% endif %}
+  {% if form.non_field_errors %}<div class="rs-alert-danger">{{ form.non_field_errors }}</div>{% endif %}
+  <section class="rs-card"><div class="rs-card-pad grid sm:grid-cols-4 gap-5">
+    <div class="sm:col-span-4">{% field form.text %}</div>
+    <div class="sm:col-span-4">{% field form.help_text %}</div>
+    <div class="sm:col-span-2">{% field form.section %}</div>
+    <div>
+      <label for="{{ form.qtype.id_for_label }}" class="rs-label">{{ form.qtype.label }}</label>
+      <select name="qtype" id="{{ form.qtype.id_for_label }}" class="rs-input" x-model="qtype" {% if form.qtype.field.disabled %}disabled{% endif %}>
+        {% for value, label in form.qtype.field.choices %}<option value="{{ value }}" {% if form.qtype.value == value %}selected{% endif %}>{{ label }}</option>{% endfor %}
+      </select>{% for e in form.qtype.errors %}<p class="rs-error">{{ e }}</p>{% endfor %}
+    </div>
+    <div class="flex items-end pb-2">{% field form.required %}</div>
+    {% field form.number %}{% field form.code %}
+  </div></section>
+
+  <section class="rs-card" x-show="qtype === 'rating'" x-cloak><div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Rating scale" %}</h2></div>
+    <div class="rs-card-pad grid sm:grid-cols-4 gap-5">{% field form.scale_min %}{% field form.scale_max %}{% field form.scale_min_label %}{% field form.scale_max_label %}</div></section>
+
+  <section class="rs-card" x-show="['single','multiple','yes_no','likert','matrix','ranking'].includes(qtype)">
+    <div class="rs-card-header"><div><h2 class="text-lg font-semibold">{% translate "Answer options" %}</h2>
+      <p class="text-xs text-rs-muted mt-0.5" x-show="qtype==='matrix'">{% translate "Matrix: add rows (statements) and columns (scale points)." %}</p>
+      <p class="text-xs text-rs-muted mt-0.5" x-show="qtype==='likert'">{% translate "Likert: each option needs a numeric code (e.g. 1–5)." %}</p>
+      <p class="text-xs text-rs-muted mt-0.5" x-show="qtype==='yes_no'">{% translate "Leave empty to create “Yes / No” automatically." %}</p></div></div>
+    {{ formset.management_form }}
+    {% if formset.non_form_errors %}<div class="rs-alert-danger mx-6 mt-4">{{ formset.non_form_errors }}</div>{% endif %}
+    <div class="rs-table-wrap"><table class="rs-table">
+      <thead><tr><th>{% translate "Kind" %}</th><th class="w-1/2">{% translate "Text" %}</th><th>{% translate "Code" %}</th><th>{% translate "Free text" %}</th><th>{% translate "Order" %}</th><th>{% translate "Delete" %}</th></tr></thead>
+      <tbody>{% for f in formset %}<tr>{% for h in f.hidden_fields %}{{ h }}{% endfor %}
+        <td class="min-w-[140px]">{{ f.kind }}</td><td class="min-w-[240px]">{{ f.text }}{% for e in f.text.errors %}<p class="rs-error">{{ e }}</p>{% endfor %}</td>
+        <td class="w-24">{{ f.value }}</td><td class="text-center">{{ f.allows_text }}</td><td class="w-20">{{ f.order }}</td><td class="text-center">{% if f.instance.pk %}{{ f.DELETE }}{% endif %}</td></tr>{% endfor %}</tbody>
+    </table></div>
+    <p class="px-6 py-3 text-xs text-rs-muted border-t border-rs-border">{% translate "Save to get more empty rows for additional options." %}</p>
+  </section>
+  <div class="flex gap-2"><button class="rs-btn-primary">{% translate "Save question" %}</button><a href="{{ questionnaire.get_absolute_url }}" class="rs-btn-ghost">{% translate "Cancel" %}</a></div>
+</form>
+{% endblock %}

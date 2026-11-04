@@ -1,0 +1,25 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{{ report.title }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'reports:list' %}">{% translate "Reports Generator" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium truncate max-w-[300px]">{{ report.title }}</span>{% endblock %}
+{% block content %}
+<div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 mb-6">
+  <div><p class="rs-eyebrow">{% translate "Report editor" %}</p><h1 class="rs-title mt-1.5">{{ report.title }}</h1><p class="rs-subtitle mt-1">{{ report.questionnaire.title|truncatechars:100 }}</p></div>
+  <div class="flex flex-wrap gap-2"><a href="{% url 'reports:preview' report.pk %}" class="rs-btn-secondary">{% icon "eye" "h-4 w-4" %}{% translate "Preview" %}</a><a href="{% url 'reports:export' report.pk 'docx' %}" class="rs-btn-secondary">{% icon "download" "h-4 w-4" %}Word</a><a href="{% url 'reports:export' report.pk 'pdf' %}" class="rs-btn-secondary">{% icon "download" "h-4 w-4" %}PDF</a></div>
+</div>
+<div class="grid xl:grid-cols-[1fr_300px] gap-6 items-start">
+  <form method="post" class="space-y-5" novalidate>{% csrf_token %}
+    <section class="rs-card rs-card-pad space-y-5">{% field form.title %}{% field form.objectives %}{% field form.methodology %}{% field form.participants_text %}</section>
+    <section class="rs-card rs-card-pad space-y-5">{% field form.findings %}{% field form.discussion %}{% field form.conclusions %}{% field form.recommendations %}</section>
+    <section class="rs-card rs-card-pad grid sm:grid-cols-3 gap-5">{% field form.include_charts %}{% field form.include_question_analysis %}{% field form.status %}</section>
+    <div class="flex gap-2"><button class="rs-btn-primary">{% translate "Save report" %}</button>
+      </div>
+  </form>
+  <aside class="space-y-5">
+    <div class="rs-card rs-card-pad text-sm"><h2 class="text-base font-semibold">{% translate "Report structure" %}</h2>
+      <ol class="mt-3 space-y-1.5 text-rs-muted list-decimal pl-5"><li>{% translate "Research objectives" %}</li><li>{% translate "Methodology" %}</li><li>{% translate "Participants and sample" %}</li><li>{% translate "Statistical results" %} <span class="text-xs">({% translate "automatic" %})</span></li><li>{% translate "Analysis of individual questions" %} <span class="text-xs">({% translate "automatic" %})</span></li><li>{% translate "Main research findings" %} <span class="text-xs">(+ {% translate "approved findings" %})</span></li><li>{% translate "Discussion" %}</li><li>{% translate "Conclusions" %}</li><li>{% translate "Recommendations" %}</li></ol>
+      <p class="mt-3 text-xs text-rs-muted">{% translate "Tables, charts and sample sizes are generated from the database when you preview or export." %}</p></div>
+    <form method="post" action="{% url 'reports:delete' report.pk %}" x-data="confirmSubmit($el.dataset.msg)" data-msg="{% translate 'Delete this report?' %}" @submit="ask">{% csrf_token %}<button class="rs-btn-danger w-full">{% icon "trash" "h-4 w-4" %}{% translate "Delete report" %}</button></form>
+  </aside>
+</div>
+{% endblock %}

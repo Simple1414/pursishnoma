@@ -1,0 +1,137 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{{ questionnaire.title }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'surveys:list' %}">{% translate "My Questionnaires" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium truncate max-w-[360px]">{{ questionnaire.title }}</span>{% endblock %}
+{% block content %}
+{% with q=questionnaire %}
+<div class="flex flex-col xl:flex-row xl:items-start justify-between gap-5 mb-6">
+  <div class="min-w-0">
+    <div class="flex flex-wrap items-center gap-2"><span class="{{ q.status|status_badge }}">{{ q.get_status_display }}</span>{% if not q.is_active %}<span class="rs-badge-danger">{% translate "Inactive" %}</span>{% endif %}<span class="rs-badge-draft">{{ q.get_language_display }}</span></div>
+    <h1 class="rs-title mt-3">{{ q.title }}</h1>
+    <p class="rs-subtitle mt-1.5">{% if q.author %}{{ q.author }} · {% endif %}{% blocktranslate with d=q.created_at|date:"Y-m-d" c=n_completed i=n_incomplete %}Created {{ d }} · {{ c }} completed · {{ i }} incomplete{% endblocktranslate %}</p>
+  </div>
+  <div class="flex flex-wrap gap-2 shrink-0">
+    <a href="{% url 'surveys:preview' q.pk %}" class="rs-btn-secondary">{% icon "eye" "h-4 w-4" %}{% translate "Preview" %}</a>
+    <a href="{% url 'surveys:edit' q.pk %}" class="rs-btn-secondary">{% icon "builder" "h-4 w-4" %}{% translate "Details" %}</a>
+    <a href="{% url 'analytics:overview' q.pk %}" class="rs-btn-secondary">{% icon "chart" "h-4 w-4" %}{% translate "Analytics" %}</a>
+    <form method="post" action="{% url 'surveys:duplicate' q.pk %}">{% csrf_token %}<button class="rs-btn-secondary">{% icon "copy" "h-4 w-4" %}{% translate "Duplicate" %}</button></form>
+  </div>
+</div>
+
+{% if report.warnings or report.ignored %}
+<div class="rs-alert-warning mb-6" role="note">{% icon "info" "h-5 w-5 shrink-0 text-rs-accent" %}
+  <div class="text-sm"><p class="font-semibold">{% translate "Import review notes" %}</p>
+    <p class="text-rs-muted">{% blocktranslate with n=report.questions s=report.sections %}{{ n }} questions in {{ s }} sections were imported. Check each question type, the required flags and the options against the original document.{% endblocktranslate %}</p>
+    <ul class="mt-2 list-disc pl-5 space-y-0.5">{% for w in report.warnings %}<li>{{ w }}</li>{% endfor %}{% for w in report.ignored %}<li class="text-rs-muted">{{ w }}</li>{% endfor %}</ul>
+    {% if q.source_file %}<a class="mt-2 inline-block font-medium" href="{% url 'surveys:source' q.pk %}">{% translate "Download original document" %}</a>{% endif %}
+  </div>
+</div>
+{% endif %}
+
+<div class="grid xl:grid-cols-[1fr_340px] gap-6 items-start">
+  {# ---------------------------------------------- structure #}
+  <div class="space-y-5">
+    {% if has_responses %}<div class="rs-alert-info text-sm">{% icon "lock" "h-5 w-5 shrink-0 text-rs-royal" %}<p>{% translate "Responses exist: question types, codes and answered options are locked to protect collected data. Wording can still be corrected." %}</p></div>{% endif %}
+    {% for section in sections %}
+    <section class="rs-card" aria-labelledby="sec-{{ section.pk }}">
+      <div class="rs-card-header !items-start">
+        <div class="min-w-0">
+          <p class="rs-eyebrow">{% blocktranslate with n=forloop.counter %}Section {{ n }}{% endblocktranslate %}</p>
+          <h2 id="sec-{{ section.pk }}" class="text-lg font-semibold mt-1">{{ section.title }}</h2>
+          {% if section.description %}<p class="text-sm text-rs-muted mt-1 rs-prose">{{ section.description }}</p>{% endif %}
+        </div>
+        <div class="flex items-center gap-1 shrink-0">
+          <form method="post" action="{% url 'surveys:section_move' q.pk section.pk 'up' %}">{% csrf_token %}<button class="rs-btn-ghost rs-btn-sm !px-2" aria-label="{% translate 'Move up' %}" {% if forloop.first %}disabled{% endif %}>{% icon "up" "h-4 w-4" %}</button></form>
+          <form method="post" action="{% url 'surveys:section_move' q.pk section.pk 'down' %}">{% csrf_token %}<button class="rs-btn-ghost rs-btn-sm !px-2" aria-label="{% translate 'Move down' %}" {% if forloop.last %}disabled{% endif %}>{% icon "down" "h-4 w-4" %}</button></form>
+          <a href="{% url 'surveys:section_edit' q.pk section.pk %}" class="rs-btn-ghost rs-btn-sm">{% translate "Edit" %}</a>
+          <form method="post" action="{% url 'surveys:section_delete' q.pk section.pk %}" x-data="confirmSubmit($el.dataset.msg)" data-msg="{% translate "Delete this section and its questions?" %}" @submit="ask">{% csrf_token %}<button class="rs-btn-ghost rs-btn-sm !px-2 hover:!text-rs-danger" aria-label="{% translate 'Delete section' %}">{% icon "trash" "h-4 w-4" %}</button></form>
+        </div>
+      </div>
+      <ol class="divide-y divide-rs-border">
+        {% for question in section.questions.all %}
+        <li id="q{{ question.pk }}" class="px-5 sm:px-6 py-4 group scroll-mt-24">
+          <div class="flex gap-4">
+            <span class="font-serif text-rs-accent font-semibold w-8 shrink-0 text-right">{{ question.number|default:"·" }}</span>
+            <div class="min-w-0 flex-1">
+              <p class="font-medium leading-snug">{{ question.text }}</p>
+              {% if question.help_text %}<p class="text-xs text-rs-muted mt-1 rs-prose">{{ question.help_text }}</p>{% endif %}
+              <div class="mt-2 flex flex-wrap items-center gap-1.5 text-xs">
+                <span class="rs-badge-approved">{{ question.get_qtype_display }}</span>
+                {% if question.required %}<span class="rs-badge-gold">{% translate "Required" %}</span>{% else %}<span class="rs-badge-draft">{% translate "Optional" %}</span>{% endif %}
+                <span class="font-mono text-rs-muted">{{ question.code }}</span>
+              </div>
+              {% with opts=question.options.all %}{% if opts %}
+              <ul class="mt-2.5 flex flex-wrap gap-1.5">{% for o in opts %}<li class="rounded-lg border border-rs-border bg-rs-raised px-2 py-0.5 text-xs">{% if o.kind != 'option' %}<span class="text-rs-muted">{{ o.get_kind_display }}:</span> {% endif %}{% if o.value is not None and question.qtype == 'likert' %}<span class="font-semibold">{{ o.value }}</span> {% endif %}{{ o.text }}{% if o.allows_text %} <span class="text-rs-muted">+ {% translate "text" %}</span>{% endif %}</li>{% endfor %}</ul>
+              {% endif %}{% endwith %}
+            </div>
+            <div class="flex flex-col sm:flex-row items-end sm:items-start gap-1 shrink-0 opacity-100 xl:opacity-60 group-hover:opacity-100 transition">
+              <a href="{% url 'surveys:question_edit' q.pk question.pk %}" class="rs-btn-secondary rs-btn-sm">{% translate "Edit" %}</a>
+              <div class="flex">
+                <form method="post" action="{% url 'surveys:question_move' q.pk question.pk 'up' %}">{% csrf_token %}<button class="rs-btn-ghost rs-btn-sm !px-1.5" aria-label="{% translate 'Move up' %}" {% if forloop.first %}disabled{% endif %}>{% icon "up" "h-4 w-4" %}</button></form>
+                <form method="post" action="{% url 'surveys:question_move' q.pk question.pk 'down' %}">{% csrf_token %}<button class="rs-btn-ghost rs-btn-sm !px-1.5" aria-label="{% translate 'Move down' %}" {% if forloop.last %}disabled{% endif %}>{% icon "down" "h-4 w-4" %}</button></form>
+                <form method="post" action="{% url 'surveys:question_delete' q.pk question.pk %}" x-data="confirmSubmit($el.dataset.msg)" data-msg="{% translate "Delete this question?" %}" @submit="ask">{% csrf_token %}<button class="rs-btn-ghost rs-btn-sm !px-1.5 hover:!text-rs-danger" aria-label="{% translate 'Delete question' %}">{% icon "trash" "h-4 w-4" %}</button></form>
+              </div>
+            </div>
+          </div>
+        </li>
+        {% empty %}
+        <li class="px-6 py-8 text-center text-sm text-rs-muted">{% translate "No questions in this section yet." %}</li>
+        {% endfor %}
+      </ol>
+      <div class="px-5 sm:px-6 py-3 border-t border-rs-border bg-rs-raised/60 rounded-b-2xl"><a href="{% url 'surveys:question_add' q.pk %}?section={{ section.pk }}" class="rs-btn-ghost rs-btn-sm !text-rs-royal">{% icon "plus" "h-4 w-4" %}{% translate "Add question" %}</a></div>
+    </section>
+    {% endfor %}
+    <form method="post" action="{% url 'surveys:section_add' q.pk %}" class="rs-card rs-card-pad flex flex-col sm:flex-row gap-3 sm:items-end">
+      {% csrf_token %}
+      <div class="flex-1"><label for="new-section" class="rs-label">{% translate "New section" %}</label><input id="new-section" name="title" class="rs-input" required maxlength="500" placeholder="{% translate 'Section title' %}"></div>
+      <button class="rs-btn-secondary">{% icon "plus" "h-4 w-4" %}{% translate "Add section" %}</button>
+    </form>
+  </div>
+
+  {# ---------------------------------------------- side panel #}
+  <aside class="space-y-5 xl:sticky xl:top-24">
+    <section class="rs-card rs-card-pad">
+      <h2 class="text-base font-semibold">{% translate "Publication workflow" %}</h2>
+      <ol class="mt-4 space-y-3 text-sm">
+        <li class="flex items-center gap-3"><span class="h-6 w-6 rounded-full grid place-items-center {% if q.status != 'draft' %}bg-rs-success text-white{% else %}bg-rs-royal text-white{% endif %}">{% if q.status != 'draft' %}{% icon "check" "h-3.5 w-3.5" %}{% else %}1{% endif %}</span>{% translate "Review the draft" %}</li>
+        <li class="flex items-center gap-3"><span class="h-6 w-6 rounded-full grid place-items-center {% if q.approved_at %}bg-rs-success text-white{% else %}bg-rs-border text-rs-muted{% endif %}">{% if q.approved_at %}{% icon "check" "h-3.5 w-3.5" %}{% else %}2{% endif %}</span>{% translate "Approve" %}{% if q.approved_at %}<span class="text-xs text-rs-muted ml-auto">{{ q.approved_at|date:"Y-m-d" }}</span>{% endif %}</li>
+        <li class="flex items-center gap-3"><span class="h-6 w-6 rounded-full grid place-items-center {% if q.status == 'published' or q.status == 'closed' %}bg-rs-success text-white{% else %}bg-rs-border text-rs-muted{% endif %}">{% if q.published_at %}{% icon "check" "h-3.5 w-3.5" %}{% else %}3{% endif %}</span>{% translate "Publish" %}</li>
+      </ol>
+      <div class="mt-5 flex flex-wrap gap-2">
+        {% if q.status == 'draft' %}
+          <form method="post" action="{% url 'surveys:status' q.pk 'approve' %}" x-data="confirmSubmit($el.dataset.msg)" data-msg="{% translate "Confirm that you reviewed every question against the original document." %}" @submit="ask">{% csrf_token %}<button class="rs-btn-primary">{% icon "check" "h-4 w-4" %}{% translate "Approve" %}</button></form>
+        {% elif q.status == 'approved' %}
+          <form method="post" action="{% url 'surveys:status' q.pk 'publish' %}">{% csrf_token %}<button class="rs-btn-primary">{% translate "Publish" %}</button></form>
+          {% if not has_responses %}<form method="post" action="{% url 'surveys:status' q.pk 'unapprove' %}">{% csrf_token %}<button class="rs-btn-ghost">{% translate "Back to draft" %}</button></form>{% endif %}
+        {% elif q.status == 'published' %}
+          <form method="post" action="{% url 'surveys:status' q.pk 'toggle' %}">{% csrf_token %}<button class="rs-btn-secondary">{% if q.is_active %}{% translate "Deactivate" %}{% else %}{% translate "Activate" %}{% endif %}</button></form>
+          <form method="post" action="{% url 'surveys:status' q.pk 'close' %}" x-data="confirmSubmit($el.dataset.msg)" data-msg="{% translate "Close data collection?" %}" @submit="ask">{% csrf_token %}<button class="rs-btn-danger">{% translate "Close" %}</button></form>
+        {% elif q.status == 'closed' %}
+          <form method="post" action="{% url 'surveys:status' q.pk 'reopen' %}">{% csrf_token %}<button class="rs-btn-secondary">{% translate "Reopen" %}</button></form>
+        {% endif %}
+      </div>
+      {% if q.opens_at or q.closes_at %}<p class="mt-4 text-xs text-rs-muted">{% icon "clock" "h-3.5 w-3.5 inline" %} {{ q.opens_at|date:"Y-m-d H:i"|default:"…" }} → {{ q.closes_at|date:"Y-m-d H:i"|default:"…" }}</p>{% endif %}
+    </section>
+
+    <section class="rs-card rs-card-pad" x-data="copyText('{{ public_link|escapejs }}')">
+      <h2 class="text-base font-semibold">{% translate "Public access" %}</h2>
+      {% if q.status == 'published' and q.is_active %}<p class="text-xs text-rs-success mt-1">{% translate "Accepting responses" %}</p>{% else %}<p class="text-xs text-rs-muted mt-1">{% translate "The link works after publication." %}</p>{% endif %}
+      <div class="mt-3 flex gap-2"><label for="plink" class="sr-only">{% translate "Public link" %}</label><input id="plink" readonly value="{{ public_link }}" class="rs-input !text-xs font-mono" @focus="$el.select()"><button type="button" class="rs-btn-secondary rs-btn-sm" @click="copy()"><span x-show="!copied">{% icon "copy" "h-4 w-4" %}</span><span x-show="copied" x-cloak>{% icon "check" "h-4 w-4 text-rs-success" %}</span><span class="sr-only">{% translate "Copy" %}</span></button></div>
+      <div class="mt-4 flex items-center gap-4">
+        <img src="{% url 'surveys:qr' q.pk %}" alt="{% translate 'QR code of the public link' %}" class="h-28 w-28 rounded-xl border border-rs-border bg-white p-1.5" loading="lazy">
+        <div class="flex flex-col gap-2"><a href="{% url 'surveys:qr' q.pk %}?download=1" class="rs-btn-secondary rs-btn-sm">{% icon "download" "h-4 w-4" %}{% translate "QR code" %}</a>{% if q.status == 'published' %}<a href="{{ public_link }}" target="_blank" rel="noopener" class="rs-btn-ghost rs-btn-sm">{% icon "link" "h-4 w-4" %}{% translate "Open" %}</a>{% endif %}</div>
+      </div>
+    </section>
+
+    <section class="rs-card rs-card-pad space-y-2 text-sm">
+      <h2 class="text-base font-semibold mb-2">{% translate "Configure" %}</h2>
+      <a href="{% url 'surveys:participant_fields' q.pk %}" class="flex items-center justify-between rounded-xl px-3 py-2 hover:bg-rs-raised text-rs-text"><span class="flex items-center gap-2">{% icon "users" "h-4 w-4 text-rs-royal" %}{% translate "Participant fields & consent" %}</span>{% icon "right" "h-4 w-4 text-rs-muted" %}</a>
+      <a href="{% url 'evaluation:criteria' q.pk %}" class="flex items-center justify-between rounded-xl px-3 py-2 hover:bg-rs-raised text-rs-text"><span class="flex items-center gap-2">{% icon "award" "h-4 w-4 text-rs-royal" %}{% translate "Evaluation criteria" %}</span>{% icon "right" "h-4 w-4 text-rs-muted" %}</a>
+      <a href="{% url 'surveys:responses' %}?questionnaire={{ q.pk }}" class="flex items-center justify-between rounded-xl px-3 py-2 hover:bg-rs-raised text-rs-text"><span class="flex items-center gap-2">{% icon "inbox" "h-4 w-4 text-rs-royal" %}{% translate "Responses" %}</span>{% icon "right" "h-4 w-4 text-rs-muted" %}</a>
+      <a href="{% url 'reports:exports' %}" class="flex items-center justify-between rounded-xl px-3 py-2 hover:bg-rs-raised text-rs-text"><span class="flex items-center gap-2">{% icon "download" "h-4 w-4 text-rs-royal" %}{% translate "Export data" %}</span>{% icon "right" "h-4 w-4 text-rs-muted" %}</a>
+      {% if not has_responses %}<div class="rs-divider my-2"></div><a href="{% url 'surveys:delete' q.pk %}" class="flex items-center gap-2 rounded-xl px-3 py-2 text-rs-danger hover:bg-rs-danger/10">{% icon "trash" "h-4 w-4" %}{% translate "Delete questionnaire" %}</a>{% endif %}
+    </section>
+  </aside>
+</div>
+{% endwith %}
+{% endblock %}

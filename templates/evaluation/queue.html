@@ -1,0 +1,31 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Response Evaluation" %}{% endblock %}
+{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Response Evaluation" %}</span>{% endblock %}
+{% block content %}
+<div class="mb-6"><p class="rs-eyebrow">{% translate "Evaluation" %}</p><h1 class="rs-title mt-1.5">{% translate "Response Evaluation" %}</h1><p class="rs-subtitle mt-1">{% translate "Evaluations are stored separately. Original participant answers are never changed." %}</p></div>
+<div class="rs-card">
+  <form method="get" class="rs-card-header">
+    <div class="flex flex-wrap gap-1.5">
+      <a href="?state=pending&questionnaire={{ qid }}" class="rs-btn rs-btn-sm {% if state == 'pending' %}bg-rs-navy/10 text-rs-navy{% else %}rs-btn-ghost{% endif %}">{% translate "Awaiting evaluation" %}</a>
+      <a href="?state=reviewed&questionnaire={{ qid }}" class="rs-btn rs-btn-sm {% if state == 'reviewed' %}bg-rs-navy/10 text-rs-navy{% else %}rs-btn-ghost{% endif %}">{% translate "Evaluated" %}</a>
+      <a href="?state=all&questionnaire={{ qid }}" class="rs-btn rs-btn-sm {% if state == 'all' %}bg-rs-navy/10 text-rs-navy{% else %}rs-btn-ghost{% endif %}">{% translate "All" %}</a>
+    </div>
+    <div class="flex gap-2"><input type="hidden" name="state" value="{{ state }}"><label for="eq" class="sr-only">{% translate "Questionnaire" %}</label>
+      <select id="eq" name="questionnaire" class="rs-input sm:w-72" x-data @change="$el.form.submit()"><option value="">{% translate "All questionnaires" %}</option>{% for q in questionnaires %}<option value="{{ q.pk }}" {% if qid == q.pk|stringformat:"s" %}selected{% endif %}>{{ q.title|truncatechars:50 }}</option>{% endfor %}</select>
+      {% if qid %}<a href="{% url 'evaluation:criteria' qid %}" class="rs-btn-secondary">{% translate "Criteria" %}</a>{% endif %}</div>
+  </form>
+  {% if page.object_list %}
+  <div class="rs-table-wrap"><table class="rs-table">
+    <thead><tr><th>ID</th><th>{% translate "Participant" %}</th><th>{% translate "Questionnaire" %}</th><th>{% translate "Submitted" %}</th><th>{% translate "Status" %}</th><th class="text-right">{% translate "Score" %}</th><th></th></tr></thead>
+    <tbody>{% for r in page %}<tr>
+      <td class="font-mono text-xs">{{ r.reference }}</td><td class="font-medium">{{ r.participant }}</td><td class="max-w-[260px]"><span class="line-clamp-1 text-sm">{{ r.questionnaire.title }}</span></td>
+      <td class="text-xs text-rs-muted whitespace-nowrap">{{ r.submitted_at|date:"Y-m-d H:i" }}</td>
+      <td>{% if r.evaluation %}<span class="{{ r.evaluation.status|status_badge }}">{{ r.evaluation.get_status_display }}</span>{% else %}<span class="rs-badge-draft">{% translate "Not started" %}</span>{% endif %}</td>
+      <td class="text-right tabular-nums">{% if r.evaluation.final_score is not None and r.evaluation %}{{ r.evaluation.final_score|floatformat:1 }}%{% else %}—{% endif %}</td>
+      <td class="text-right"><a href="{% url 'evaluation:evaluate' r.pk %}" class="rs-btn-gold rs-btn-sm">{% translate "Evaluate" %}</a></td></tr>{% endfor %}</tbody>
+  </table></div>
+  {% with querystring="state="|add:state|add:"&questionnaire="|add:qid %}{% include "includes/pagination.html" %}{% endwith %}
+  {% else %}{% translate "Nothing to evaluate here" as t %}{% translate "Completed responses appear in this queue." as tx %}{% include "includes/empty.html" with icon="award" title=t text=tx %}{% endif %}
+</div>
+{% endblock %}

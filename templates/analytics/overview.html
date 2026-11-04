@@ -1,0 +1,60 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags humanize %}
+{% block title %}{% translate "Statistical Analytics" %}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'analytics:overview_pick' %}">{% translate "Statistical Analytics" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium truncate max-w-[300px]">{{ questionnaire.title }}</span>{% endblock %}
+{% block content %}
+{% include "analytics/_tabs.html" with tab="overview" %}
+<section class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+  <div class="rs-stat"><span class="rs-stat-label">{% translate "Sample size (N)" %}</span><span class="rs-stat-value">{{ overview.N|intcomma }}</span><span class="text-xs text-rs-muted">{% translate "completed responses" %}</span></div>
+  <div class="rs-stat"><span class="rs-stat-label">{% translate "Started" %}</span><span class="rs-stat-value">{{ overview.started|intcomma }}</span><span class="text-xs text-rs-muted">{{ overview.incomplete }} {% translate "incomplete" %}</span></div>
+  <div class="rs-stat"><span class="rs-stat-label">{% translate "Completion rate" %}</span><span class="rs-stat-value">{{ overview.completion_rate|default:"—" }}{% if overview.completion_rate is not None %}<span class="text-base text-rs-muted">%</span>{% endif %}</span></div>
+  <div class="rs-stat"><span class="rs-stat-label">{% translate "Median time" %}</span><span class="rs-stat-value">{{ overview.median_minutes|default:"—" }}</span><span class="text-xs text-rs-muted">{% translate "minutes" %}</span></div>
+</section>
+{% if overview.N == 0 %}
+<div class="rs-card">{% translate "No completed responses yet" as t %}{% translate "Statistics appear as soon as participants submit the questionnaire. No sample or simulated data is ever shown." as tx %}{% include "includes/empty.html" with icon="chart" title=t text=tx %}</div>
+{% else %}
+<section class="rs-card rs-card-pad mb-6"><h2 class="text-base font-semibold mb-3">{% translate "Completed responses per day" %} <span class="text-xs font-normal text-rs-muted">N = {{ overview.N }}</span></h2>{% include "analytics/_chart.html" with chart_id="chart-timeline" height="200px" label="timeline" %}</section>
+<div class="space-y-5">
+{% for s in summaries %}{% with q=s.question %}
+  {% ifchanged q.section_id %}<h2 class="pt-4 text-xl font-semibold">{{ q.section.title }}</h2>{% endifchanged %}
+  <article class="rs-card" id="q{{ q.pk }}">
+    <header class="rs-card-header !items-start">
+      <div class="min-w-0"><p class="font-medium leading-snug"><span class="font-serif text-rs-accent font-semibold mr-1">{{ q.number }}</span>{{ q.text }}</p>
+        <p class="text-xs text-rs-muted mt-1"><span class="rs-badge-approved mr-1">{{ q.get_qtype_display }}</span> N = {{ s.N }} · n = {{ s.n }} · {% translate "missing" %} = {{ s.missing }}{% if s.missing_pct %} ({{ s.missing_pct }}%){% endif %}</p></div>
+    </header>
+    <div class="rs-card-pad grid {% if s.chart %}lg:grid-cols-2{% endif %} gap-6">
+      <div class="min-w-0">
+        {% if s.rows %}
+        <table class="rs-table"><thead><tr><th>{% translate "Answer" %}</th><th class="text-right">n</th><th class="text-right">%</th></tr></thead><tbody>
+          {% for r in s.rows %}<tr><td>{% if r.value is not None and q.qtype == 'likert' %}<span class="font-semibold mr-1">{{ r.value }}</span>{% endif %}{{ r.option }}<div class="mt-1.5 h-1.5 rounded-full bg-rs-border overflow-hidden"><span class="block h-full bg-rs-royal" style="width: {{ r.pct }}%"></span></div></td><td class="text-right tabular-nums">{{ r.count }}</td><td class="text-right tabular-nums">{{ r.pct }}</td></tr>{% endfor %}
+        </tbody></table>
+        <p class="text-xs text-rs-muted mt-2">{% translate "Percentages of" %} {{ s.pct_base }}.</p>
+        {% endif %}
+        {% if s.stats.mean is not None %}
+        <dl class="mt-4 grid grid-cols-3 sm:grid-cols-4 gap-3 text-sm">
+          <div><dt class="text-xs text-rs-muted">n</dt><dd class="font-semibold tabular-nums">{{ s.stats.n }}</dd></div>
+          <div><dt class="text-xs text-rs-muted">{% translate "Mean" %}</dt><dd class="font-semibold tabular-nums">{{ s.stats.mean }}</dd></div>
+          <div><dt class="text-xs text-rs-muted">{% translate "Median" %}</dt><dd class="font-semibold tabular-nums">{{ s.stats.median }}</dd></div>
+          <div><dt class="text-xs text-rs-muted">{% translate "Mode" %}</dt><dd class="font-semibold tabular-nums">{{ s.stats.mode|join:", "|default:"—" }}</dd></div>
+          <div><dt class="text-xs text-rs-muted">{% translate "SD" %}</dt><dd class="font-semibold tabular-nums">{{ s.stats.std|default:"—" }}</dd></div>
+          <div><dt class="text-xs text-rs-muted">{% translate "Variance" %}</dt><dd class="font-semibold tabular-nums">{{ s.stats.variance|default:"—" }}</dd></div>
+          <div><dt class="text-xs text-rs-muted">{% translate "Min" %}</dt><dd class="font-semibold tabular-nums">{{ s.stats.min }}</dd></div>
+          <div><dt class="text-xs text-rs-muted">{% translate "Max" %}</dt><dd class="font-semibold tabular-nums">{{ s.stats.max }}</dd></div>
+        </dl>{% endif %}
+        {% if s.matrix %}<div class="overflow-x-auto"><table class="rs-table"><thead><tr><th></th>{% for c in s.matrix.columns %}<th class="text-right">{{ c }}</th>{% endfor %}</tr></thead><tbody>{% for r in s.matrix.rows %}<tr><td>{{ r.row }}</td>{% for c in r.counts %}<td class="text-right tabular-nums">{{ c }}</td>{% endfor %}</tr>{% endfor %}</tbody></table></div>{% endif %}
+        {% if s.ranking %}<table class="rs-table"><thead><tr><th>{% translate "Option" %}</th><th class="text-right">n</th><th class="text-right">{% translate "Mean rank" %}</th><th class="text-right">{% translate "Ranked first" %}</th></tr></thead><tbody>{% for r in s.ranking %}<tr><td>{{ r.option }}</td><td class="text-right">{{ r.n }}</td><td class="text-right">{{ r.mean_rank|default:"—" }}</td><td class="text-right">{{ r.first }}</td></tr>{% endfor %}</tbody></table>{% endif %}
+        {% if s.texts %}
+          <p class="text-sm text-rs-muted">{% blocktranslate with n=s.stats.n w=s.stats.mean_words %}{{ n }} text answers, on average {{ w }} words.{% endblocktranslate %} <a href="{% url 'analytics:intelligence' questionnaire.pk %}#open-{{ q.pk }}">{% translate "Open-ended analysis" %}</a></p>
+          <ul class="mt-3 space-y-2 max-h-72 overflow-y-auto pr-2">{% for rid, t in s.texts|slice:":12" %}<li class="rounded-xl bg-rs-raised px-3 py-2 text-sm"><a href="{% url 'surveys:response_detail' rid %}" class="font-mono text-[11px] mr-1">R-{{ rid|stringformat:"06d" }}</a>{{ t|truncatechars:280 }}</li>{% endfor %}</ul>
+        {% endif %}
+        {% if s.other_texts %}<details class="mt-3 text-sm"><summary class="cursor-pointer text-rs-royal">{% translate "“Other” answers" %} ({{ s.other_texts|length }})</summary><ul class="mt-2 space-y-1">{% for rid, t in s.other_texts %}<li><a href="{% url 'surveys:response_detail' rid %}" class="font-mono text-[11px] mr-1">R-{{ rid|stringformat:"06d" }}</a>{{ t }}</li>{% endfor %}</ul></details>{% endif %}
+        {% if s.type == 'date' and s.stats.n %}<p class="text-sm">{{ s.stats.min }} — {{ s.stats.max }}</p>{% endif %}
+      </div>
+      {% if s.chart %}<div>{% include "analytics/_chart.html" with chart_id=s.chart_id label=q.text %}</div>{% endif %}
+    </div>
+  </article>
+{% endwith %}{% endfor %}
+</div>
+{% endif %}
+{% include "includes/charts_data.html" %}
+{% endblock %}

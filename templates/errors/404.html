@@ -1,0 +1,9 @@
+{% extends "base_public.html" %}{% load i18n rs_tags %}
+{% block title %}404{% endblock %}
+{% block error_content %}
+<div class="rs-empty-icon mx-auto mb-5">{% icon "search" "h-6 w-6" %}</div>
+<p class="rs-eyebrow">404</p>
+<h1 class="rs-title mt-2">{% translate "Page not found" %}</h1>
+<p class="text-rs-muted mt-3">{% translate "The page or questionnaire you are looking for does not exist or is not available." %}</p>
+<a href="{% url 'core:home' %}" class="rs-btn-primary mt-8">{% translate "Back to homepage" %}</a>
+{% endblock %}

@@ -1,0 +1,43 @@
+{% extends "base_app.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Evaluate" %} {{ response.reference }}{% endblock %}
+{% block breadcrumbs %}<a href="{% url 'evaluation:queue' %}">{% translate "Response Evaluation" %}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium font-mono">{{ response.reference }}</span>{% endblock %}
+{% block content %}
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6">
+  <div><p class="rs-eyebrow">{{ response.questionnaire.title|truncatechars:90 }}</p><h1 class="rs-title mt-1.5">{% translate "Evaluate" %} <span class="font-mono">{{ response.reference }}</span></h1><p class="rs-subtitle mt-1">{{ response.participant }} · {{ response.submitted_at|date:"Y-m-d H:i" }}</p></div>
+  <a href="{{ response.get_absolute_url }}" class="rs-btn-secondary">{% translate "Open response" %}</a>
+</div>
+<div class="grid xl:grid-cols-[1fr_420px] gap-6 items-start">
+  <section class="rs-card order-2 xl:order-1"><div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Original answers" %}</h2><span class="rs-badge-draft">{% icon "lock" "h-3 w-3" %}{% translate "Read-only" %}</span></div>{% include "surveys/_answers.html" %}</section>
+  <div class="order-1 xl:order-2 space-y-5 xl:sticky xl:top-24">
+    <form method="post" class="rs-card" novalidate>
+      {% csrf_token %}
+      <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Evaluation" %}</h2>{% if evaluation %}<span class="text-xs text-rs-muted">v{{ evaluation.version }}</span>{% endif %}</div>
+      <div class="rs-card-pad space-y-5">
+        {% if errors %}<div class="rs-alert-danger" role="alert"><ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+        {% if rows %}
+          {% for row in rows %}
+          <div><label for="score-{{ row.criterion.pk }}" class="rs-label flex justify-between"><span>{{ row.criterion.name }}</span><span class="text-xs text-rs-muted font-normal">{% translate "max" %} {{ row.criterion.max_score|floatformat:"-2" }} · {% translate "weight" %} {{ row.criterion.weight|floatformat:"-2" }}</span></label>
+            <input id="score-{{ row.criterion.pk }}" name="score_{{ row.criterion.pk }}" type="number" step="0.01" min="0" max="{{ row.criterion.max_score|stringformat:'s' }}" inputmode="decimal" value="{{ row.value|default_if_none:''|stringformat:'s' }}" class="rs-input">
+            {% if row.criterion.description %}<p class="rs-help">{{ row.criterion.description }}</p>{% endif %}</div>
+          {% endfor %}
+          <p class="text-xs text-rs-muted">{% translate "Final score = Σ(score ÷ max × weight) ÷ Σweight × 100, calculated when all criteria are scored." %}</p>
+        {% else %}
+          <div class="rs-alert-info text-sm">{% icon "info" "h-5 w-5 shrink-0 text-rs-royal" %}<p>{% translate "No evaluation criteria are defined for this questionnaire yet." %} <a href="{% url 'evaluation:criteria' response.questionnaire.pk %}">{% translate "Define criteria" %}</a></p></div>
+        {% endif %}
+        <div><label for="ev-comment" class="rs-label">{% translate "Scientific comment" %}</label><textarea id="ev-comment" name="comment" rows="4" class="rs-input">{% if request.method == 'POST' %}{{ request.POST.comment }}{% else %}{{ evaluation.comment }}{% endif %}</textarea></div>
+        <div><label for="ev-rec" class="rs-label">{% translate "Recommendations" %}</label><textarea id="ev-rec" name="recommendations" rows="3" class="rs-input">{% if request.method == 'POST' %}{{ request.POST.recommendations }}{% else %}{{ evaluation.recommendations }}{% endif %}</textarea></div>
+        <label class="flex items-center gap-3 text-sm font-medium"><input type="checkbox" name="reviewed" class="rs-checkbox" {% if evaluation.status == 'reviewed' %}checked{% endif %}>{% translate "Mark as reviewed" %}</label>
+        <div class="flex flex-wrap gap-2"><button class="rs-btn-primary">{% translate "Save evaluation" %}</button><button name="next" value="queue" class="rs-btn-secondary">{% translate "Save and back to queue" %}</button></div>
+        {% if evaluation %}<p class="text-sm">{% translate "Final score" %}: <strong class="font-serif text-xl text-rs-navy">{% if evaluation.final_score is not None %}{{ evaluation.final_score|floatformat:2 }}%{% else %}—{% endif %}</strong></p>{% endif %}
+      </div>
+    </form>
+    {% if history %}
+    <section class="rs-card" x-data="{open:false}">
+      <button type="button" class="rs-card-header w-full text-left" @click="open=!open" :aria-expanded="open"><h2 class="text-base font-semibold flex items-center gap-2">{% icon "history" "h-4 w-4" %}{% translate "Evaluation history" %}</h2>{% icon "down" "h-4 w-4" %}</button>
+      <ol x-show="open" x-cloak class="divide-y divide-rs-border text-sm">{% for h in history %}<li class="px-5 py-3"><p class="font-medium">v{{ h.version }} · {{ h.changed_at|date:"Y-m-d H:i" }} · {{ h.changed_by }}</p><p class="text-xs text-rs-muted mt-0.5">{% translate "Score" %}: {{ h.snapshot.final_score|default:"—" }} · {{ h.snapshot.status }}</p>{% if h.snapshot.comment %}<p class="text-xs mt-1 line-clamp-2">{{ h.snapshot.comment }}</p>{% endif %}</li>{% endfor %}</ol>
+    </section>
+    {% endif %}
+  </div>
+</div>
+{% endblock %}
