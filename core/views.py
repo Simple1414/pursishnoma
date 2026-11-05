@@ -12,7 +12,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
 from evaluation.models import Evaluation
-from surveys.models import Questionnaire, SurveyResponse
+from surveys.models import Participant, Questionnaire, SurveyResponse
 
 from .audit import log_action
 from .forms import LoginForm, SiteSettingsForm, UserCreateForm, UserUpdateForm
@@ -25,15 +25,32 @@ logger = logging.getLogger(__name__)
 
 def home(request):
     site = SiteSettings.load()
+    public = Questionnaire.objects.filter(status__in=[Questionnaire.Status.PUBLISHED, Questionnaire.Status.CLOSED])
     public_stats = None
     if site.show_public_statistics:
         public_stats = {
-            "studies": Questionnaire.objects.filter(status__in=[Questionnaire.Status.PUBLISHED, Questionnaire.Status.CLOSED]).count(),
-            "responses": SurveyResponse.objects.filter(status=SurveyResponse.Status.COMPLETED).count(),
-            "open": Questionnaire.objects.published().count(),
+            "studies": public.count(),
+            "participants": Participant.objects.filter(questionnaire__in=public).count(),
+            "responses": SurveyResponse.objects.filter(
+                questionnaire__in=public, status=SurveyResponse.Status.COMPLETED
+            ).count(),
+            "open": sum(1 for q in Questionnaire.objects.published() if q.accepting_responses()),
         }
-    open_studies = [q for q in Questionnaire.objects.published().order_by("-published_at")[:6] if q.accepting_responses()]
+    candidates = (
+        Questionnaire.objects.published()
+        .annotate(
+            n_completed=Count("responses", filter=Q(responses__status=SurveyResponse.Status.COMPLETED), distinct=True),
+            n_questions=Count("questions", distinct=True),
+        )
+        .order_by("-published_at")[:6]
+    )
+    open_studies = [q for q in candidates if q.accepting_responses()]
     return render(request, "core/home.html", {"public_stats": public_stats, "open_studies": open_studies})
+
+
+def privacy(request):
+    """Public privacy notice describing how participant data is handled."""
+    return render(request, "core/privacy.html")
 
 
 def guide(request):

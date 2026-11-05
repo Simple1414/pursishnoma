@@ -11,6 +11,7 @@ import matplotlib
 
 matplotlib.use("Agg")
 from matplotlib.figure import Figure  # noqa: E402  (thread-safe, unlike pyplot)
+from django.conf import settings  # noqa: E402
 from django.utils import timezone  # noqa: E402
 from django.utils.translation import gettext as _  # noqa: E402
 from docx import Document as DocxDocument  # noqa: E402
@@ -91,7 +92,7 @@ def build_xlsx(questionnaire) -> tuple[bytes, int]:
         (_("Questionnaire"), questionnaire.title),
         (_("Exported at"), timezone.localtime().strftime("%Y-%m-%d %H:%M")),
         (_("Completed responses (N)"), ds.n),
-        (_("Source"), "ResearchSurvey / PostgreSQL"),
+        (_("Source"), f"{settings.PLATFORM_NAME} / PostgreSQL"),
     ):
         meta.append([str(row[0]), datasets.safe_cell(row[1])])
     buf = io.BytesIO()
@@ -252,8 +253,10 @@ def report_blocks(report) -> list[Block]:
     blocks.append(
         Block(
             "p",
-            _("Instrument: %(q)s questions in %(s)s sections (%(t)s). Data were collected online with ResearchSurvey; statistics were computed from stored responses.")
-            % {"q": len(ds.questions), "s": qn.sections.count(), "t": ", ".join(f"{k}: {v}" for k, v in type_counts.items())},
+            (
+                _("Instrument: %(q)s questions in %(s)s sections (%(t)s). Data were collected online with ResearchSurvey; statistics were computed from stored responses.")
+                % {"q": len(ds.questions), "s": qn.sections.count(), "t": ", ".join(f"{k}: {v}" for k, v in type_counts.items())}
+            ).replace("ResearchSurvey", settings.PLATFORM_NAME),
         )
     )
     blocks.append(Block("h2", "3. " + _("Participants and sample")))
@@ -418,9 +421,10 @@ def _pdf_styles():
     }
 
 
-def blocks_to_pdf(blocks: list[Block], title: str = "ResearchSurvey") -> bytes:
+def blocks_to_pdf(blocks: list[Block], title: str = "") -> bytes:
+    title = title or settings.PLATFORM_NAME
     buf = io.BytesIO()
-    doc = SimpleDocTemplate(buf, pagesize=A4, leftMargin=2.2 * cm, rightMargin=1.6 * cm, topMargin=1.8 * cm, bottomMargin=1.8 * cm, title=title, author="ResearchSurvey")
+    doc = SimpleDocTemplate(buf, pagesize=A4, leftMargin=2.2 * cm, rightMargin=1.6 * cm, topMargin=1.8 * cm, bottomMargin=1.8 * cm, title=title, author=settings.PLATFORM_NAME)
     st = _pdf_styles()
     story: list = []
     for b in blocks:
@@ -458,7 +462,7 @@ def blocks_to_pdf(blocks: list[Block], title: str = "ResearchSurvey") -> bytes:
         canvas.saveState()
         canvas.setFont("DejaVu", 7.5)
         canvas.setFillColor(colors.HexColor("#64748B"))
-        canvas.drawString(2.2 * cm, 1.1 * cm, f"ResearchSurvey · {title[:90]}")
+        canvas.drawString(2.2 * cm, 1.1 * cm, f"{settings.PLATFORM_NAME} · {title[:90]}")
         canvas.drawRightString(A4[0] - 1.6 * cm, 1.1 * cm, str(document.page))
         canvas.restoreState()
 

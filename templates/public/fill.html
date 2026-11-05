@@ -2,6 +2,7 @@
 {% load i18n rs_tags %}
 {% block title %}{{ questionnaire.title }}{% endblock %}
 {% block public_nav %}{% endblock %}
+{% block mobile_menu %}{% endblock %}
 {% block header_cta %}{% endblock %}
 {% block content %}
 <div x-data="survey({ total: {{ sections|length }}, questions: {{ total_questions }}, saveUrl: '{% if not preview %}{% url 'public:autosave' questionnaire.public_id %}{% endif %}', preview: {% if preview %}true{% else %}false{% endif %}, errorStep: {{ error_step|default:'null' }} })" class="max-w-3xl mx-auto px-4 sm:px-6 pb-36 pt-6 sm:pt-10">

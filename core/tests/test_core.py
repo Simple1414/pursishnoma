@@ -10,7 +10,7 @@ class PublicPagesTests(TestCase):
     def test_homepage(self):
         make_questionnaire(make_user("alice"), title="Open study")
         r = self.client.get(reverse("core:home"))
-        self.assertContains(r, "ResearchSurvey")
+        self.assertContains(r, "Андеша")
         self.assertContains(r, "Open study")
         self.assertIn("Content-Security-Policy", r.headers)
         self.assertEqual(r.headers["X-Frame-Options"], "DENY")

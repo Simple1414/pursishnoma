@@ -3,13 +3,14 @@
 {% block title %}{% translate "Sign in" %}{% endblock %}
 {% block header_cta %}{% endblock %}
 {% block public_nav %}{% endblock %}
+{% block mobile_menu %}{% endblock %}
 {% block content %}
 <section class="min-h-[calc(100vh-8rem)] grid lg:grid-cols-2">
-  <div class="hidden lg:flex flex-col justify-between bg-[#0E2238] text-slate-200 p-12 relative overflow-hidden">
-    <div aria-hidden="true" class="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-[#C6A15B]/15 blur-3xl"></div>
-    <p class="rs-eyebrow !text-[#C6A15B]">ResearchSurvey</p>
+  <div class="hidden lg:flex flex-col justify-between bg-[#0B1528] text-slate-200 p-12 relative overflow-hidden">
+    <div aria-hidden="true" class="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-[#2563EB]/25 blur-3xl"></div>
+    <p class="rs-eyebrow !text-[#93C5FD]">{{ platform_name }}</p>
     <div class="relative">
-      <p class="font-serif text-4xl leading-tight text-white">{% translate "Rigorous data. Transparent analysis. Credible conclusions." %}</p>
+      <p class="text-4xl font-bold tracking-tight leading-tight text-white">{% translate "Rigorous data. Transparent analysis. Credible conclusions." %}</p>
       <p class="mt-5 text-slate-300 max-w-md">{{ site_settings.tagline|default:_("Intelligent Platform for Scientific Research and Survey Analytics") }}</p>
     </div>
     <p class="text-xs text-slate-400">© {% now "Y" %} {{ site_settings.organization_name }}</p>

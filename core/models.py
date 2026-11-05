@@ -55,7 +55,7 @@ class AuditLog(models.Model):
 class SiteSettings(models.Model):
     """Singleton with public-facing organisation details."""
 
-    organization_name = models.CharField(_("organization name"), max_length=255, default="ResearchSurvey")
+    organization_name = models.CharField(_("organization name"), max_length=255, default="Андеша")
     tagline = models.CharField(
         _("tagline"), max_length=255, blank=True, help_text=_("Leave empty to use the translated default tagline.")
     )

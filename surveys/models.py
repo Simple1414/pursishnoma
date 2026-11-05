@@ -56,6 +56,11 @@ class Questionnaire(models.Model):
     objective = models.TextField(_("research objective"), blank=True)
     author = models.CharField(_("research author"), max_length=255, blank=True)
     instructions = models.TextField(_("participation instructions"), blank=True)
+    show_institution_emblem = models.BooleanField(
+        _("show the university emblem on the start page"),
+        default=False,
+        help_text=_("Displays the emblem of Bokhtar State University above the title for participants."),
+    )
     consent_text = models.TextField(_("informed consent statement"), blank=True)
     require_consent = models.BooleanField(_("require informed consent"), default=True)
     completion_message = models.TextField(_("completion message"), blank=True)

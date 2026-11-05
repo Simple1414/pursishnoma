@@ -2,35 +2,70 @@
 {% load i18n static rs_tags %}
 {% block body_class %}min-h-screen flex flex-col{% endblock %}
 {% block body %}
-<header class="no-print sticky top-0 z-30 bg-rs-surface/85 backdrop-blur border-b border-rs-border">
-  <div class="max-w-6xl mx-auto h-16 px-4 sm:px-6 flex items-center gap-3">
-    <a href="{% url 'core:home' %}" class="flex items-center gap-2.5 text-rs-navy hover:no-underline" aria-label="ResearchSurvey">
-      <img src="{% static 'img/logo-mark.svg' %}" alt="" class="h-8 w-8">
-      <span class="font-serif text-lg font-semibold">ResearchSurvey</span>
+<header class="no-print sticky top-0 z-40 border-b border-rs-border/80 bg-rs-surface/80 backdrop-blur-xl supports-[backdrop-filter]:bg-rs-surface/70"
+        x-data="{ open: false }" @keydown.escape.window="open = false">
+  <div class="rs-container flex h-16 items-center gap-3 lg:h-[72px]">
+    <a href="{% url 'core:home' %}" class="group flex items-center gap-2.5 text-rs-navy hover:no-underline" aria-label="{{ platform_name }} — {% translate 'home page' %}">
+      <img src="{% static 'img/logo-mark.svg' %}" alt="" width="36" height="36" class="h-9 w-9 transition duration-300 group-hover:rotate-[-4deg] group-hover:scale-105">
+      <span class="flex flex-col leading-none">
+        <span class="text-[19px] font-bold tracking-[-0.02em]">{{ platform_name }}</span>
+        <span class="mt-1 hidden whitespace-nowrap text-[10.5px] font-semibold uppercase tracking-[0.14em] text-rs-muted sm:block">{% translate "Research platform" %}</span>
+      </span>
     </a>
+
     {% block public_nav %}
-    <nav class="hidden md:flex items-center gap-6 ml-8 text-sm font-medium" aria-label="{% translate 'Main navigation' %}">
-      <a class="text-rs-muted hover:text-rs-navy" href="{% url 'core:home' %}#about">{% translate "About" %}</a>
-      <a class="text-rs-muted hover:text-rs-navy" href="{% url 'core:home' %}#research">{% translate "Research" %}</a>
-      <a class="text-rs-muted hover:text-rs-navy" href="{% url 'core:home' %}#participate">{% translate "Participate" %}</a>
-      <a class="text-rs-muted hover:text-rs-navy" href="{% url 'core:home' %}#contact">{% translate "Contact" %}</a>
+    <nav class="ml-6 hidden items-center gap-0.5 xl:flex" aria-label="{% translate 'Main navigation' %}">
+      <a class="rs-navlink" href="{% url 'core:home' %}#top">{% translate "Home" %}</a>
+      <a class="rs-navlink" href="{% url 'core:home' %}#research">{% translate "Research" %}</a>
+      <a class="rs-navlink" href="{% url 'core:home' %}#features">{% translate "Features" %}</a>
+      <a class="rs-navlink" href="{% url 'core:home' %}#analytics">{% translate "Analytics" %}</a>
+      <a class="rs-navlink" href="{% url 'core:home' %}#how">{% translate "How it works" %}</a>
     </nav>
     {% endblock %}
-    <div class="ml-auto flex items-center gap-1.5">
-      {% include "includes/language_switcher.html" %}
-      <button type="button" class="rs-btn-ghost rs-btn-sm" @click="$store.ui.toggleTheme()" :aria-label="$store.ui.dark ? '{% translate "Light mode" %}' : '{% translate "Dark mode" %}'">
+
+    <div class="ml-auto flex items-center gap-1.5 sm:gap-2">
+      <div class="hidden sm:block">{% include "includes/language_switcher.html" %}</div>
+      <button type="button" class="rs-btn-ghost rs-btn-sm !h-9 !w-9 !p-0" @click="$store.ui.toggleTheme()" :aria-label="$store.ui.dark ? '{% translate "Light mode" %}' : '{% translate "Dark mode" %}'" aria-label="{% translate 'Dark mode' %}">
         <span x-show="!$store.ui.dark">{% icon "moon" "h-[18px] w-[18px]" %}</span><span x-show="$store.ui.dark" x-cloak>{% icon "sun" "h-[18px] w-[18px]" %}</span>
       </button>
       {% block header_cta %}
       {% if user.is_authenticated and user.is_staff_member %}
-        <a href="{% url 'core:dashboard' %}" class="rs-btn-navy rs-btn-sm hidden sm:inline-flex">{% translate "Dashboard" %}</a>
+        <a href="{% url 'core:dashboard' %}" class="rs-btn-navy rs-btn-sm hidden !h-9 !px-4 md:inline-flex">{% translate "Dashboard" %}</a>
       {% else %}
-        <a href="{% url 'login' %}" class="rs-btn-secondary rs-btn-sm hidden sm:inline-flex">{% translate "Researcher sign in" %}</a>
+        <a href="{% url 'login' %}" class="rs-btn-ghost rs-btn-sm hidden !h-9 !px-3 !text-rs-text md:inline-flex">{% translate "Sign in" %}</a>
       {% endif %}
+      <a href="{% url 'surveys:create' %}" class="rs-btn-cta rs-btn-sm hidden !h-9 !px-4 md:inline-flex">{% icon "plus" "h-4 w-4" %}{% translate "Create research" %}</a>
+      <button type="button" class="rs-btn-secondary rs-btn-sm !h-10 !w-10 !p-0 xl:hidden" @click="open = !open" :aria-expanded="open.toString()" aria-expanded="false" aria-controls="mobile-menu">
+        <span class="sr-only">{% translate "Menu" %}</span>
+        <span x-show="!open">{% icon "menu" "h-5 w-5" %}</span><span x-show="open" x-cloak>{% icon "x" "h-5 w-5" %}</span>
+      </button>
       {% endblock %}
     </div>
   </div>
+
+  {% block mobile_menu %}
+  <div id="mobile-menu" x-show="open" x-cloak x-transition.opacity.duration.200ms @click.outside="open = false"
+       class="border-t border-rs-border bg-rs-surface xl:hidden">
+    <nav class="rs-container flex flex-col py-3" aria-label="{% translate 'Mobile navigation' %}" @click="if ($event.target.closest('a')) open = false">
+      <a class="rounded-xl px-3 py-3 text-[15px] font-medium text-rs-text hover:bg-rs-raised hover:no-underline" href="{% url 'core:home' %}#top">{% translate "Home" %}</a>
+      <a class="rounded-xl px-3 py-3 text-[15px] font-medium text-rs-text hover:bg-rs-raised hover:no-underline" href="{% url 'core:home' %}#research">{% translate "Research" %}</a>
+      <a class="rounded-xl px-3 py-3 text-[15px] font-medium text-rs-text hover:bg-rs-raised hover:no-underline" href="{% url 'core:home' %}#features">{% translate "Features" %}</a>
+      <a class="rounded-xl px-3 py-3 text-[15px] font-medium text-rs-text hover:bg-rs-raised hover:no-underline" href="{% url 'core:home' %}#analytics">{% translate "Analytics" %}</a>
+      <a class="rounded-xl px-3 py-3 text-[15px] font-medium text-rs-text hover:bg-rs-raised hover:no-underline" href="{% url 'core:home' %}#how">{% translate "How it works" %}</a>
+      <div class="mt-2 border-t border-rs-border pt-4 sm:hidden">{% include "includes/language_switcher.html" %}</div>
+      <div class="mt-4 grid grid-cols-2 gap-2 pb-2">
+        {% if user.is_authenticated and user.is_staff_member %}
+        <a href="{% url 'core:dashboard' %}" class="rs-btn-secondary !py-3">{% translate "Dashboard" %}</a>
+        {% else %}
+        <a href="{% url 'login' %}" class="rs-btn-secondary !py-3">{% translate "Sign in" %}</a>
+        {% endif %}
+        <a href="{% url 'surveys:create' %}" class="rs-btn-cta !py-3">{% translate "Create research" %}</a>
+      </div>
+    </nav>
+  </div>
+  {% endblock %}
 </header>
+
 <main id="main" class="flex-1">
   {% block content %}
   <section class="max-w-xl mx-auto px-4 py-24 text-center">
@@ -38,11 +73,49 @@
   </section>
   {% endblock %}
 </main>
+
 {% block footer %}
-<footer class="no-print border-t border-rs-border bg-rs-surface">
-  <div class="max-w-6xl mx-auto px-4 sm:px-6 py-8 flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between text-sm text-rs-muted">
-    <div class="flex items-center gap-2.5"><img src="{% static 'img/logo-mark.svg' %}" alt="" class="h-6 w-6"><span>© {% now "Y" %} {{ site_settings.organization_name }}</span></div>
-    <p>{% translate "Intelligent Platform for Scientific Research and Survey Analytics" %}</p>
+<footer id="contact" class="no-print relative overflow-hidden bg-[#0B1528] text-slate-300">
+  <div aria-hidden="true" class="pointer-events-none absolute -top-40 left-1/2 h-80 w-[720px] -translate-x-1/2 rounded-full bg-[#2563EB]/20 blur-3xl"></div>
+  <div class="rs-container relative grid gap-10 py-14 sm:py-16 md:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
+    <div>
+      <a href="{% url 'core:home' %}" class="flex items-center gap-2.5 text-white hover:no-underline">
+        <img src="{% static 'img/logo-mark.svg' %}" alt="" width="36" height="36" class="h-9 w-9 rounded-[10px] ring-1 ring-white/15">
+        <span class="text-xl font-bold tracking-[-0.02em]">{{ platform_name }}</span>
+      </a>
+      <p class="mt-4 max-w-xs text-sm leading-relaxed text-slate-400">{% translate "A digital platform for designing, conducting and analysing scientific and social research." %}</p>
+    </div>
+    <nav aria-label="{% translate 'Platform' %}">
+      <p class="text-[12px] font-semibold uppercase tracking-[0.14em] text-white">{% translate "Platform" %}</p>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        <li><a class="text-slate-400 transition hover:text-white" href="{% url 'core:home' %}#research">{% translate "Open studies" %}</a></li>
+        <li><a class="text-slate-400 transition hover:text-white" href="{% url 'core:home' %}#features">{% translate "Features" %}</a></li>
+        <li><a class="text-slate-400 transition hover:text-white" href="{% url 'core:guide' %}">{% translate "Video guide" %}</a></li>
+        <li><a class="text-slate-400 transition hover:text-white" href="{% url 'login' %}">{% translate "Researcher sign in" %}</a></li>
+      </ul>
+    </nav>
+    <nav aria-label="{% translate 'Documents' %}">
+      <p class="text-[12px] font-semibold uppercase tracking-[0.14em] text-white">{% translate "Documents" %}</p>
+      <ul class="mt-4 space-y-2.5 text-sm">
+        <li><a class="text-slate-400 transition hover:text-white" href="{% url 'core:privacy' %}">{% translate "Privacy policy" %}</a></li>
+        <li><a class="text-slate-400 transition hover:text-white" href="{% url 'core:privacy' %}#consent">{% translate "Informed consent" %}</a></li>
+      </ul>
+    </nav>
+    <div>
+      <p class="text-[12px] font-semibold uppercase tracking-[0.14em] text-white">{% translate "Contact" %}</p>
+      <ul class="mt-4 space-y-3 text-sm">
+        {% if site_settings.contact_email %}<li class="flex items-center gap-2.5">{% icon "mail" "h-4 w-4 text-[#60A5FA]" %}<a class="text-slate-300 hover:text-white" href="mailto:{{ site_settings.contact_email }}">{{ site_settings.contact_email }}</a></li>{% endif %}
+        {% if site_settings.contact_phone %}<li class="flex items-center gap-2.5">{% icon "phone" "h-4 w-4 text-[#60A5FA]" %}<a class="text-slate-300 hover:text-white" href="tel:{{ site_settings.contact_phone|cut:' ' }}">{{ site_settings.contact_phone }}</a></li>{% endif %}
+        {% if site_settings.address %}<li class="flex items-start gap-2.5">{% icon "pin" "mt-0.5 h-4 w-4 shrink-0 text-[#60A5FA]" %}<span>{{ site_settings.address }}</span></li>{% endif %}
+        {% if not site_settings.contact_email and not site_settings.contact_phone and not site_settings.address %}<li class="text-slate-400">{% translate "Contact details will be published by the administrator." %}</li>{% endif %}
+      </ul>
+    </div>
+  </div>
+  <div class="relative border-t border-white/10">
+    <div class="rs-container flex flex-col gap-2 py-6 text-[13px] text-slate-400 sm:flex-row sm:items-center sm:justify-between">
+      <span>© {% now "Y" %} {{ platform_name }}. {% translate "All rights reserved." %}</span>
+      <span class="italic text-slate-300">{% translate "Science is the driving force of society’s progress" %}</span>
+    </div>
   </div>
 </footer>
 {% endblock %}

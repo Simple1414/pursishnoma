@@ -1,0 +1,37 @@
+{% extends "base_public.html" %}
+{% load i18n rs_tags %}
+{% block title %}{% translate "Privacy policy" %}{% endblock %}
+{% block content %}
+<section class="relative isolate border-b border-rs-border bg-rs-surface">
+  <div aria-hidden="true" class="rs-grid-bg pointer-events-none absolute inset-0 -z-10 opacity-60 dark:opacity-25"></div>
+  <div class="rs-container py-14 sm:py-20">
+    <span class="rs-kicker"><span class="rs-kicker-dot"></span>{% translate "Documents" %}</span>
+    <h1 class="mt-5 text-4xl font-bold tracking-[-0.03em] sm:text-5xl">{% translate "Privacy policy" %}</h1>
+    <p class="rs-lead mt-4 max-w-2xl">{% blocktranslate with name=platform_name %}How {{ name }} collects, stores and uses the information of research participants.{% endblocktranslate %}</p>
+  </div>
+</section>
+<div class="rs-container py-12 sm:py-16">
+  <div class="mx-auto max-w-3xl space-y-5">
+    <section class="rs-card p-6 sm:p-8">
+      <h2 class="flex items-center gap-3 text-xl font-semibold"><span class="rs-tile-icon !h-10 !w-10">{% icon "users" "h-5 w-5" %}</span>{% translate "What we collect" %}</h2>
+      <p class="rs-justify mt-4 leading-7 text-rs-text/85">{% translate "Only your answers and the participant fields that the researcher enabled for a study (for example your status, institution or year of study). Your name is not asked unless a study explicitly requires it." %}</p>
+    </section>
+    <section id="consent" class="rs-card p-6 sm:p-8">
+      <h2 class="flex items-center gap-3 text-xl font-semibold"><span class="rs-tile-icon !h-10 !w-10">{% icon "check" "h-5 w-5" %}</span>{% translate "Informed consent" %}</h2>
+      <p class="rs-justify mt-4 leading-7 text-rs-text/85">{% translate "Before a questionnaire begins, its purpose and conditions are shown and you confirm your voluntary participation. You may stop at any moment; you may leave any question unanswered unless it is marked as required." %}</p>
+    </section>
+    <section class="rs-card p-6 sm:p-8">
+      <h2 class="flex items-center gap-3 text-xl font-semibold"><span class="rs-tile-icon !h-10 !w-10">{% icon "chart" "h-5 w-5" %}</span>{% translate "How the data are used" %}</h2>
+      <p class="rs-justify mt-4 leading-7 text-rs-text/85">{% translate "Answers are used only for scientific analysis and are published in aggregate form. They are not passed to third parties. Only the researchers of a study and the platform administrators can open its responses." %}</p>
+    </section>
+    <section class="rs-card p-6 sm:p-8">
+      <h2 class="flex items-center gap-3 text-xl font-semibold"><span class="rs-tile-icon !h-10 !w-10">{% icon "lock" "h-5 w-5" %}</span>{% translate "Storage and security" %}</h2>
+      <p class="rs-justify mt-4 leading-7 text-rs-text/85">{% translate "Data are stored in a protected PostgreSQL database and transmitted over an encrypted connection (HTTPS). Submitted answers cannot be changed, and staff actions such as data exports are recorded in an audit log." %}</p>
+    </section>
+    <section class="rs-card p-6 sm:p-8">
+      <h2 class="flex items-center gap-3 text-xl font-semibold"><span class="rs-tile-icon !h-10 !w-10">{% icon "mail" "h-5 w-5" %}</span>{% translate "Questions" %}</h2>
+      <p class="rs-justify mt-4 leading-7 text-rs-text/85">{% translate "For questions about a study or your data, contact the researcher who sent you the link." %}{% if site_settings.contact_email %} {% translate "You can also write to" %} <a href="mailto:{{ site_settings.contact_email }}">{{ site_settings.contact_email }}</a>.{% endif %}</p>
+    </section>
+  </div>
+</div>
+{% endblock %}

@@ -1,16 +1,42 @@
 {% extends "base_public.html" %}
-{% load i18n rs_tags %}
+{% load i18n static rs_tags %}
 {% block title %}{{ questionnaire.title }}{% endblock %}
 {% block public_nav %}{% endblock %}
+{% block header_cta %}{% endblock %}
+{% block mobile_menu %}{% endblock %}
 {% block content %}
-<div class="max-w-3xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-  <p class="rs-eyebrow">{% translate "Scientific questionnaire" %}</p>
-  <h1 class="font-serif text-3xl sm:text-[2.4rem] leading-tight font-semibold mt-3">{{ questionnaire.title }}</h1>
-  <div class="mt-4 flex flex-wrap gap-x-6 gap-y-2 text-sm text-rs-muted">
-    {% if questionnaire.author %}<span class="inline-flex items-center gap-1.5">{% icon "book" "h-4 w-4" %}{{ questionnaire.author }}</span>{% endif %}
-    <span class="inline-flex items-center gap-1.5">{% icon "clock" "h-4 w-4" %}{% blocktranslate with m=questionnaire.estimated_minutes %}About {{ m }} minutes{% endblocktranslate %}</span>
-    <span class="inline-flex items-center gap-1.5">{% icon "shield" "h-4 w-4" %}{% if questionnaire.participant_fields.all|length == 0 %}{% translate "Anonymous" %}{% else %}{% translate "Confidential" %}{% endif %}</span>
-  </div>
+<div class="relative isolate">
+<div aria-hidden="true" class="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[420px] bg-gradient-to-b from-rs-royal/[0.07] via-rs-electric/[0.03] to-transparent"></div>
+<div class="mx-auto max-w-3xl px-4 py-8 sm:px-6 sm:py-14">
+
+  {# ------------------------------------------------ title page #}
+  <header class="rs-card relative overflow-hidden px-5 pb-8 pt-9 text-center sm:px-12 sm:pb-10 sm:pt-12">
+    <div aria-hidden="true" class="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-rs-royal via-rs-electric to-rs-royal"></div>
+    {% if questionnaire.show_institution_emblem %}
+    <img src="{% static 'img/bsu-emblem.png' %}" width="112" height="112" alt="{% translate 'Emblem of Bokhtar State University named after Nosiri Khusrav' %}"
+         class="mx-auto h-24 w-24 rounded-full bg-white shadow-[0_8px_30px_-10px_rgb(var(--rs-royal)/0.45)] ring-4 ring-rs-surface sm:h-28 sm:w-28">
+    {% if questionnaire.description %}
+    <div class="mx-auto mt-6 max-w-xl space-y-1">
+      {% for line in questionnaire.description.splitlines %}{% if line.strip %}
+        {% if line == line.upper %}
+          {% if forloop.revcounter <= 2 %}<p class="pt-3 text-sm font-bold uppercase tracking-[0.22em] text-rs-royal sm:text-[15px]">{{ line }}</p>
+          {% else %}<p class="text-[12px] font-semibold uppercase leading-snug tracking-[0.1em] text-rs-muted sm:text-[13px]">{{ line }}</p>{% endif %}
+        {% else %}<p class="font-serif text-[15px] italic text-rs-muted">{{ line }}</p>{% endif %}
+      {% endif %}{% endfor %}
+    </div>
+    {% endif %}
+    {% else %}
+    <p class="rs-eyebrow">{% translate "Scientific questionnaire" %}</p>
+    {% endif %}
+
+    <h1 class="mx-auto mt-4 max-w-2xl text-balance font-serif text-[1.45rem] font-bold leading-[1.25] tracking-normal text-rs-navy sm:text-[1.9rem]">{{ questionnaire.title }}</h1>
+    <div class="mx-auto mt-6 flex w-16 items-center gap-1.5" aria-hidden="true"><span class="h-px flex-1 bg-rs-border"></span><span class="h-1.5 w-1.5 rotate-45 bg-rs-electric"></span><span class="h-px flex-1 bg-rs-border"></span></div>
+    <div class="mt-6 flex flex-wrap justify-center gap-2 text-[13px]">
+      <span class="rs-chip !bg-rs-royal/[0.07] !text-rs-text">{% icon "clock" "h-4 w-4 text-rs-royal" %}{% blocktranslate with m=questionnaire.estimated_minutes %}About {{ m }} minutes{% endblocktranslate %}</span>
+      <span class="rs-chip !bg-rs-royal/[0.07] !text-rs-text">{% icon "shield" "h-4 w-4 text-rs-royal" %}{% if questionnaire.participant_fields.all|length == 0 %}{% translate "Anonymous" %}{% else %}{% translate "Confidential" %}{% endif %}</span>
+      <span class="rs-chip !bg-rs-royal/[0.07] !text-rs-text">{% icon "check" "h-4 w-4 text-rs-royal" %}{% translate "Voluntary" %}</span>
+    </div>
+  </header>
 
   {% if not open %}
   <div class="rs-card rs-card-pad mt-8 text-center">
@@ -19,14 +45,31 @@
     <p class="text-rs-muted mt-2 text-sm">{% if not_yet_open %}{% translate "It has not opened yet." %}{% else %}{% translate "Data collection has finished or is paused. Thank you for your interest." %}{% endif %}</p>
   </div>
   {% else %}
-  <a href="{% url 'core:guide' %}" target="_blank" rel="noopener" class="mt-6 flex items-center gap-3 rounded-2xl border border-rs-gold/40 bg-rs-gold/10 px-4 py-3 text-sm text-rs-text hover:bg-rs-gold/15 no-underline">
-    <span class="h-9 w-9 shrink-0 rounded-full bg-rs-gold text-[#1a1406] grid place-items-center">{% icon "right" "h-4 w-4" %}</span>
-    <span><strong>{% translate "First time?" %}</strong> {% translate "Watch the one-minute video guide." %}</span>
+  <a href="{% url 'core:guide' %}" target="_blank" rel="noopener" class="group mt-5 flex items-center gap-4 rounded-2xl border border-rs-border bg-rs-surface px-4 py-3.5 text-sm text-rs-text shadow-card transition hover:border-rs-royal/40 hover:no-underline">
+    <span class="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-rs-royal text-white shadow-[0_6px_16px_-6px_rgb(var(--rs-royal)/0.8)] transition group-hover:scale-105"><svg viewBox="0 0 24 24" class="ml-0.5 h-4 w-4" fill="currentColor" aria-hidden="true"><path d="M7 4.5v15l13-7.5z"/></svg></span>
+    <span class="min-w-0 flex-1"><strong class="block font-semibold">{% translate "First time?" %}</strong><span class="text-rs-muted">{% translate "Watch the one-minute video guide." %}</span></span>
+    {% icon "right" "h-4 w-4 shrink-0 text-rs-muted transition group-hover:translate-x-0.5" %}
   </a>
-  <div class="mt-8 space-y-5">
-    {% if questionnaire.objective %}<section class="rs-card rs-card-pad"><h2 class="text-lg font-semibold">{% translate "Purpose of the research" %}</h2><p class="mt-2 text-rs-muted rs-prose">{{ questionnaire.objective }}</p></section>{% endif %}
-    {% if questionnaire.description %}<section class="rs-card rs-card-pad"><p class="text-rs-muted rs-prose text-sm">{{ questionnaire.description }}</p></section>{% endif %}
-    {% if questionnaire.instructions %}<section class="rs-card rs-card-pad"><h2 class="text-lg font-semibold">{% translate "Instructions" %}</h2><div class="mt-2 text-rs-muted rs-prose text-sm leading-relaxed">{{ questionnaire.instructions }}</div></section>{% endif %}
+  <div class="mt-5 space-y-5">
+    {% if questionnaire.objective %}<section class="rs-card p-6 sm:p-9"><h2 class="text-lg font-semibold">{% translate "Purpose of the research" %}</h2><p class="rs-justify mt-3 text-[15px] leading-7 text-rs-text/85">{{ questionnaire.objective }}</p></section>{% endif %}
+    {% if questionnaire.description and not questionnaire.show_institution_emblem %}<section class="rs-card p-6 sm:p-9"><p class="rs-justify rs-prose text-[15px] leading-7 text-rs-text/85">{{ questionnaire.description }}</p></section>{% endif %}
+    {% if questionnaire.instructions %}
+    <section class="rs-card px-4 py-6 sm:p-10" aria-labelledby="instructions-title">
+      <div class="flex items-center gap-3">
+        <span class="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-rs-royal/10 text-rs-royal">{% icon "book" "h-5 w-5" %}</span>
+        <h2 id="instructions-title" class="text-xl font-semibold">{% translate "Instructions" %}</h2>
+      </div>
+      <div class="mt-6 space-y-4 text-[15px] leading-7 text-rs-text/85 sm:text-base sm:leading-[1.8]" lang="tg">
+        {% for b in questionnaire.instructions|doc_blocks %}
+          {% if b.kind == "note" %}<p class="text-center font-serif italic text-rs-muted">{{ b.text }}</p>
+          {% elif b.kind == "greeting" %}<p class="pt-1 text-center text-lg font-semibold text-rs-navy">{{ b.text }}</p>
+          {% elif b.kind == "heading" %}<h3 class="flex items-center gap-3 pt-4 text-base font-semibold text-rs-navy sm:text-lg"><span class="h-5 w-1 rounded-full bg-gradient-to-b from-rs-royal to-rs-electric"></span>{{ b.text }}</h3>
+          {% elif b.kind == "list" %}<ul class="space-y-3">{% for item in b.items %}<li class="flex gap-2.5 sm:gap-3"><span class="mt-[0.7em] h-1.5 w-1.5 shrink-0 rounded-full bg-rs-royal"></span><span class="rs-justify min-w-0 flex-1">{{ item }}</span></li>{% endfor %}</ul>
+          {% else %}<p class="rs-justify indent-4 sm:indent-6">{{ b.text }}</p>{% endif %}
+        {% endfor %}
+      </div>
+    </section>
+    {% endif %}
 
     <form method="post" action="{% url 'public:start' questionnaire.public_id %}" class="rs-card" novalidate x-data="{busy:false}" @submit="busy=true">
       {% csrf_token %}
@@ -53,10 +96,11 @@
         <label class="flex items-start gap-3 text-sm font-medium">{{ form.consent }}<span>{{ form.consent.label }}</span></label>
         {% for e in form.consent.errors %}<p class="rs-error">{% translate "Consent is required to take part." %}</p>{% endfor %}
         {% endif %}
-        <button class="rs-btn-primary w-full sm:w-auto !px-6 !py-3" :disabled="busy"><span x-show="busy" class="rs-spinner" x-cloak></span>{% translate "Begin the questionnaire" %}{% icon "right" "h-4 w-4" %}</button>
+        <button class="rs-btn-cta rs-btn-lg w-full sm:w-auto" :disabled="busy"><span x-show="busy" class="rs-spinner" x-cloak></span>{% translate "Begin the questionnaire" %}{% icon "right" "h-4 w-4" %}</button>
       </div>
     </form>
   </div>
   {% endif %}
+</div>
 </div>
 {% endblock %}

@@ -5,13 +5,13 @@
 <div class="min-h-screen lg:pl-[272px]">
   {# ------------------------------------------------ sidebar #}
   <div x-show="$store.ui.sidebar" x-transition.opacity class="fixed inset-0 z-40 bg-[#0B1622]/60 backdrop-blur-sm lg:hidden no-print" @click="$store.ui.sidebar=false" x-cloak></div>
-  <aside class="no-print fixed inset-y-0 left-0 z-50 w-[272px] bg-[#0E2238] text-slate-200 flex flex-col transition-transform duration-200 -translate-x-full lg:translate-x-0"
+  <aside class="no-print fixed inset-y-0 left-0 z-50 w-[272px] bg-[#0B1528] text-slate-200 flex flex-col transition-transform duration-200 -translate-x-full lg:translate-x-0"
          :class="$store.ui.sidebar ? 'translate-x-0 shadow-2xl' : ''" aria-label="{% translate 'Main navigation' %}">
     <div class="flex items-center gap-3 px-5 h-16 border-b border-white/10">
       <img src="{% static 'img/logo-mark.svg' %}" alt="" class="h-9 w-9">
       <div class="leading-tight">
-        <a href="{% url 'core:dashboard' %}" class="font-serif text-[17px] font-semibold text-white hover:text-white">ResearchSurvey</a>
-        <p class="text-[10.5px] uppercase tracking-[0.16em] text-[#C6A15B]">{% translate "Research analytics" %}</p>
+        <a href="{% url 'core:dashboard' %}" class="text-[17px] font-bold tracking-tight text-white hover:text-white">{{ platform_name }}</a>
+        <p class="text-[10.5px] uppercase tracking-[0.16em] text-[#93C5FD]">{% translate "Research analytics" %}</p>
       </div>
       <button class="ml-auto lg:hidden text-slate-300" @click="$store.ui.sidebar=false" aria-label="{% translate 'Close menu' %}">{% icon "x" %}</button>
     </div>
@@ -52,7 +52,7 @@
     </nav>
     <div class="border-t border-white/10 p-3">
       <div class="flex items-center gap-3 rounded-xl px-2 py-2">
-        <div class="h-9 w-9 rounded-full bg-[#C6A15B]/20 text-[#E3C88E] grid place-items-center font-semibold uppercase">{{ user.username|slice:":1" }}</div>
+        <div class="h-9 w-9 rounded-full bg-[#2563EB]/25 text-[#BFDBFE] grid place-items-center font-semibold uppercase">{{ user.username|slice:":1" }}</div>
         <div class="min-w-0 flex-1 leading-tight">
           <p class="truncate text-sm font-medium text-white">{{ user }}</p>
           <p class="text-[11px] text-slate-400">{{ user.get_role_display }}</p>

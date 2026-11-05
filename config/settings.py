@@ -134,6 +134,9 @@ LOGIN_REDIRECT_URL = "core:dashboard"
 LOGOUT_REDIRECT_URL = "core:home"
 
 # --- Internationalisation -------------------------------------------------
+# Public name of the platform (Tajik: "thought, opinion").
+PLATFORM_NAME = os.getenv("PLATFORM_NAME", "Андеша")
+
 LANGUAGE_CODE = os.getenv("DJANGO_LANGUAGE_CODE", "tg")
 LANGUAGES = [("tg", _("Tajik")), ("ru", _("Russian")), ("en", _("English"))]
 LOCALE_PATHS = [BASE_DIR / "locale"]

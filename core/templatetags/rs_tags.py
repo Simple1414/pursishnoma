@@ -171,3 +171,42 @@ def duration(seconds) -> str:
     m, s = divmod(seconds, 60)
     h, m = divmod(m, 60)
     return f"{h}:{m:02d}:{s:02d}" if h else f"{m}:{s:02d}"
+
+
+_TERMINAL = (".", "!", "?", ";", ":", "…", ")")
+
+
+@register.filter
+def doc_blocks(text: str | None) -> list[dict]:
+    """Split plain instruction text into typed blocks for readable layout.
+
+    * a line fully in parentheses → ``note`` (audience remark)
+    * a short line ending with "!" → ``greeting`` ("Dear respondent!")
+    * a short line without terminal punctuation → ``heading``
+    * other lines → ``para`` before the first heading; after it, consecutive
+      lines are grouped into one ``list`` block with ``items``
+
+    Returns plain strings only; the template escapes them.
+    """
+    blocks: list[dict[str, str]] = []
+    in_list = False
+    for raw in (text or "").splitlines():
+        line = raw.strip()
+        if not line:
+            continue
+        if line.startswith("(") and line.endswith(")"):
+            kind = "note"
+        elif line.endswith("!") and len(line) <= 60:
+            kind = "greeting"
+        elif len(line) <= 70 and not line.endswith(_TERMINAL):
+            kind = "heading"
+            in_list = True
+        else:
+            kind = "item" if in_list else "para"
+        if kind == "item":
+            if not blocks or blocks[-1]["kind"] != "list":
+                blocks.append({"kind": "list", "items": []})
+            blocks[-1]["items"].append(line)
+        else:
+            blocks.append({"kind": kind, "text": line})
+    return blocks

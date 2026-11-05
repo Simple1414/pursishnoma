@@ -2,118 +2,348 @@
 {% load i18n static rs_tags humanize %}
 {% block title %}{% translate "Scientific research platform" %}{% endblock %}
 {% block content %}
-{# ------------------------------------------------ hero #}
-<section class="relative overflow-hidden border-b border-rs-border bg-rs-surface">
-  <div aria-hidden="true" class="pointer-events-none absolute inset-0 opacity-[0.55] dark:opacity-30"
-       style="background-image: radial-gradient(circle at 1px 1px, rgb(var(--rs-border)) 1px, transparent 0); background-size: 28px 28px;"></div>
-  <div aria-hidden="true" class="pointer-events-none absolute -top-40 -right-40 h-[520px] w-[520px] rounded-full bg-rs-gold/10 blur-3xl"></div>
-  <div class="relative max-w-6xl mx-auto px-4 sm:px-6 py-16 sm:py-24 grid lg:grid-cols-[1.15fr_0.85fr] gap-12 items-center">
-    <div>
-      <p class="rs-eyebrow">{{ site_settings.organization_name }}</p>
-      <h1 class="mt-4 font-serif text-[2.35rem] sm:text-5xl lg:text-[3.4rem] leading-[1.08] font-semibold text-rs-navy">
-        {% translate "Evidence-based research," %}<br><span class="text-rs-royal">{% translate "from questionnaire to findings." %}</span>
+
+{# ============================================================ HERO #}
+<section id="top" class="relative isolate overflow-hidden border-b border-rs-border bg-rs-surface">
+  <div aria-hidden="true" class="rs-grid-bg pointer-events-none absolute inset-0 -z-10 opacity-70 dark:opacity-30"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -right-48 -top-48 -z-10 h-[620px] w-[620px] rounded-full bg-[radial-gradient(closest-side,rgb(var(--rs-electric)/0.22),transparent)]"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -bottom-64 -left-40 -z-10 h-[520px] w-[520px] rounded-full bg-[radial-gradient(closest-side,rgb(var(--rs-royal)/0.12),transparent)]"></div>
+
+  <div class="rs-container grid items-center gap-14 pb-16 pt-12 sm:pb-20 sm:pt-16 lg:grid-cols-[1.1fr_0.9fr] lg:gap-12 lg:pb-28 lg:pt-24">
+    <div class="rs-reveal">
+      <span class="rs-kicker"><span class="rs-kicker-dot"></span>{% translate "Platform for scientific and social research" %}</span>
+      <h1 class="mt-6 text-[2.3rem] font-extrabold leading-[1.07] tracking-[-0.035em] text-rs-navy sm:text-[3.4rem] lg:text-[3.3rem] xl:text-[3.7rem]">
+        {% translate "Start your research." %}<br>
+        <span class="rs-gradient-text">{% translate "Turn data into knowledge." %}</span>
       </h1>
-      <p class="mt-6 text-lg text-rs-muted max-w-xl leading-relaxed">{{ site_settings.tagline|default:_("Intelligent Platform for Scientific Research and Survey Analytics") }}. {% translate "Design scientific questionnaires, collect responses securely, evaluate each participant and turn real data into transparent statistical reports." %}</p>
-      <div class="mt-8 flex flex-wrap gap-3">
-        <a href="#participate" class="rs-btn-primary !px-5 !py-3">{% translate "Take part in a study" %}</a>
-        <a href="{% url 'core:guide' %}" class="rs-btn-gold !px-5 !py-3">{% icon "eye" "h-4 w-4" %}{% translate "Video guide (1 min)" %}</a>
-        <a href="{% url 'login' %}" class="rs-btn-secondary !px-5 !py-3">{% icon "lock" "h-4 w-4" %}{% translate "Researcher sign in" %}</a>
+      <p class="rs-lead mt-6 max-w-[34rem]">{% translate "A digital platform for designing, conducting and analysing scientific and social research." %}</p>
+      <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+        <a href="{% url 'surveys:create' %}" class="rs-btn-cta rs-btn-lg">{% icon "plus" "h-[18px] w-[18px]" %}{% translate "Create a new study" %}</a>
+        <a href="#features" class="rs-btn-secondary rs-btn-lg">{% translate "Explore the platform" %}{% icon "down" "h-4 w-4" %}</a>
       </div>
-      <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4 text-sm">
-        <div class="flex items-center gap-2 text-rs-muted">{% icon "shield" "h-4 w-4 text-rs-success" %}{% translate "Anonymous participation supported" %}</div>
-        <div class="flex items-center gap-2 text-rs-muted">{% icon "check" "h-4 w-4 text-rs-success" %}{% translate "Informed consent" %}</div>
-        <div class="flex items-center gap-2 text-rs-muted">{% icon "globe" "h-4 w-4 text-rs-success" %}Тоҷикӣ · Русский · English</div>
-      </dl>
+      <a href="#research" class="group mt-6 inline-flex max-w-full items-center gap-3 rounded-2xl border border-rs-border bg-rs-surface/70 py-2 pl-2 pr-4 text-sm text-rs-text shadow-sm backdrop-blur transition hover:border-rs-royal/40 hover:no-underline">
+        <span class="grid h-8 w-8 shrink-0 place-items-center rounded-xl bg-rs-success/10 text-rs-success">{% icon "users" "h-4 w-4" %}</span>
+        <span class="min-w-0"><strong class="font-semibold">{% translate "Taking part in a survey?" %}</strong> <span class="text-rs-muted">{% translate "See the open studies" %}</span></span>
+        {% icon "right" "h-4 w-4 shrink-0 text-rs-muted transition group-hover:translate-x-0.5" %}
+      </a>
+      <ul class="mt-9 grid grid-cols-1 gap-x-6 gap-y-3 text-sm text-rs-muted sm:grid-cols-3">
+        <li class="flex items-center gap-2">{% icon "shield" "h-[18px] w-[18px] shrink-0 text-rs-success" %}{% translate "Anonymous and confidential" %}</li>
+        <li class="flex items-center gap-2">{% icon "check" "h-[18px] w-[18px] shrink-0 text-rs-success" %}{% translate "Informed consent" %}</li>
+        <li class="flex items-center gap-2">{% icon "globe" "h-[18px] w-[18px] shrink-0 text-rs-success" %}Тоҷикӣ · Рус · Eng</li>
+      </ul>
     </div>
-    <div class="rs-card p-6 sm:p-7 shadow-lift">
-      <p class="rs-eyebrow">{% translate "Research workflow" %}</p>
-      <ol class="mt-5 space-y-5">
-        <li class="flex gap-4"><span class="h-9 w-9 shrink-0 rounded-xl bg-rs-royal/10 text-rs-royal grid place-items-center">{% icon "upload" "h-[18px] w-[18px]" %}</span><div><p class="font-semibold">{% translate "Import or build" %}</p><p class="text-sm text-rs-muted">{% translate "Upload a Word questionnaire; wording is preserved and reviewed before publication." %}</p></div></li>
-        <li class="flex gap-4"><span class="h-9 w-9 shrink-0 rounded-xl bg-rs-royal/10 text-rs-royal grid place-items-center">{% icon "send" "h-[18px] w-[18px]" %}</span><div><p class="font-semibold">{% translate "Collect" %}</p><p class="text-sm text-rs-muted">{% translate "Share a public link or QR code. Every answer is saved to the database." %}</p></div></li>
-        <li class="flex gap-4"><span class="h-9 w-9 shrink-0 rounded-xl bg-rs-gold/15 text-rs-accent grid place-items-center">{% icon "award" "h-[18px] w-[18px]" %}</span><div><p class="font-semibold">{% translate "Evaluate" %}</p><p class="text-sm text-rs-muted">{% translate "Score responses with weighted criteria — originals are never modified." %}</p></div></li>
-        <li class="flex gap-4"><span class="h-9 w-9 shrink-0 rounded-xl bg-rs-success/10 text-rs-success grid place-items-center">{% icon "chart" "h-[18px] w-[18px]" %}</span><div><p class="font-semibold">{% translate "Analyse and report" %}</p><p class="text-sm text-rs-muted">{% translate "Statistics with sample sizes, tests, traceable findings, Word/PDF/Excel exports." %}</p></div></li>
-      </ol>
+
+    {# --- product composition: an illustration of the interface, not real data #}
+    <div class="rs-reveal relative mx-auto w-full max-w-[560px]" aria-hidden="true">
+      <div class="absolute -inset-6 -z-10 rounded-[2.5rem] bg-gradient-to-br from-rs-royal/15 via-rs-electric/5 to-transparent blur-2xl"></div>
+      <div class="overflow-hidden rounded-[1.75rem] border border-rs-border bg-rs-surface shadow-glow">
+        <div class="flex items-center gap-2 border-b border-rs-border bg-rs-raised/70 px-4 py-3">
+          <span class="h-2.5 w-2.5 rounded-full bg-[#F87171]/80"></span><span class="h-2.5 w-2.5 rounded-full bg-[#FBBF24]/80"></span><span class="h-2.5 w-2.5 rounded-full bg-[#34D399]/80"></span>
+          <span class="ml-3 h-5 flex-1 rounded-md bg-rs-surface ring-1 ring-rs-border"></span>
+          <span class="rounded-full bg-rs-royal/10 px-2 py-0.5 text-[10px] font-semibold text-rs-royal">{% translate "Interface preview" %}</span>
+        </div>
+        <div class="grid gap-4 p-4 sm:p-5">
+          <div class="grid grid-cols-3 gap-3">
+            {% for c in "abc" %}
+            <div class="rounded-2xl border border-rs-border p-2.5 sm:p-3">
+              <span class="block h-2 w-10 rounded bg-rs-border sm:w-12"></span>
+              <span class="mt-3 block h-4 w-3/4 rounded bg-gradient-to-r {% cycle 'from-rs-royal to-rs-electric' 'from-rs-navy/70 to-rs-navy/40' 'from-rs-success to-rs-success/60' %}"></span>
+              <svg viewBox="0 0 80 20" class="mt-3 h-5 w-full"><polyline fill="none" stroke="currentColor" stroke-width="2" class="{% cycle 'text-rs-electric' 'text-rs-muted/60' 'text-rs-success' %}" points="{% cycle '0,16 14,12 26,14 40,8 54,10 66,4 80,6' '0,10 14,12 26,8 40,11 54,7 66,9 80,5' '0,18 14,15 26,12 40,13 54,7 66,6 80,2' %}"/></svg>
+            </div>
+            {% endfor %}
+          </div>
+          <div class="grid grid-cols-[1.35fr_1fr] gap-3 sm:gap-4">
+            <div class="rounded-2xl border border-rs-border p-4">
+              <div class="flex items-center justify-between"><span class="h-2.5 w-24 rounded bg-rs-border"></span><span class="h-2.5 w-10 rounded bg-rs-raised"></span></div>
+              <div class="mt-4 flex h-24 items-end gap-1.5 sm:h-32 sm:gap-2.5">
+                {% for h in "4659789"|make_list %}
+                <span class="flex-1 rounded-t-lg bg-gradient-to-t from-rs-royal to-rs-electric" style="height: {{ h }}0%; opacity: {% if forloop.last %}1{% else %}.{{ h }}{% endif %}"></span>
+                {% endfor %}
+              </div>
+              <div class="mt-2 flex justify-between">{% for _ in "1234567" %}<span class="h-1.5 w-5 rounded bg-rs-raised"></span>{% endfor %}</div>
+            </div>
+            <div class="rounded-2xl border border-rs-border p-4">
+              <span class="block h-2.5 w-20 rounded bg-rs-border"></span>
+              <div class="mt-3 grid place-items-center">
+                <svg viewBox="0 0 120 120" class="h-20 w-20 -rotate-90 sm:h-28 sm:w-28">
+                  <circle cx="60" cy="60" r="44" fill="none" stroke="rgb(var(--rs-raised))" stroke-width="16"/>
+                  <circle cx="60" cy="60" r="44" fill="none" stroke="rgb(var(--rs-royal))" stroke-width="16" stroke-dasharray="130 277" stroke-linecap="round"/>
+                  <circle cx="60" cy="60" r="44" fill="none" stroke="rgb(var(--rs-electric))" stroke-width="16" stroke-dasharray="72 277" stroke-dashoffset="-138" stroke-linecap="round" opacity=".55"/>
+                  <circle cx="60" cy="60" r="44" fill="none" stroke="rgb(var(--rs-success))" stroke-width="16" stroke-dasharray="44 277" stroke-dashoffset="-218" stroke-linecap="round" opacity=".7"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          <div class="hidden rounded-2xl border border-rs-border p-4 sm:block">
+            <span class="block h-2.5 w-28 rounded bg-rs-border"></span>
+            <div class="mt-3 space-y-2">
+              {% for w in "abc" %}
+              <div class="flex items-center gap-3"><span class="h-2 w-16 shrink-0 rounded bg-rs-raised"></span>
+                <div class="flex h-3 flex-1 overflow-hidden rounded-full">
+                  <span class="bg-[#94A3B8]/50" style="width: {% cycle '8' '12' '6' %}%"></span><span class="bg-[#94A3B8]/30" style="width: {% cycle '14' '10' '9' %}%"></span><span class="bg-rs-raised" style="width: {% cycle '18' '22' '15' %}%"></span><span class="bg-rs-electric/60" style="width: {% cycle '34' '30' '38' %}%"></span><span class="flex-1 bg-rs-royal"></span>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="absolute -left-3 top-24 hidden w-56 rounded-2xl border border-rs-border bg-rs-surface/95 p-3.5 shadow-lift backdrop-blur sm:block lg:-left-10">
+        <div class="flex items-center gap-2.5"><span class="grid h-8 w-8 place-items-center rounded-xl bg-rs-success/10 text-rs-success">{% icon "check" "h-4 w-4" %}</span><span class="text-[13px] font-semibold text-rs-navy">{% translate "Response saved" %}</span></div>
+        <span class="mt-2.5 block h-1.5 w-full rounded-full bg-rs-raised"><span class="block h-full w-2/3 rounded-full bg-gradient-to-r from-rs-royal to-rs-electric"></span></span>
+      </div>
+      <div class="absolute -bottom-6 -right-2 hidden w-64 rounded-2xl border border-rs-border bg-rs-surface/95 p-4 shadow-lift backdrop-blur sm:block lg:-right-8">
+        <div class="flex items-center gap-2 text-[13px] font-semibold text-rs-navy">{% icon "sparkles" "h-4 w-4 text-rs-royal" %}{% translate "Key finding" %}</div>
+        <span class="mt-3 block h-2 w-full rounded bg-rs-raised"></span><span class="mt-2 block h-2 w-4/5 rounded bg-rs-raised"></span>
+        <span class="mt-3 inline-flex rounded-full bg-rs-royal/10 px-2 py-0.5 text-[10px] font-semibold text-rs-royal">χ² · Mann–Whitney · Spearman</span>
+      </div>
     </div>
   </div>
 </section>
 
-{# ------------------------------------------------ statistics #}
+{# ============================================================ STATISTICS (real database counts) #}
 {% if public_stats %}
-<section aria-label="{% translate 'Platform statistics' %}" class="max-w-6xl mx-auto px-4 sm:px-6 -mt-px">
-  <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 py-10">
-    <div class="rs-stat"><span class="rs-stat-value">{{ public_stats.studies|intcomma }}</span><span class="rs-stat-label">{% translate "Studies conducted" %}</span></div>
-    <div class="rs-stat"><span class="rs-stat-value">{{ public_stats.responses|intcomma }}</span><span class="rs-stat-label">{% translate "Completed responses" %}</span></div>
-    <div class="rs-stat"><span class="rs-stat-value">{{ public_stats.open|intcomma }}</span><span class="rs-stat-label">{% translate "Studies open now" %}</span></div>
+<section aria-label="{% translate 'Platform statistics' %}" class="relative border-b border-rs-border bg-rs-bg">
+  <div class="rs-container">
+    <dl class="grid grid-cols-2 divide-rs-border lg:grid-cols-4 lg:divide-x">
+      {% with s=public_stats %}
+      <div class="rs-reveal border-b border-r border-rs-border px-2 py-8 sm:px-6 lg:border-b-0 lg:border-r-0 lg:py-10">
+        <dt class="flex items-center gap-2 text-[13px] font-medium text-rs-muted">{% icon "flask" "h-4 w-4 text-rs-royal" %}{% translate "Research projects" %}</dt>
+        <dd class="mt-2 text-3xl font-bold tracking-tight text-rs-navy tabular-nums sm:text-[2.6rem]" data-count="{{ s.studies }}">{{ s.studies|intcomma }}</dd>
+      </div>
+      <div class="rs-reveal border-b border-rs-border px-2 py-8 sm:px-6 lg:border-b-0 lg:py-10">
+        <dt class="flex items-center gap-2 text-[13px] font-medium text-rs-muted">{% icon "users" "h-4 w-4 text-rs-royal" %}{% translate "Participants" %}</dt>
+        <dd class="mt-2 text-3xl font-bold tracking-tight text-rs-navy tabular-nums sm:text-[2.6rem]" data-count="{{ s.participants }}">{{ s.participants|intcomma }}</dd>
+      </div>
+      <div class="rs-reveal border-r border-rs-border px-2 py-8 sm:px-6 lg:border-r-0 lg:py-10">
+        <dt class="flex items-center gap-2 text-[13px] font-medium text-rs-muted">{% icon "inbox" "h-4 w-4 text-rs-royal" %}{% translate "Completed responses" %}</dt>
+        <dd class="mt-2 text-3xl font-bold tracking-tight text-rs-navy tabular-nums sm:text-[2.6rem]" data-count="{{ s.responses }}">{{ s.responses|intcomma }}</dd>
+      </div>
+      <div class="rs-reveal px-2 py-8 sm:px-6 lg:py-10">
+        <dt class="flex items-center gap-2 text-[13px] font-medium text-rs-muted"><span class="relative flex h-2.5 w-2.5"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-rs-success opacity-50"></span><span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-rs-success"></span></span>{% translate "Active surveys" %}</dt>
+        <dd class="mt-2 text-3xl font-bold tracking-tight text-rs-success tabular-nums sm:text-[2.6rem]" data-count="{{ s.open }}">{{ s.open|intcomma }}</dd>
+      </div>
+      {% endwith %}
+    </dl>
   </div>
 </section>
 {% endif %}
 
-{# ------------------------------------------------ about #}
-<section id="about" class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20 scroll-mt-20">
-  <div class="grid lg:grid-cols-[0.9fr_1.1fr] gap-10">
-    <div>
-      <p class="rs-eyebrow">{% translate "About the platform" %}</p>
-      <h2 class="mt-3 text-3xl sm:text-[2.2rem] font-semibold leading-tight">{% translate "Built for scientific credibility" %}</h2>
+{# ============================================================ FEATURES #}
+<section id="features" class="rs-section">
+  <div class="rs-container">
+    <div class="rs-reveal mx-auto max-w-2xl text-center">
+      <span class="rs-kicker"><span class="rs-kicker-dot"></span>{% translate "Features" %}</span>
+      <h2 class="rs-h2 mt-5">{% translate "The full research cycle in one place" %}</h2>
+      <p class="rs-lead mt-4">{% translate "From the first question to the final report — every step is connected, documented and reproducible." %}</p>
     </div>
-    <div class="text-rs-muted leading-relaxed space-y-4">
-      {% if site_settings.about_text %}<p class="rs-prose">{{ site_settings.about_text }}</p>{% else %}
-      <p>{% translate "ResearchSurvey supports the full cycle of survey-based research: instrument design, ethical data collection, individual evaluation, statistical analysis and reporting." %}</p>
-      {% endif %}
-      <div class="grid sm:grid-cols-2 gap-4 pt-2">
-        <div class="rs-card p-5"><div class="text-rs-royal">{% icon "table" %}</div><p class="mt-3 font-semibold text-rs-text">{% translate "Transparent statistics" %}</p><p class="text-sm mt-1">{% translate "Every result shows its sample size; significance is reported only with the test used." %}</p></div>
-        <div class="rs-card p-5"><div class="text-rs-royal">{% icon "brain" %}</div><p class="mt-3 font-semibold text-rs-text">{% translate "Traceable findings" %}</p><p class="text-sm mt-1">{% translate "Findings link back to the questions and responses they come from." %}</p></div>
-        <div class="rs-card p-5"><div class="text-rs-royal">{% icon "shield" %}</div><p class="mt-3 font-semibold text-rs-text">{% translate "Privacy by design" %}</p><p class="text-sm mt-1">{% translate "Only the data needed for the research is collected; participants can stay anonymous." %}</p></div>
-        <div class="rs-card p-5"><div class="text-rs-royal">{% icon "sparkles" %}</div><p class="mt-3 font-semibold text-rs-text">{% translate "Responsible AI" %}</p><p class="text-sm mt-1">{% translate "AI interpretations are clearly labelled drafts that researchers review and approve." %}</p></div>
-      </div>
+    <div class="mt-12 grid gap-5 sm:grid-cols-2 lg:mt-16 lg:grid-cols-4">
+      <article class="rs-tile rs-reveal">
+        <div class="rs-tile-icon">{% icon "builder" "h-6 w-6" %}</div>
+        <p class="mt-6 text-[13px] font-semibold text-rs-muted tabular-nums">01</p>
+        <h3 class="mt-1 text-lg font-semibold">{% translate "Survey builder" %}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Build sections and questions or import a Word questionnaire — wording is preserved." %}</p>
+        <ul class="mt-5 space-y-2 text-sm text-rs-text">
+          <li class="flex gap-2">{% icon "check" "mt-0.5 h-4 w-4 shrink-0 text-rs-royal" %}{% translate "11 question types, Likert grids" %}</li>
+          <li class="flex gap-2">{% icon "check" "mt-0.5 h-4 w-4 shrink-0 text-rs-royal" %}{% translate "Review before publication" %}</li>
+        </ul>
+      </article>
+      <article class="rs-tile rs-reveal">
+        <div class="rs-tile-icon">{% icon "send" "h-6 w-6" %}</div>
+        <p class="mt-6 text-[13px] font-semibold text-rs-muted tabular-nums">02</p>
+        <h3 class="mt-1 text-lg font-semibold">{% translate "Data collection" %}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Share a link or QR code. Participants answer on any device, without registration." %}</p>
+        <ul class="mt-5 space-y-2 text-sm text-rs-text">
+          <li class="flex gap-2">{% icon "check" "mt-0.5 h-4 w-4 shrink-0 text-rs-royal" %}{% translate "Autosave at every step" %}</li>
+          <li class="flex gap-2">{% icon "check" "mt-0.5 h-4 w-4 shrink-0 text-rs-royal" %}{% translate "Consent and anonymity" %}</li>
+        </ul>
+      </article>
+      <article class="rs-tile rs-reveal">
+        <div class="rs-tile-icon">{% icon "chart" "h-6 w-6" %}</div>
+        <p class="mt-6 text-[13px] font-semibold text-rs-muted tabular-nums">03</p>
+        <h3 class="mt-1 text-lg font-semibold">{% translate "Research analytics" %}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Distributions, cross-tabulations and statistical tests with the sample size behind every result." %}</p>
+        <ul class="mt-5 space-y-2 text-sm text-rs-text">
+          <li class="flex gap-2">{% icon "check" "mt-0.5 h-4 w-4 shrink-0 text-rs-royal" %}χ², Fisher, Mann–Whitney</li>
+          <li class="flex gap-2">{% icon "check" "mt-0.5 h-4 w-4 shrink-0 text-rs-royal" %}Kruskal–Wallis, Spearman</li>
+        </ul>
+      </article>
+      <article class="rs-tile rs-reveal">
+        <div class="rs-tile-icon">{% icon "report" "h-6 w-6" %}</div>
+        <p class="mt-6 text-[13px] font-semibold text-rs-muted tabular-nums">04</p>
+        <h3 class="mt-1 text-lg font-semibold">{% translate "Scientific reporting" %}</h3>
+        <p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Structured reports with traceable findings, exported to Word, PDF and Excel." %}</p>
+        <ul class="mt-5 space-y-2 text-sm text-rs-text">
+          <li class="flex gap-2">{% icon "check" "mt-0.5 h-4 w-4 shrink-0 text-rs-royal" %}{% translate "Automatic evaluation" %}</li>
+          <li class="flex gap-2">{% icon "check" "mt-0.5 h-4 w-4 shrink-0 text-rs-royal" %}{% translate "AI drafts, reviewed by people" %}</li>
+        </ul>
+      </article>
     </div>
   </div>
 </section>
 
-{# ------------------------------------------------ research / participate #}
-<section id="research" class="bg-rs-surface border-y border-rs-border scroll-mt-20">
-  <div id="participate" class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20 scroll-mt-20">
-    <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-      <div>
-        <p class="rs-eyebrow">{% translate "Survey participation" %}</p>
-        <h2 class="mt-3 text-3xl sm:text-[2.2rem] font-semibold">{% translate "Open studies" %}</h2>
-        <p class="mt-2 text-rs-muted max-w-2xl">{% translate "Participation is voluntary. Each study explains its purpose and how your answers are used before you begin." %}</p>
+{# ============================================================ ACTIVE RESEARCH #}
+<section id="research" class="rs-section border-y border-rs-border bg-rs-surface">
+  <div class="rs-container">
+    <div class="rs-reveal flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+      <div class="max-w-2xl">
+        <span class="rs-kicker"><span class="rs-kicker-dot !bg-rs-success !shadow-[0_0_0_3px_rgb(var(--rs-success)/0.18)]"></span>{% translate "Open for participation" %}</span>
+        <h2 class="rs-h2 mt-5">{% translate "Active research" %}</h2>
+        <p class="rs-lead mt-4">{% translate "Participation is voluntary. Each study explains its purpose and how your answers are used before you begin." %}</p>
       </div>
+      <a href="{% url 'core:guide' %}" class="rs-btn-secondary shrink-0 self-start sm:self-auto">
+        <span class="grid h-6 w-6 place-items-center rounded-full bg-rs-royal text-white">{% icon "right" "h-3.5 w-3.5" %}</span>{% translate "Video guide (1 min)" %}</a>
     </div>
+
     {% if open_studies %}
-    <div class="mt-8 grid md:grid-cols-2 gap-5">
+    <div class="mt-10 grid gap-6 lg:mt-14 {% if open_studies|length > 1 %}lg:grid-cols-2{% endif %}">
       {% for s in open_studies %}
-      <article class="rs-card p-6 flex flex-col">
-        <div class="flex items-center gap-2 text-xs text-rs-muted">
-          <span class="rs-badge-published">{% translate "Open" %}</span>
-          <span class="inline-flex items-center gap-1">{% icon "clock" "h-3.5 w-3.5" %}{% blocktranslate with m=s.estimated_minutes %}≈ {{ m }} min{% endblocktranslate %}</span>
+      <article class="rs-reveal group relative flex flex-col overflow-hidden rounded-3xl border border-rs-border bg-rs-bg/60 transition duration-300 hover:-translate-y-1 hover:border-rs-royal/30 hover:shadow-glow {% if open_studies|length == 1 %}lg:grid lg:grid-cols-[1.5fr_1fr]{% endif %}">
+        <div class="flex flex-1 flex-col p-6 sm:p-8">
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="rs-badge-published"><span class="h-1.5 w-1.5 rounded-full bg-current"></span>{% translate "Open" %}</span>
+            <span class="rs-chip">{% icon "book" "h-3.5 w-3.5" %}{% translate "Scientific questionnaire" %}</span>
+          </div>
+          <h3 class="mt-5 text-xl font-semibold leading-snug tracking-tight text-rs-navy sm:text-2xl">{{ s.title }}</h3>
+          {% if s.objective %}<p class="mt-3 line-clamp-3 text-[15px] leading-relaxed text-rs-muted">{{ s.objective }}</p>{% endif %}
+          <dl class="mt-6 grid grid-cols-2 gap-x-4 gap-y-4 text-sm sm:grid-cols-4">
+            <div><dt class="text-xs text-rs-muted">{% translate "Duration" %}</dt><dd class="mt-1 flex items-center gap-1.5 font-semibold text-rs-text">{% icon "clock" "h-4 w-4 text-rs-royal" %}{% blocktranslate with m=s.estimated_minutes %}≈ {{ m }} min{% endblocktranslate %}</dd></div>
+            <div><dt class="text-xs text-rs-muted">{% translate "Questions" %}</dt><dd class="mt-1 flex items-center gap-1.5 font-semibold text-rs-text tabular-nums">{% icon "files" "h-4 w-4 text-rs-royal" %}{{ s.n_questions }}</dd></div>
+            <div><dt class="text-xs text-rs-muted">{% translate "Deadline" %}</dt><dd class="mt-1 flex items-center gap-1.5 font-semibold text-rs-text">{% icon "history" "h-4 w-4 text-rs-royal" %}{% if s.closes_at %}{{ s.closes_at|date:"d.m.Y" }}{% else %}{% translate "Open-ended" %}{% endif %}</dd></div>
+            <div><dt class="text-xs text-rs-muted">{% translate "Participants" %}</dt><dd class="mt-1 flex items-center gap-1.5 font-semibold text-rs-text tabular-nums">{% icon "users" "h-4 w-4 text-rs-royal" %}{{ s.n_completed|intcomma }}</dd></div>
+          </dl>
+          <div class="mt-auto flex flex-col gap-3 pt-8 sm:flex-row sm:items-center">
+            <a href="{{ s.get_public_url }}" class="rs-btn-cta rs-btn-lg">{% translate "Take part" %}{% icon "right" "h-4 w-4 transition group-hover:translate-x-0.5" %}</a>
+            <span class="text-[13px] text-rs-muted">{% translate "For pupils, students and teachers" %}</span>
+          </div>
         </div>
-        <h3 class="mt-3 text-xl font-semibold leading-snug">{{ s.title }}</h3>
-        {% if s.objective %}<p class="mt-2 text-sm text-rs-muted line-clamp-3">{{ s.objective }}</p>{% endif %}
-        {% if s.author %}<p class="mt-3 text-xs text-rs-muted">{{ s.author }}</p>{% endif %}
-        <div class="mt-auto pt-5"><a href="{{ s.get_public_url }}" class="rs-btn-primary">{% translate "Open the questionnaire" %}{% icon "right" "h-4 w-4" %}</a></div>
+        {% if open_studies|length == 1 %}
+        <aside class="border-t border-rs-border bg-rs-surface p-6 sm:p-8 lg:border-l lg:border-t-0">
+          <p class="text-[12px] font-semibold uppercase tracking-[0.14em] text-rs-muted">{% translate "What to expect" %}</p>
+          <ol class="mt-5 space-y-5">
+            <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-xs font-bold text-rs-royal">1</span><p class="text-sm leading-relaxed text-rs-muted"><strong class="block text-rs-text">{% translate "Read the purpose" %}</strong>{% translate "and give your consent." %}</p></li>
+            <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-xs font-bold text-rs-royal">2</span><p class="text-sm leading-relaxed text-rs-muted"><strong class="block text-rs-text">{% translate "Answer section by section" %}</strong>{% translate "Answers are saved automatically." %}</p></li>
+            <li class="flex gap-3"><span class="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-rs-success/10 text-xs font-bold text-rs-success">3</span><p class="text-sm leading-relaxed text-rs-muted"><strong class="block text-rs-text">{% translate "Submit your answers" %}</strong>{% translate "and keep the confirmation number." %}</p></li>
+          </ol>
+          <p class="mt-6 flex items-center gap-2 rounded-2xl bg-rs-raised px-4 py-3 text-[13px] text-rs-muted">{% icon "lock" "h-4 w-4 shrink-0 text-rs-success" %}{% translate "Your name is never asked." %}</p>
+        </aside>
+        {% endif %}
       </article>
       {% endfor %}
     </div>
     {% else %}
-    <div class="mt-8 rs-card">{% translate "No studies are open right now. If you received a link from a researcher, open it directly." as t %}{% include "includes/empty.html" with icon="flask" title=t %}</div>
+    <div class="rs-reveal mt-10 rounded-3xl border-2 border-dashed border-rs-border">{% translate "No studies are open right now. If you received a link from a researcher, open it directly." as t %}{% include "includes/empty.html" with icon="flask" title=t %}</div>
     {% endif %}
   </div>
 </section>
 
-{# ------------------------------------------------ contact #}
-<section id="contact" class="max-w-6xl mx-auto px-4 sm:px-6 py-14 sm:py-20 scroll-mt-20">
-  <div class="rs-card p-6 sm:p-10 grid md:grid-cols-2 gap-8 items-center">
-    <div>
-      <p class="rs-eyebrow">{% translate "Contact" %}</p>
-      <h2 class="mt-3 text-3xl font-semibold">{{ site_settings.organization_name }}</h2>
-      <p class="mt-2 text-rs-muted">{% translate "Questions about a study, your data or the platform? Contact the research team." %}</p>
+{# ============================================================ ANALYTICS PREVIEW #}
+<section id="analytics" class="relative isolate overflow-hidden bg-[#0B1528] text-white">
+  <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 opacity-[0.35]" style="background-image: radial-gradient(rgba(255,255,255,.08) 1px, transparent 0); background-size: 28px 28px;"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -top-56 right-0 -z-10 h-[560px] w-[760px] rounded-full bg-[radial-gradient(closest-side,rgba(37,99,235,.35),transparent)]"></div>
+  <div class="rs-container rs-section grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+    <div class="rs-reveal">
+      <span class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-[12px] font-semibold text-[#93C5FD]"><span class="h-1.5 w-1.5 rounded-full bg-[#60A5FA]"></span>{% translate "Analytics" %}</span>
+      <h2 class="mt-5 text-[1.75rem] font-bold leading-[1.15] tracking-[-0.025em] text-white sm:text-4xl lg:text-[2.75rem]">{% translate "From raw answers to scientific conclusions" %}</h2>
+      <p class="mt-4 text-base leading-relaxed text-slate-300 sm:text-lg">{% translate "Every chart shows its sample size. Significance is reported only together with the test that produced it." %}</p>
+      <ul class="mt-8 space-y-4">
+        <li class="flex gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#2563EB]/25 text-[#93C5FD]">{% icon "check" "h-3.5 w-3.5" %}</span><span class="text-slate-200">{% translate "Distributions and Likert profiles for every question" %}</span></li>
+        <li class="flex gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#2563EB]/25 text-[#93C5FD]">{% icon "check" "h-3.5 w-3.5" %}</span><span class="text-slate-200">{% translate "Cross-tabulations by status, institution and year" %}</span></li>
+        <li class="flex gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#2563EB]/25 text-[#93C5FD]">{% icon "check" "h-3.5 w-3.5" %}</span><span class="text-slate-200">{% translate "Findings linked to the questions they come from" %}</span></li>
+        <li class="flex gap-3"><span class="mt-0.5 grid h-6 w-6 shrink-0 place-items-center rounded-full bg-[#2563EB]/25 text-[#93C5FD]">{% icon "check" "h-3.5 w-3.5" %}</span><span class="text-slate-200">{% translate "Charts exported as PNG for articles" %}</span></li>
+      </ul>
     </div>
-    <ul class="space-y-3 text-sm">
-      {% if site_settings.contact_email %}<li class="flex items-center gap-3">{% icon "mail" "h-5 w-5 text-rs-royal" %}<a href="mailto:{{ site_settings.contact_email }}">{{ site_settings.contact_email }}</a></li>{% endif %}
-      {% if site_settings.contact_phone %}<li class="flex items-center gap-3">{% icon "phone" "h-5 w-5 text-rs-royal" %}<span>{{ site_settings.contact_phone }}</span></li>{% endif %}
-      {% if site_settings.address %}<li class="flex items-center gap-3">{% icon "pin" "h-5 w-5 text-rs-royal" %}<span>{{ site_settings.address }}</span></li>{% endif %}
-      {% if not site_settings.contact_email and not site_settings.contact_phone and not site_settings.address %}<li class="text-rs-muted">{% translate "Contact details will be published by the administrator." %}</li>{% endif %}
-    </ul>
+
+    <figure class="rs-reveal" aria-hidden="true">
+      <div class="rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-3 shadow-[0_40px_120px_-40px_rgba(37,99,235,.6)] backdrop-blur sm:p-4">
+        <div class="rounded-[1.25rem] border border-white/10 bg-[#0F1D36] p-4 sm:p-5">
+          <div class="flex items-center justify-between gap-3">
+            <div class="flex items-center gap-2"><span class="h-2.5 w-28 rounded bg-white/15"></span></div>
+            <div class="flex gap-1.5"><span class="rounded-lg bg-[#2563EB] px-2.5 py-1 text-[10px] font-semibold">{% translate "Overview" %}</span><span class="rounded-lg bg-white/5 px-2.5 py-1 text-[10px] text-slate-400">{% translate "Cross-tab" %}</span><span class="hidden rounded-lg bg-white/5 px-2.5 py-1 text-[10px] text-slate-400 sm:inline">{% translate "Tests" %}</span></div>
+          </div>
+          <div class="mt-5 grid grid-cols-[1.4fr_1fr] gap-3 sm:gap-4">
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <span class="block h-2 w-24 rounded bg-white/15"></span>
+              <svg viewBox="0 0 300 140" class="mt-4 h-24 w-full sm:h-36" preserveAspectRatio="none">
+                <defs><linearGradient id="ga" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B82F6" stop-opacity=".45"/><stop offset="1" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs>
+                <g stroke="rgba(255,255,255,.07)"><line x1="0" y1="35" x2="300" y2="35"/><line x1="0" y1="70" x2="300" y2="70"/><line x1="0" y1="105" x2="300" y2="105"/></g>
+                <path d="M0 110 C 30 100, 50 84, 80 88 S 130 60, 160 64 S 220 34, 250 40 S 285 22, 300 18 L300 140 L0 140Z" fill="url(#ga)"/>
+                <path d="M0 110 C 30 100, 50 84, 80 88 S 130 60, 160 64 S 220 34, 250 40 S 285 22, 300 18" fill="none" stroke="#60A5FA" stroke-width="2.5"/>
+                <path d="M0 122 C 40 118, 70 108, 100 110 S 160 92, 190 96 S 250 80, 300 70" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="2" stroke-dasharray="5 5"/>
+              </svg>
+            </div>
+            <div class="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <span class="block h-2 w-20 rounded bg-white/15"></span>
+              <div class="mt-4 grid grid-cols-5 gap-1 sm:gap-1.5">
+                {% for o in "2479536864135974796325874"|make_list %}
+                <span class="aspect-square rounded-[4px] bg-[#3B82F6] sm:rounded-md" style="opacity: .{{ o }}"></span>
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+          <div class="mt-3 grid grid-cols-3 gap-3 sm:mt-4 sm:gap-4">
+            <div class="col-span-2 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <span class="block h-2 w-28 rounded bg-white/15"></span>
+              <div class="mt-4 space-y-2.5">
+                {% for _ in "abcd" %}
+                <div class="flex items-center gap-3"><span class="h-1.5 w-14 shrink-0 rounded bg-white/10"></span><span class="h-2.5 rounded-full bg-gradient-to-r from-[#2563EB] to-[#60A5FA]" style="width: {% cycle '78' '61' '47' '32' %}%"></span></div>
+                {% endfor %}
+              </div>
+            </div>
+            <div class="rounded-2xl border border-[#60A5FA]/30 bg-[#2563EB]/10 p-4">
+              <div class="flex items-center gap-1.5 text-[11px] font-semibold text-[#93C5FD]">{% icon "sparkles" "h-3.5 w-3.5" %}{% translate "Finding" %}</div>
+              <span class="mt-3 block h-1.5 w-full rounded bg-white/15"></span><span class="mt-2 block h-1.5 w-5/6 rounded bg-white/15"></span><span class="mt-2 block h-1.5 w-2/3 rounded bg-white/15"></span>
+              <span class="mt-3 inline-flex rounded-md bg-white/10 px-1.5 py-0.5 font-mono text-[10px] text-slate-300">n · p · test</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <figcaption class="mt-4 text-center text-xs text-slate-400">{% translate "Illustration of the analytics interface. Real results are visible only to the researcher." %}</figcaption>
+    </figure>
+  </div>
+</section>
+
+{# ============================================================ HOW IT WORKS #}
+<section id="how" class="rs-section" x-data="{ tab: 'researcher' }">
+  <div class="rs-container">
+    <div class="rs-reveal mx-auto max-w-2xl text-center">
+      <span class="rs-kicker"><span class="rs-kicker-dot"></span>{% translate "How it works" %}</span>
+      <h2 class="rs-h2 mt-5">{% translate "Three steps — for every role" %}</h2>
+      <div class="mx-auto mt-8 inline-flex rounded-2xl border border-rs-border bg-rs-surface p-1 shadow-sm" role="tablist" aria-label="{% translate 'Choose your role' %}">
+        <button type="button" role="tab" class="rounded-xl px-4 py-2.5 text-sm font-semibold transition sm:px-5" :class="tab === 'researcher' ? 'bg-rs-navy text-rs-surface shadow' : 'text-rs-muted hover:text-rs-text'" :aria-selected="(tab === 'researcher').toString()" aria-selected="true" @click="tab = 'researcher'">{% translate "For researchers" %}</button>
+        <button type="button" role="tab" class="rounded-xl px-4 py-2.5 text-sm font-semibold transition sm:px-5" :class="tab === 'participant' ? 'bg-rs-navy text-rs-surface shadow' : 'text-rs-muted hover:text-rs-text'" :aria-selected="(tab === 'participant').toString()" aria-selected="false" @click="tab = 'participant'">{% translate "For participants" %}</button>
+      </div>
+    </div>
+
+    <ol class="relative mt-12 grid gap-5 md:grid-cols-3 lg:mt-14" x-show="tab === 'researcher'" x-transition.opacity.duration.250ms>
+      <li class="rs-tile rs-reveal"><span class="text-5xl font-extrabold tracking-tight text-rs-royal/15">01</span><div class="rs-tile-icon -mt-5 ml-auto">{% icon "builder" "h-6 w-6" %}</div><h3 class="mt-4 text-lg font-semibold">{% translate "Create the research" %}</h3><p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Import your Word questionnaire or build one; set participant fields, consent and evaluation criteria." %}</p></li>
+      <li class="rs-tile rs-reveal"><span class="text-5xl font-extrabold tracking-tight text-rs-royal/15">02</span><div class="rs-tile-icon -mt-5 ml-auto">{% icon "qr" "h-6 w-6" %}</div><h3 class="mt-4 text-lg font-semibold">{% translate "Collect responses" %}</h3><p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Publish and share the link or QR code. Every answer is stored securely in the database." %}</p></li>
+      <li class="rs-tile rs-reveal"><span class="text-5xl font-extrabold tracking-tight text-rs-royal/15">03</span><div class="rs-tile-icon -mt-5 ml-auto">{% icon "chart" "h-6 w-6" %}</div><h3 class="mt-4 text-lg font-semibold">{% translate "Analyse the results" %}</h3><p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Statistics, automatic evaluation and a scientific report ready for export." %}</p></li>
+    </ol>
+    <ol class="relative mt-12 grid gap-5 md:grid-cols-3 lg:mt-14" x-show="tab === 'participant'" x-cloak x-transition.opacity.duration.250ms>
+      <li class="rs-tile"><span class="text-5xl font-extrabold tracking-tight text-rs-royal/15">01</span><div class="rs-tile-icon -mt-5 ml-auto">{% icon "link" "h-6 w-6" %}</div><h3 class="mt-4 text-lg font-semibold">{% translate "Open the link" %}</h3><p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Get the link or QR code from your teacher. No registration or password is needed." %}</p></li>
+      <li class="rs-tile"><span class="text-5xl font-extrabold tracking-tight text-rs-royal/15">02</span><div class="rs-tile-icon -mt-5 ml-auto">{% icon "check" "h-6 w-6" %}</div><h3 class="mt-4 text-lg font-semibold">{% translate "Answer the questions" %}</h3><p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Move section by section. Answers are saved automatically at every step." %}</p></li>
+      <li class="rs-tile"><span class="text-5xl font-extrabold tracking-tight text-rs-royal/15">03</span><div class="rs-tile-icon -mt-5 ml-auto">{% icon "send" "h-6 w-6" %}</div><h3 class="mt-4 text-lg font-semibold">{% translate "Submit your answers" %}</h3><p class="mt-2 text-[15px] leading-relaxed text-rs-muted">{% translate "Press “Submit answers” and keep the confirmation number." %}</p></li>
+    </ol>
+  </div>
+</section>
+
+{# ============================================================ FINAL CTA #}
+<section class="pb-16 sm:pb-24">
+  <div class="rs-container">
+    <div class="rs-reveal relative isolate overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#1D4ED8] via-[#2563EB] to-[#3B82F6] px-6 py-12 text-white shadow-glow sm:px-12 sm:py-16">
+      <div aria-hidden="true" class="pointer-events-none absolute inset-0 -z-10 opacity-30" style="background-image: linear-gradient(rgba(255,255,255,.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.12) 1px, transparent 1px); background-size: 40px 40px;"></div>
+      <div class="flex flex-col items-start gap-8 lg:flex-row lg:items-center lg:justify-between">
+        <div class="max-w-2xl">
+          <h2 class="text-[1.75rem] font-bold leading-tight tracking-[-0.025em] text-white sm:text-4xl">{% translate "Start your next study today" %}</h2>
+          <p class="mt-3 text-base leading-relaxed text-blue-100 sm:text-lg">{% translate "Import an existing questionnaire and publish it in minutes." %}</p>
+        </div>
+        <div class="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
+          <a href="{% url 'surveys:create' %}" class="rs-btn rs-btn-lg bg-white text-[#1D4ED8] shadow-lg hover:-translate-y-px hover:bg-blue-50">{% icon "plus" "h-[18px] w-[18px]" %}{% translate "Create a new study" %}</a>
+          <a href="{% url 'surveys:import' %}" class="rs-btn rs-btn-lg border border-white/30 bg-white/10 text-white hover:bg-white/20">{% icon "upload" "h-[18px] w-[18px]" %}{% translate "Import from Word" %}</a>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 {% endblock %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-05 03:02+0500\n"
+"POT-Creation-Date: 2026-11-06 01:04+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -186,11 +186,11 @@ msgstr "Шарҳи тавлидкардаи AI"
 msgid "Researcher"
 msgstr "Муҳаққиқ"
 
-#: analytics/models.py:27 surveys/models.py:54 surveys/models.py:123
+#: analytics/models.py:27 surveys/models.py:54 surveys/models.py:128
 msgid "title"
 msgstr "сарлавҳа"
 
-#: analytics/models.py:28 surveys/models.py:230
+#: analytics/models.py:28 surveys/models.py:235
 #: templates/surveys/detail.html:64
 msgid "text"
 msgstr "матн"
@@ -219,36 +219,36 @@ msgstr "Тарҳи хулосаҳои илмӣ"
 msgid "Suggest discussion points"
 msgstr "Пешниҳоди нуктаҳо барои муҳокима"
 
-#: analytics/stats.py:101 analytics/stats.py:130
+#: analytics/stats.py:103 analytics/stats.py:132
 #, python-format
 msgid "Section mean: %(t)s"
 msgstr "Миёнаи қисм: %(t)s"
 
-#: analytics/stats.py:194
+#: analytics/stats.py:196
 msgid "respondents who answered (multiple answers possible)"
 msgstr "респондентони ҷавобдода (якчанд ҷавоб имконпазир аст)"
 
-#: analytics/stats.py:194
+#: analytics/stats.py:196
 msgid "valid answers"
 msgstr "ҷавобҳои эътибордор"
 
-#: analytics/stats.py:258
+#: analytics/stats.py:260
 msgid "Mean rank (lower = more important)"
 msgstr "Рутбаи миёна (камтар = муҳимтар)"
 
-#: analytics/stats.py:286
+#: analytics/stats.py:288
 msgid "No respondents answered both questions."
 msgstr "Ҳеҷ респондент ба ҳарду савол ҷавоб надодааст."
 
-#: analytics/stats.py:312
+#: analytics/stats.py:314
 msgid "A test needs at least a 2×2 table."
 msgstr "Барои санҷиш ақаллан ҷадвали 2×2 лозим аст."
 
-#: analytics/stats.py:317
+#: analytics/stats.py:319
 msgid "Pearson chi-square test of independence"
 msgstr "Санҷиши χ²-и Пирсон барои мустақилият"
 
-#: analytics/stats.py:332
+#: analytics/stats.py:334
 #, python-format
 msgid ""
 "More than 20%% of cells have expected counts below 5; the chi-square "
@@ -257,17 +257,17 @@ msgstr ""
 "Дар зиёда аз 20%% катакҳо басомади интизорӣ аз 5 камтар аст; наздикшавии χ² "
 "метавонад боэътимод набошад."
 
-#: analytics/stats.py:355 analytics/stats.py:433 reports/renderers.py:213
-#: reports/renderers.py:285 templates/analytics/compare.html:19
+#: analytics/stats.py:357 analytics/stats.py:435 reports/renderers.py:213
+#: reports/renderers.py:287 templates/analytics/compare.html:19
 #: templates/analytics/compare.html:39 templates/analytics/overview.html:36
 msgid "Mean"
 msgstr "Миёна"
 
-#: analytics/stats.py:358
+#: analytics/stats.py:360
 msgid "At least two groups with data are needed."
 msgstr "Ақаллан ду гурӯҳи дорои маълумот лозим аст."
 
-#: analytics/stats.py:364
+#: analytics/stats.py:366
 #, python-format
 msgid ""
 "Not tested: groups with fewer than %(n)s respondents (%(g)s). Descriptive "
@@ -276,31 +276,31 @@ msgstr ""
 "Санҷиш гузаронида нашуд: гурӯҳҳое, ки камтар аз %(n)s респондент доранд "
 "(%(g)s). Танҳо натиҷаҳои тавсифӣ."
 
-#: analytics/stats.py:370
+#: analytics/stats.py:372
 msgid "All values are identical; no test is meaningful."
 msgstr "Ҳамаи қиматҳо якхелаанд; санҷиш маъно надорад."
 
-#: analytics/stats.py:377
+#: analytics/stats.py:379
 msgid "Mann–Whitney U test (two-sided)"
 msgstr "Санҷиши U-и Манн–Уитни (дутарафа)"
 
-#: analytics/stats.py:381
+#: analytics/stats.py:383
 msgid "rank-biserial correlation"
 msgstr "коррелятсияи рутбавӣ-бисериалӣ"
 
-#: analytics/stats.py:391
+#: analytics/stats.py:393
 msgid "Kruskal–Wallis H test"
 msgstr "Санҷиши H-и Краскел–Уоллис"
 
-#: analytics/stats.py:396
+#: analytics/stats.py:398
 msgid "epsilon squared"
 msgstr "эпсилон-квадрат"
 
-#: analytics/stats.py:410
+#: analytics/stats.py:412
 msgid "At least 3 paired, non-constant observations are needed."
 msgstr "Ақаллан 3 мушоҳидаи ҷуфт ва тағйирёбанда лозим аст."
 
-#: analytics/stats.py:415
+#: analytics/stats.py:417
 msgid "Spearman rank correlation"
 msgstr "Коррелятсияи рутбавии Спирман"
 
@@ -348,15 +348,15 @@ msgstr ""
 "Тарҳи AI тайёр шуд. То он даме ки шумо онро насанҷед ва тасдиқ накунед, он "
 "натиҷаи илмӣ НЕСТ."
 
-#: config/settings.py:138
+#: config/settings.py:141
 msgid "Tajik"
 msgstr "Тоҷикӣ"
 
-#: config/settings.py:138
+#: config/settings.py:141
 msgid "Russian"
 msgstr "Русӣ"
 
-#: config/settings.py:138
+#: config/settings.py:141
 msgid "English"
 msgstr "Англисӣ"
 
@@ -420,50 +420,50 @@ msgstr "нишон додани омори умумӣ дар саҳифаи ас
 msgid "site settings"
 msgstr "танзимоти сомона"
 
-#: core/views.py:47
+#: core/views.py:69
 msgid "Too many login attempts. Please wait and try again."
 msgstr ""
 "Кӯшишҳои воридшавӣ аз ҳад зиёданд. Лутфан каме сабр карда, дубора кӯшиш "
 "кунед."
 
-#: core/views.py:99
+#: core/views.py:121
 msgid "User created."
 msgstr "Корбар сохта шуд."
 
-#: core/views.py:101 templates/core/users.html:8
+#: core/views.py:123 templates/core/users.html:8
 msgid "New user"
 msgstr "Корбари нав"
 
-#: core/views.py:110
+#: core/views.py:132
 msgid "You cannot deactivate or demote your own account."
 msgstr ""
 "Шумо ҳисоби худро ғайрифаъол карда ё нақши онро паст карда наметавонед."
 
-#: core/views.py:114
+#: core/views.py:136
 msgid "User updated."
 msgstr "Маълумоти корбар нав карда шуд."
 
-#: core/views.py:127
+#: core/views.py:149
 msgid "Settings saved."
 msgstr "Танзимот нигоҳ дошта шуд."
 
-#: core/views.py:141
+#: core/views.py:163
 msgid "Debug mode disabled"
 msgstr "Реҷаи ислоҳи хатоҳо (debug) хомӯш аст"
 
-#: core/views.py:142
+#: core/views.py:164
 msgid "HTTPS enforced (secure cookies, HSTS)"
 msgstr "HTTPS ҳатмӣ аст (cookie-ҳои бехатар, HSTS)"
 
-#: core/views.py:143
+#: core/views.py:165
 msgid "Secret key configured from environment"
 msgstr "Калиди махфӣ аз тағйирёбандаҳои муҳит гирифта шудааст"
 
-#: core/views.py:144
+#: core/views.py:166
 msgid "PostgreSQL database"
 msgstr "Пойгоҳи маълумоти PostgreSQL"
 
-#: core/views.py:145
+#: core/views.py:167
 msgid "Password hashing: PBKDF2"
 msgstr "Хешкунии рамзҳо: PBKDF2"
 
@@ -471,7 +471,7 @@ msgstr "Хешкунии рамзҳо: PBKDF2"
 msgid "criterion"
 msgstr "меъёр"
 
-#: evaluation/models.py:17 surveys/models.py:55 surveys/models.py:124
+#: evaluation/models.py:17 surveys/models.py:55 surveys/models.py:129
 msgid "description"
 msgstr "тавсиф"
 
@@ -479,73 +479,112 @@ msgstr "тавсиф"
 msgid "maximum score"
 msgstr "холи ҳадди аксар"
 
-#: evaluation/models.py:19 templates/evaluation/evaluate.html:20
+#: evaluation/models.py:19 templates/evaluation/evaluate.html:25
 msgid "weight"
 msgstr "вазн"
 
-#: evaluation/models.py:36
+#: evaluation/models.py:22
+msgid "automatic scoring rule"
+msgstr "қоидаи арзёбии худкор"
+
+#: evaluation/models.py:23
+msgid ""
+"Transparent rule used for automatic evaluation; empty means manual scoring "
+"only."
+msgstr ""
+"Қоидаи шаффоф барои арзёбии худкор; агар холӣ бошад, танҳо арзёбии дастӣ."
+
+#: evaluation/models.py:40
 msgid "In review"
 msgstr "Дар баррасӣ"
 
-#: evaluation/models.py:37
+#: evaluation/models.py:41
 msgid "Reviewed"
 msgstr "Баррасӣ шудааст"
 
-#: evaluation/models.py:41
+#: evaluation/models.py:45
 msgid "scientific comment"
 msgstr "шарҳи илмӣ"
 
-#: evaluation/models.py:42 reports/models.py:23
+#: evaluation/models.py:46 reports/models.py:23
 msgid "recommendations"
 msgstr "тавсияҳо"
 
-#: evaluation/models.py:44
+#: evaluation/models.py:48
 msgid "final score (%)"
 msgstr "холи ниҳоӣ (%)"
 
-#: evaluation/models.py:45
+#: evaluation/models.py:49
 msgid "Weighted score normalised to 0–100."
 msgstr "Холи вазндор, ба миқёси 0–100 оварда шудааст."
 
-#: evaluation/services.py:51 evaluation/views.py:62
+#: evaluation/models.py:55
+msgid "automatic evaluation"
+msgstr "арзёбии худкор"
+
+#: evaluation/services.py:55 evaluation/views.py:63
 msgid "Only completed responses can be evaluated."
 msgstr "Танҳо ҷавобҳои пурраро арзёбӣ кардан мумкин аст."
 
-#: evaluation/services.py:59
+#: evaluation/services.py:63
 msgid "Unknown evaluation criterion."
 msgstr "Меъёри арзёбии номаълум."
 
-#: evaluation/services.py:62
+#: evaluation/services.py:66
 #, python-format
 msgid "Score for “%(c)s” must be between 0 and %(m)s."
 msgstr "Хол барои «%(c)s» бояд аз 0 то %(m)s бошад."
 
-#: evaluation/views.py:32 templates/evaluation/criteria.html:10
+#: evaluation/views.py:33 templates/evaluation/criteria.html:17
 #: templates/surveys/participant_fields.html:10
 #: templates/surveys/question_form.html:37
 msgid "Order"
 msgstr "Тартиб"
 
-#: evaluation/views.py:78
+#: evaluation/views.py:79
 #, python-format
 msgid "“%(c)s”: enter a number."
 msgstr "«%(c)s»: рақам ворид кунед."
 
-#: evaluation/views.py:93
+#: evaluation/views.py:94
 #, python-format
 msgid "Evaluation saved (version %(v)s)."
 msgstr "Арзёбӣ нигоҳ дошта шуд (версияи %(v)s)."
 
-#: evaluation/views.py:126
+#: evaluation/views.py:127
 msgid "Criteria already used in evaluations cannot be deleted."
 msgstr ""
 "Меъёрҳое, ки аллакай дар арзёбӣ истифода шудаанд, нест карда намешаванд."
 
-#: evaluation/views.py:129
+#: evaluation/views.py:130
 msgid "Evaluation criteria saved."
 msgstr "Меъёрҳои арзёбӣ нигоҳ дошта шуданд."
 
-#: evaluation/views.py:147
+#: evaluation/views.py:149 reports/views.py:78
+msgid "Choose a questionnaire."
+msgstr "Пурсишномаро интихоб кунед."
+
+#: evaluation/views.py:163
+#, python-format
+msgid "%(n)s criteria copied."
+msgstr "%(n)s меъёр нусхабардорӣ шуд."
+
+#: evaluation/views.py:179
+#, python-format
+msgid ""
+"%(n)s responses were evaluated automatically. Review the scores and mark "
+"them as reviewed."
+msgstr ""
+"%(n)s ҷавоб худкор арзёбӣ шуд. Холҳоро санҷед ва ҳамчун баррасишуда қайд "
+"кунед."
+
+#: evaluation/views.py:181
+msgid ""
+"No responses needed automatic evaluation (or no criteria have automatic "
+"rules)."
+msgstr "Ҷавобе барои арзёбии худкор нест (ё меъёрҳо қоидаи худкор надоранд)."
+
+#: evaluation/views.py:199
 msgid "Marked as reviewed."
 msgstr "Ҳамчун баррасишуда қайд гардид."
 
@@ -605,67 +644,68 @@ msgstr "илова кардани диаграммаҳо"
 msgid "include analysis of individual questions"
 msgstr "илова кардани таҳлили ҳар як савол"
 
-#: reports/renderers.py:57 reports/views.py:178
+#: reports/renderers.py:58 reports/views.py:178
 msgid "No data"
 msgstr "Маълумот нест"
 
-#: reports/renderers.py:80
+#: reports/renderers.py:81
 msgid "Responses (labels)"
 msgstr "Ҷавобҳо (матн)"
 
-#: reports/renderers.py:81
+#: reports/renderers.py:82
 msgid "Responses (codes)"
 msgstr "Ҷавобҳо (рамзҳо)"
 
-#: reports/renderers.py:82
+#: reports/renderers.py:83
 msgid "Answers (long)"
 msgstr "Ҷавобҳо (шакли дароз)"
 
-#: reports/renderers.py:85 templates/base_app.html:27
-#: templates/core/dashboard.html:21 templates/surveys/list.html:21
+#: reports/renderers.py:86 templates/base_app.html:27
+#: templates/core/dashboard.html:21 templates/core/home.html:115
+#: templates/core/home.html:213 templates/surveys/list.html:21
 #: templates/surveys/participants.html:3 templates/surveys/participants.html:4
 #: templates/surveys/participants.html:6
 msgid "Participants"
 msgstr "Иштирокчиён"
 
-#: reports/renderers.py:86
+#: reports/renderers.py:87
 msgid "Evaluations"
 msgstr "Арзёбиҳо"
 
-#: reports/renderers.py:87 templates/analytics/intelligence.html:8
+#: reports/renderers.py:88 templates/analytics/intelligence.html:8
 msgid "Statistics"
 msgstr "Омор"
 
-#: reports/renderers.py:88
+#: reports/renderers.py:89
 msgid "Codebook"
 msgstr "Китоби рамзҳо"
 
-#: reports/renderers.py:89 templates/base_public.html:13
+#: reports/renderers.py:90
 msgid "About"
 msgstr "Дар бораи мо"
 
-#: reports/renderers.py:91 surveys/forms.py:168
-#: templates/evaluation/queue.html:14 templates/evaluation/queue.html:20
-#: templates/public/done.html:12 templates/reports/exports.html:28
+#: reports/renderers.py:92 surveys/forms.py:221
+#: templates/evaluation/queue.html:16 templates/evaluation/queue.html:22
+#: templates/public/done.html:14 templates/reports/exports.html:28
 #: templates/reports/list.html:8 templates/surveys/list.html:21
 #: templates/surveys/participants.html:10
 #: templates/surveys/participants.html:19 templates/surveys/responses.html:20
 msgid "Questionnaire"
 msgstr "Пурсишнома"
 
-#: reports/renderers.py:92
+#: reports/renderers.py:93
 msgid "Exported at"
 msgstr "Санаи содирот"
 
-#: reports/renderers.py:93
+#: reports/renderers.py:94
 msgid "Completed responses (N)"
 msgstr "Ҷавобҳои пурра (N)"
 
-#: reports/renderers.py:94
+#: reports/renderers.py:95
 msgid "Source"
 msgstr "Манбаъ"
 
-#: reports/renderers.py:125 templates/surveys/detail.html:130
+#: reports/renderers.py:126 templates/surveys/detail.html:130
 msgid "Responses"
 msgstr "Ҷавобҳо"
 
@@ -678,7 +718,7 @@ msgstr "N = %(N)s, ҷавоб доданд n = %(n)s, холӣ = %(m)s"
 msgid "Answer"
 msgstr "Ҷавоб"
 
-#: reports/renderers.py:205 reports/renderers.py:278
+#: reports/renderers.py:205 reports/renderers.py:280
 msgid "Count"
 msgstr "Шумора"
 
@@ -686,7 +726,7 @@ msgstr "Шумора"
 msgid "n"
 msgstr "n"
 
-#: reports/renderers.py:213 reports/renderers.py:285
+#: reports/renderers.py:213 reports/renderers.py:287
 #: templates/analytics/compare.html:19 templates/analytics/overview.html:37
 msgid "Median"
 msgstr "Медиана"
@@ -695,7 +735,7 @@ msgstr "Медиана"
 msgid "Mode"
 msgstr "Мода"
 
-#: reports/renderers.py:213 reports/renderers.py:285
+#: reports/renderers.py:213 reports/renderers.py:287
 #: templates/analytics/compare.html:19 templates/analytics/compare.html:39
 #: templates/analytics/overview.html:39
 msgid "SD"
@@ -748,7 +788,7 @@ msgstr "Ҳадафҳои таҳқиқот"
 msgid "Methodology"
 msgstr "Методология"
 
-#: reports/renderers.py:256
+#: reports/renderers.py:257
 #, python-format
 msgid ""
 "Instrument: %(q)s questions in %(s)s sections (%(t)s). Data were collected "
@@ -758,122 +798,118 @@ msgstr ""
 "тавассути ResearchSurvey ҷамъоварӣ шуд; омор аз ҷавобҳои нигоҳдошташуда "
 "ҳисоб карда шуд."
 
-#: reports/renderers.py:260 templates/reports/edit.html:20
+#: reports/renderers.py:262 templates/reports/edit.html:20
 msgid "Participants and sample"
 msgstr "Иштирокчиён ва интихоб"
 
-#: reports/renderers.py:266 reports/renderers.py:320
+#: reports/renderers.py:268 reports/renderers.py:322
 #: templates/analytics/overview.html:9
 #: templates/surveys/response_detail.html:8
 msgid "Started"
 msgstr "Оғоз шуд"
 
-#: reports/renderers.py:266
+#: reports/renderers.py:268
 msgid "Completed (N)"
 msgstr "Пурра (N)"
 
-#: reports/renderers.py:266 surveys/forms.py:169 surveys/models.py:313
+#: reports/renderers.py:268 surveys/forms.py:222 surveys/models.py:335
 #: templates/core/dashboard.html:23
 msgid "Incomplete"
 msgstr "Нопурра"
 
-#: reports/renderers.py:266
+#: reports/renderers.py:268
 msgid "Completion rate, %"
 msgstr "Ҳиссаи анҷомдиҳӣ, %"
 
-#: reports/renderers.py:266
+#: reports/renderers.py:268
 msgid "Median time, min"
 msgstr "Вақти медианӣ, дақ."
 
-#: reports/renderers.py:280 templates/reports/edit.html:20
+#: reports/renderers.py:282 templates/reports/edit.html:20
 msgid "Statistical results"
 msgstr "Натиҷаҳои оморӣ"
 
-#: reports/renderers.py:283
+#: reports/renderers.py:285
 msgid "Section means (Likert items, original scale):"
 msgstr "Миёнаҳои қисмҳо (изҳороти Ликерт, миқёси аслӣ):"
 
-#: reports/renderers.py:285 templates/public/fill.html:16
+#: reports/renderers.py:287 templates/public/fill.html:17
 #: templates/surveys/section_form.html:3 templates/surveys/section_form.html:4
 msgid "Section"
 msgstr "Қисм"
 
-#: reports/renderers.py:292 templates/reports/edit.html:20
+#: reports/renderers.py:294 templates/reports/edit.html:20
 msgid "Analysis of individual questions"
 msgstr "Таҳлили ҳар як савол"
 
-#: reports/renderers.py:300 templates/reports/edit.html:20
+#: reports/renderers.py:302 templates/reports/edit.html:20
 msgid "Main research findings"
 msgstr "Бозёфтҳои асосии таҳқиқот"
 
-#: reports/renderers.py:308 templates/reports/edit.html:20
+#: reports/renderers.py:310 templates/reports/edit.html:20
 msgid "Discussion"
 msgstr "Муҳокима"
 
-#: reports/renderers.py:309 templates/reports/edit.html:20
+#: reports/renderers.py:311 templates/reports/edit.html:20
 msgid "Conclusions"
 msgstr "Хулосаҳо"
 
-#: reports/renderers.py:310 templates/evaluation/evaluate.html:29
+#: reports/renderers.py:312 templates/evaluation/evaluate.html:34
 #: templates/reports/edit.html:20
 msgid "Recommendations"
 msgstr "Тавсияҳо"
 
-#: reports/renderers.py:319
+#: reports/renderers.py:321
 #, python-format
 msgid "Individual response %(id)s"
 msgstr "Ҷавоби инфиродӣ %(id)s"
 
-#: reports/renderers.py:320 surveys/forms.py:169 templates/core/users.html:16
-#: templates/evaluation/queue.html:20 templates/reports/list.html:13
+#: reports/renderers.py:322 surveys/forms.py:222 templates/core/users.html:16
+#: templates/evaluation/queue.html:22 templates/reports/list.html:13
 #: templates/surveys/list.html:21 templates/surveys/responses.html:20
 msgid "Status"
 msgstr "Ҳолат"
 
-#: reports/renderers.py:322 templates/evaluation/queue.html:20
-#: templates/public/done.html:14 templates/surveys/response_detail.html:8
+#: reports/renderers.py:324 templates/evaluation/queue.html:22
+#: templates/public/done.html:16 templates/surveys/response_detail.html:8
 #: templates/surveys/responses.html:20
 msgid "Submitted"
 msgstr "Супорида шуд"
 
-#: reports/renderers.py:340
+#: reports/renderers.py:342
 msgid "Evaluation (separate from the original answers)"
 msgstr "Арзёбӣ (алоҳида аз ҷавобҳои аслӣ)"
 
-#: reports/renderers.py:341 templates/evaluation/criteria.html:10
+#: reports/renderers.py:343 templates/evaluation/criteria.html:17
 msgid "Criterion"
 msgstr "Меъёр"
 
-#: reports/renderers.py:341 templates/evaluation/evaluate.html:38
-#: templates/evaluation/queue.html:20 templates/surveys/responses.html:20
+#: reports/renderers.py:343 templates/evaluation/evaluate.html:43
+#: templates/evaluation/queue.html:22 templates/surveys/responses.html:20
 msgid "Score"
 msgstr "Хол"
 
-#: reports/renderers.py:341
+#: reports/renderers.py:343
 msgid "Maximum"
 msgstr "Ҳадди аксар"
 
-#: reports/renderers.py:341 templates/evaluation/criteria.html:10
+#: reports/renderers.py:343 templates/evaluation/criteria.html:17
 msgid "Weight"
 msgstr "Вазн"
 
-#: reports/renderers.py:344
+#: reports/renderers.py:346
 msgid "Final score, %"
 msgstr "Холи ниҳоӣ, %"
 
-#: reports/renderers.py:347
+#: reports/renderers.py:349
 #, python-format
 msgid "Scientific comment: %(c)s"
 msgstr "Шарҳи илмӣ: %(c)s"
 
-#: reports/renderers.py:349
+#: reports/renderers.py:351
 #, python-format
 msgid "Recommendations: %(c)s"
 msgstr "Тавсияҳо: %(c)s"
-
-#: reports/views.py:78
-msgid "Choose a questionnaire."
-msgstr "Пурсишномаро интихоб кунед."
 
 #: reports/views.py:85
 msgid ""
@@ -908,116 +944,129 @@ msgstr "Ҳисобот нест карда шуд."
 msgid "Select at least one response."
 msgstr "Ақаллан як ҷавобро интихоб кунед."
 
-#: surveys/forms.py:37
+#: surveys/forms.py:38
 msgid "The closing date must be after the opening date."
 msgstr "Санаи баста шудан бояд пас аз санаи кушода шудан бошад."
 
-#: surveys/forms.py:42
+#: surveys/forms.py:43
 msgid "Word questionnaire (.docx)"
 msgstr "Пурсишномаи Word (.docx)"
 
-#: surveys/forms.py:43
+#: surveys/forms.py:44
 msgid "Questionnaire language"
 msgstr "Забони пурсишнома"
 
-#: surveys/forms.py:49
+#: surveys/forms.py:50
 msgid "Only .docx files are accepted."
 msgstr "Танҳо файлҳои .docx қабул карда мешаванд."
 
-#: surveys/forms.py:51
+#: surveys/forms.py:52
 #, python-format
 msgid "The file is too large (maximum %(mb)s MB)."
 msgstr "Ҳаҷми файл аз ҳад зиёд аст (ҳадди аксар %(mb)s МБ)."
 
-#: surveys/forms.py:55
+#: surveys/forms.py:56
 msgid "The file content is not a valid .docx document."
 msgstr "Мундариҷаи файл ҳуҷҷати дурусти .docx нест."
 
-#: surveys/forms.py:87
+#: surveys/forms.py:88
 msgid "Use letters, digits and underscores only."
 msgstr "Танҳо ҳарфҳо, рақамҳо ва аломати зерхат (_) истифода баред."
 
-#: surveys/forms.py:92
+#: surveys/forms.py:93
 msgid "This code is already used in the questionnaire."
 msgstr "Ин рамз аллакай дар пурсишнома истифода шудааст."
 
-#: surveys/forms.py:100 surveys/models.py:185
+#: surveys/forms.py:101 surveys/models.py:190
 msgid "Rating questions need a scale minimum and maximum."
 msgstr "Барои саволҳои рейтингӣ ҳадди ақал ва ҳадди аксари миқёс лозим аст."
 
-#: surveys/forms.py:102
+#: surveys/forms.py:103
 msgid "The scale must have between 2 and 21 points."
 msgstr "Миқёс бояд аз 2 то 21 дараҷа дошта бошад."
 
-#: surveys/forms.py:127
+#: surveys/forms.py:128
 msgid "Custom field label"
 msgstr "Номи майдони иловагӣ"
 
-#: surveys/forms.py:149
+#: surveys/forms.py:145
+msgid "Name of your university, college or school"
+msgstr "Номи донишгоҳ, коллеҷ ё мактаби шумо"
+
+#: surveys/forms.py:146
+msgid "For example: 2nd year or 10th grade"
+msgstr "Масалан: курси 2 ё синфи 10"
+
+#: surveys/forms.py:166
 msgid "I have read the information above and agree to take part voluntarily."
 msgstr ""
 "Ман маълумоти дар боло зикршударо хондам ва ба иштироки ихтиёрӣ розӣ ҳастам."
 
-#: surveys/forms.py:167 templates/core/users.html:12
+#: surveys/forms.py:203
+#, python-format
+msgid "“%(f)s” is required."
+msgstr "«%(f)s» ҳатмӣ аст."
+
+#: surveys/forms.py:220 templates/core/users.html:12
 #: templates/surveys/list.html:16 templates/surveys/participants.html:12
 msgid "Search"
 msgstr "Ҷустуҷӯ"
 
-#: surveys/forms.py:169 surveys/forms.py:172
-#: templates/evaluation/queue.html:12 templates/surveys/list.html:13
+#: surveys/forms.py:222 surveys/forms.py:225
+#: templates/evaluation/queue.html:14 templates/surveys/list.html:13
 msgid "All"
 msgstr "Ҳама"
 
-#: surveys/forms.py:169 surveys/models.py:314 templates/core/dashboard.html:22
+#: surveys/forms.py:222 surveys/models.py:336 templates/core/dashboard.html:22
 #: templates/surveys/list.html:21
 msgid "Completed"
 msgstr "Пурра"
 
-#: surveys/forms.py:171 templates/evaluation/evaluate.html:15
-#: templates/evaluation/queue.html:6 templates/surveys/response_detail.html:43
+#: surveys/forms.py:224 templates/evaluation/evaluate.html:15
+#: templates/evaluation/queue.html:6 templates/surveys/response_detail.html:44
 #: templates/surveys/response_print.html:7
 msgid "Evaluation"
 msgstr "Арзёбӣ"
 
-#: surveys/forms.py:172 templates/core/dashboard.html:24
-#: templates/evaluation/queue.html:10
+#: surveys/forms.py:225 templates/core/dashboard.html:24
+#: templates/evaluation/queue.html:12
 msgid "Awaiting evaluation"
 msgstr "Дар интизори арзёбӣ"
 
-#: surveys/forms.py:172 templates/core/dashboard.html:25
-#: templates/evaluation/queue.html:11
+#: surveys/forms.py:225 templates/core/dashboard.html:25
+#: templates/evaluation/queue.html:13
 msgid "Evaluated"
 msgstr "Арзёбӣ шудааст"
 
-#: surveys/forms.py:174
+#: surveys/forms.py:227
 msgid "From"
 msgstr "Аз"
 
-#: surveys/forms.py:175
+#: surveys/forms.py:228
 msgid "To"
 msgstr "То"
 
-#: surveys/forms.py:177
+#: surveys/forms.py:230
 msgid "Sort"
 msgstr "Тартиб"
 
-#: surveys/forms.py:178
+#: surveys/forms.py:231
 msgid "Newest first"
 msgstr "Аввал навтаринҳо"
 
-#: surveys/forms.py:178
+#: surveys/forms.py:231
 msgid "Oldest first"
 msgstr "Аввал куҳнатаринҳо"
 
-#: surveys/forms.py:178
+#: surveys/forms.py:231
 msgid "Recently submitted"
 msgstr "Охирин супоридашуда"
 
-#: surveys/forms.py:178
+#: surveys/forms.py:231
 msgid "Highest score"
 msgstr "Холи баландтарин"
 
-#: surveys/forms.py:178
+#: surveys/forms.py:231
 msgid "Lowest score"
 msgstr "Холи пасттарин"
 
@@ -1045,283 +1094,395 @@ msgstr "муаллифи таҳқиқот"
 msgid "participation instructions"
 msgstr "дастур барои иштирокчиён"
 
-#: surveys/models.py:59
+#: surveys/models.py:60
+msgid "show the university emblem on the start page"
+msgstr "нишони донишгоҳ дар саҳифаи оғоз нишон дода шавад"
+
+#: surveys/models.py:62
+msgid ""
+"Displays the emblem of Bokhtar State University above the title for "
+"participants."
+msgstr ""
+"Нишони Донишгоҳи давлатии Бохтар барои иштирокчиён дар болои сарлавҳа нишон "
+"дода мешавад."
+
+#: surveys/models.py:64
 msgid "informed consent statement"
 msgstr "матни розигии огоҳона"
 
-#: surveys/models.py:60
+#: surveys/models.py:65
 msgid "require informed consent"
 msgstr "розигии огоҳона ҳатмӣ аст"
 
-#: surveys/models.py:61
+#: surveys/models.py:66
 msgid "completion message"
 msgstr "паём пас аз анҷом"
 
-#: surveys/models.py:62
+#: surveys/models.py:67
 msgid "estimated completion time (minutes)"
 msgstr "вақти тахминии пур кардан (дақиқа)"
 
-#: surveys/models.py:63
+#: surveys/models.py:68
 msgid "questionnaire language"
 msgstr "забони пурсишнома"
 
-#: surveys/models.py:64
+#: surveys/models.py:69
 msgid "status"
 msgstr "ҳолат"
 
-#: surveys/models.py:65
+#: surveys/models.py:70
 msgid "active"
 msgstr "фаъол"
 
-#: surveys/models.py:66
+#: surveys/models.py:71
 msgid "opening date"
 msgstr "санаи кушодашавӣ"
 
-#: surveys/models.py:67
+#: surveys/models.py:72
 msgid "closing date"
 msgstr "санаи басташавӣ"
 
-#: surveys/models.py:136
+#: surveys/models.py:141
 msgid "Single choice"
 msgstr "Интихоби якто"
 
-#: surveys/models.py:137
+#: surveys/models.py:142
 msgid "Multiple choice"
 msgstr "Интихоби чандто"
 
-#: surveys/models.py:138
+#: surveys/models.py:143
 msgid "Yes / No"
 msgstr "Ҳа / Не"
 
-#: surveys/models.py:139
+#: surveys/models.py:144
 msgid "Likert scale"
 msgstr "Миқёси Ликерт"
 
-#: surveys/models.py:140 templates/surveys/question_form.html:26
+#: surveys/models.py:145 templates/surveys/question_form.html:26
 msgid "Rating scale"
 msgstr "Миқёси рейтингӣ"
 
-#: surveys/models.py:141
+#: surveys/models.py:146
 msgid "Short text"
 msgstr "Матни кӯтоҳ"
 
-#: surveys/models.py:142
+#: surveys/models.py:147
 msgid "Long text"
 msgstr "Матни дароз"
 
-#: surveys/models.py:143
+#: surveys/models.py:148
 msgid "Numeric answer"
 msgstr "Ҷавоби ададӣ"
 
-#: surveys/models.py:144
+#: surveys/models.py:149
 msgid "Date"
 msgstr "Сана"
 
-#: surveys/models.py:145
+#: surveys/models.py:150
 msgid "Matrix"
 msgstr "Матритса"
 
-#: surveys/models.py:146
+#: surveys/models.py:151
 msgid "Ranking"
 msgstr "Рутбабандӣ"
 
-#: surveys/models.py:155
+#: surveys/models.py:160
 msgid "number"
 msgstr "рақам"
 
-#: surveys/models.py:155
+#: surveys/models.py:160
 msgid "Original question number"
 msgstr "Рақами аслии савол"
 
-#: surveys/models.py:156
+#: surveys/models.py:161
 msgid "variable code"
 msgstr "рамзи тағйирёбанда"
 
-#: surveys/models.py:157
+#: surveys/models.py:162
 msgid "question text"
 msgstr "матни савол"
 
-#: surveys/models.py:158
+#: surveys/models.py:163
 msgid "help text"
 msgstr "матни ёрирасон"
 
-#: surveys/models.py:159
+#: surveys/models.py:164
 msgid "question type"
 msgstr "намуди савол"
 
-#: surveys/models.py:160 surveys/models.py:262
+#: surveys/models.py:165 surveys/models.py:282
 msgid "required"
 msgstr "ҳатмӣ"
 
-#: surveys/models.py:162
+#: surveys/models.py:167
 msgid "scale minimum"
 msgstr "ҳадди ақали миқёс"
 
-#: surveys/models.py:163
+#: surveys/models.py:168
 msgid "scale maximum"
 msgstr "ҳадди аксари миқёс"
 
-#: surveys/models.py:164
+#: surveys/models.py:169
 msgid "minimum label"
 msgstr "нишони ҳадди ақал"
 
-#: surveys/models.py:165
+#: surveys/models.py:170
 msgid "maximum label"
 msgstr "нишони ҳадди аксар"
 
-#: surveys/models.py:183
+#: surveys/models.py:188
 msgid "Section belongs to another questionnaire."
 msgstr "Қисм ба пурсишномаи дигар тааллуқ дорад."
 
-#: surveys/models.py:224
+#: surveys/models.py:229
 msgid "Answer option"
 msgstr "Варианти ҷавоб"
 
-#: surveys/models.py:225
+#: surveys/models.py:230
 msgid "Matrix row"
 msgstr "Сатри матритса"
 
-#: surveys/models.py:226
+#: surveys/models.py:231
 msgid "Matrix column"
 msgstr "Сутуни матритса"
 
-#: surveys/models.py:231
+#: surveys/models.py:236
 msgid "numeric code"
 msgstr "рамзи ададӣ"
 
-#: surveys/models.py:232
+#: surveys/models.py:237
 msgid "allows free text ('other')"
 msgstr "матни озодро иҷозат медиҳад («дигар»)"
 
-#: surveys/models.py:247
+#: surveys/models.py:251
+msgid "School pupil"
+msgstr "Хонандаи мактаб"
+
+#: surveys/models.py:252
+msgid "College / lyceum student"
+msgstr "Донишҷӯи коллеҷ / литсей"
+
+#: surveys/models.py:253
+msgid "University student (bachelor)"
+msgstr "Донишҷӯи донишгоҳ (бакалавр)"
+
+#: surveys/models.py:254
+msgid "Master's or doctoral student"
+msgstr "Магистрант / докторант"
+
+#: surveys/models.py:255
+msgid "School teacher"
+msgstr "Омӯзгори мактаб"
+
+#: surveys/models.py:256
+msgid "College / lyceum teacher"
+msgstr "Омӯзгори коллеҷ / литсей"
+
+#: surveys/models.py:257
+msgid "University teacher"
+msgstr "Омӯзгори донишгоҳ"
+
+#: surveys/models.py:258
+msgid "Other"
+msgstr "Дигар"
+
+#: surveys/models.py:266
 msgid "Participant name"
 msgstr "Ному насаби иштирокчӣ"
 
-#: surveys/models.py:248 templates/surveys/participants.html:19
+#: surveys/models.py:267 templates/surveys/participants.html:19
 #: templates/surveys/response_detail.html:30
 msgid "Age"
 msgstr "Синну сол"
 
-#: surveys/models.py:249 templates/surveys/participants.html:19
+#: surveys/models.py:268 templates/surveys/participants.html:19
 #: templates/surveys/response_detail.html:31
 msgid "Gender"
 msgstr "Ҷинс"
 
-#: surveys/models.py:250 templates/surveys/response_detail.html:32
-msgid "Education level"
-msgstr "Сатҳи таҳсилот"
+#: surveys/models.py:269 templates/surveys/response_detail.html:36
+msgid "Your status"
+msgstr "Мақоми шумо"
 
-#: surveys/models.py:251 templates/surveys/response_detail.html:33
-msgid "University"
-msgstr "Донишгоҳ"
+#: surveys/models.py:270
+msgid "Educational institution"
+msgstr "Муассисаи таҳсилотӣ"
 
-#: surveys/models.py:252 templates/surveys/participants.html:19
-#: templates/surveys/response_detail.html:34
-msgid "Faculty"
-msgstr "Факултет"
+#: surveys/models.py:271 surveys/participant_roles.py:43
+msgid "Faculty / department"
+msgstr "Факултет / шуъба"
 
-#: surveys/models.py:253 templates/surveys/participants.html:19
-#: templates/surveys/response_detail.html:35
-msgid "Specialty"
-msgstr "Ихтисос"
+#: surveys/models.py:272
+msgid "Specialty / field of study"
+msgstr "Ихтисос / самт"
 
-#: surveys/models.py:254 templates/surveys/response_detail.html:36
-msgid "Academic year"
-msgstr "Курс"
+#: surveys/models.py:273
+msgid "Year or grade"
+msgstr "Курс ё синф"
 
-#: surveys/models.py:255 templates/analytics/compare.html:19
-#: templates/surveys/response_detail.html:37
+#: surveys/models.py:274 templates/analytics/compare.html:19
+#: templates/surveys/response_detail.html:38
 msgid "Group"
 msgstr "Гурӯҳ"
 
-#: surveys/models.py:256
+#: surveys/models.py:275 templates/surveys/response_detail.html:37
+msgid "Subject taught"
+msgstr "Фанни таълимӣ"
+
+#: surveys/models.py:276
 msgid "Custom field"
 msgstr "Майдони иловагӣ"
 
-#: surveys/models.py:260
+#: surveys/models.py:280
 msgid "label"
 msgstr "ном"
 
-#: surveys/models.py:261
+#: surveys/models.py:281
 msgid "collect"
 msgstr "ҷамъоварӣ"
 
-#: surveys/models.py:304
+#: surveys/models.py:326
 #, python-format
 msgid "Anonymous participant #%(id)s"
 msgstr "Иштирокчии беном №%(id)s"
 
-#: surveys/public_views.py:74
+#: surveys/participant_roles.py:12 surveys/participant_roles.py:33
+msgid "Name of your school"
+msgstr "Номи мактаби шумо"
+
+#: surveys/participant_roles.py:12
+msgid "For example: Secondary school No. 5, Bokhtar"
+msgstr "Масалан: Мактаби миёнаи №5, ш. Бохтар"
+
+#: surveys/participant_roles.py:13
+msgid "Grade"
+msgstr "Синф"
+
+#: surveys/participant_roles.py:13
+msgid "For example: 9th grade"
+msgstr "Масалан: синфи 9"
+
+#: surveys/participant_roles.py:16 surveys/participant_roles.py:37
+msgid "Name of your college or lyceum"
+msgstr "Номи коллеҷ ё литсеи шумо"
+
+#: surveys/participant_roles.py:17 surveys/participant_roles.py:23
+#: surveys/participant_roles.py:29 templates/surveys/participants.html:19
+#: templates/surveys/response_detail.html:34
+msgid "Specialty"
+msgstr "Ихтисос"
+
+#: surveys/participant_roles.py:18 surveys/participant_roles.py:24
+#: surveys/participant_roles.py:30
+msgid "Year of study"
+msgstr "Курс"
+
+#: surveys/participant_roles.py:18 surveys/participant_roles.py:24
+msgid "For example: 2nd year"
+msgstr "Масалан: курси 2"
+
+#: surveys/participant_roles.py:21 surveys/participant_roles.py:42
+msgid "Name of your university"
+msgstr "Номи донишгоҳи шумо"
+
+#: surveys/participant_roles.py:22 surveys/participant_roles.py:28
+#: templates/surveys/participants.html:19
+#: templates/surveys/response_detail.html:33
+msgid "Faculty"
+msgstr "Факултет"
+
+#: surveys/participant_roles.py:27
+msgid "University or research institution"
+msgstr "Донишгоҳ ё муассисаи илмӣ"
+
+#: surveys/participant_roles.py:34 surveys/participant_roles.py:39
+#: surveys/participant_roles.py:44
+msgid "Subject you teach"
+msgstr "Фанне, ки таълим медиҳед"
+
+#: surveys/participant_roles.py:34
+msgid "For example: mathematics"
+msgstr "Масалан: математика"
+
+#: surveys/participant_roles.py:38
+msgid "Department"
+msgstr "Шуъба / кафедра"
+
+#: surveys/participant_roles.py:47
+msgid "Institution or organisation"
+msgstr "Муассиса ё ташкилот"
+
+#: surveys/public_views.py:77
 msgid "This questionnaire is not accepting responses."
 msgstr "Ин пурсишнома ҷавоб қабул намекунад."
 
-#: surveys/public_views.py:82
+#: surveys/public_views.py:85
 msgid "Too many attempts from your network. Please try again later."
 msgstr "Аз шабакаи шумо кӯшишҳо аз ҳад зиёданд. Лутфан баъдтар такрор кунед."
 
-#: surveys/public_views.py:104 surveys/public_views.py:132
+#: surveys/public_views.py:107 surveys/public_views.py:135
 msgid "This questionnaire is no longer accepting responses."
 msgstr "Ин пурсишнома дигар ҷавоб қабул намекунад."
 
-#: surveys/public_views.py:135
+#: surveys/public_views.py:138
 msgid "Too many submissions from your network. Please try again later."
 msgstr "Аз шабакаи шумо ирсолҳо аз ҳад зиёданд. Лутфан баъдтар такрор кунед."
 
-#: surveys/public_views.py:152
+#: surveys/public_views.py:156
 msgid "Please answer the highlighted questions."
 msgstr "Лутфан ба саволҳои ҷудошуда ҷавоб диҳед."
 
-#: surveys/services.py:174
+#: surveys/services.py:175
 msgid "A questionnaire without questions cannot be approved."
 msgstr "Пурсишномаи бе савол тасдиқ карда намешавад."
 
-#: surveys/services.py:183 surveys/views.py:164
+#: surveys/services.py:184 surveys/views.py:164
 msgid "The questionnaire must be approved before publication."
 msgstr "Пурсишнома бояд пеш аз нашр тасдиқ карда шавад."
 
-#: surveys/services.py:244 surveys/services.py:298
+#: surveys/services.py:245 surveys/services.py:299
 msgid "Invalid option selected."
 msgstr "Варианти нодуруст интихоб шудааст."
 
-#: surveys/services.py:246
+#: surveys/services.py:247
 msgid "Select only one option."
 msgstr "Танҳо як вариантро интихоб кунед."
 
-#: surveys/services.py:258
+#: surveys/services.py:259
 msgid "Choose a value on the scale."
 msgstr "Қиматро аз миқёс интихоб кунед."
 
-#: surveys/services.py:270
+#: surveys/services.py:271
 msgid "Enter a valid number."
 msgstr "Адади дурустро ворид кунед."
 
-#: surveys/services.py:277
+#: surveys/services.py:278
 msgid "Enter a valid date (YYYY-MM-DD)."
 msgstr "Санаи дурустро ворид кунед (СССС-ММ-РР)."
 
-#: surveys/services.py:284
+#: surveys/services.py:285
 #, python-format
 msgid "The answer is too long (maximum %(n)s characters)."
 msgstr "Ҷавоб аз ҳад дароз аст (ҳадди аксар %(n)s аломат)."
 
-#: surveys/services.py:302
+#: surveys/services.py:303
 msgid "Answer every row."
 msgstr "Ба ҳар як сатр ҷавоб диҳед."
 
-#: surveys/services.py:310
+#: surveys/services.py:311
 #, python-format
 msgid "Ranks must be between 1 and %(n)s."
 msgstr "Рутбаҳо бояд аз 1 то %(n)s бошанд."
 
-#: surveys/services.py:314
+#: surveys/services.py:315
 msgid "Each rank can be used only once."
 msgstr "Ҳар рутба танҳо як маротиба истифода мешавад."
 
-#: surveys/services.py:317
+#: surveys/services.py:318
 msgid "Rank every option."
 msgstr "Ба ҳар як вариант рутба диҳед."
 
-#: surveys/services.py:321 templates/public/_question.html:64
+#: surveys/services.py:322 templates/public/_question.html:64
 msgid "This question is required."
 msgstr "Ин савол ҳатмӣ аст."
 
@@ -1812,7 +1973,7 @@ msgid "Approve"
 msgstr "Тасдиқ кардан"
 
 #: templates/analytics/intelligence.html:35
-#: templates/evaluation/criteria.html:10
+#: templates/evaluation/criteria.html:17
 #: templates/surveys/confirm_delete.html:3
 #: templates/surveys/confirm_delete.html:9
 #: templates/surveys/question_form.html:37
@@ -2038,8 +2199,7 @@ msgstr "Ҳоло пурсишнома нест"
 msgid "Import Word questionnaire"
 msgstr "Воридкунии пурсишномаи Word"
 
-#: templates/base.html:8 templates/base_public.html:45
-#: templates/core/home.html:16 templates/registration/login.html:13
+#: templates/base.html:8 templates/registration/login.html:14
 msgid "Intelligent Platform for Scientific Research and Survey Analytics"
 msgstr "Платформаи интеллектуалӣ барои таҳқиқоти илмӣ ва таҳлили пурсишҳо"
 
@@ -2047,11 +2207,11 @@ msgstr "Платформаи интеллектуалӣ барои таҳқиқ�
 msgid "Skip to content"
 msgstr "Гузариш ба мундариҷа"
 
-#: templates/base_app.html:9 templates/base_public.html:12
+#: templates/base_app.html:9 templates/base_public.html:17
 msgid "Main navigation"
 msgstr "Менюи асосӣ"
 
-#: templates/base_app.html:14
+#: templates/base_app.html:14 templates/core/home.html:164
 msgid "Research analytics"
 msgstr "Таҳлили илмӣ"
 
@@ -2059,8 +2219,9 @@ msgstr "Таҳлили илмӣ"
 msgid "Close menu"
 msgstr "Пӯшидани меню"
 
-#: templates/base_app.html:20 templates/base_public.html:26
-#: templates/core/dashboard.html:3 templates/core/dashboard.html:4
+#: templates/base_app.html:20 templates/base_public.html:33
+#: templates/base_public.html:58 templates/core/dashboard.html:3
+#: templates/core/dashboard.html:4
 msgid "Dashboard"
 msgstr "Панели идоракунӣ"
 
@@ -2139,30 +2300,117 @@ msgstr "Кушодани меню"
 msgid "Breadcrumb"
 msgstr "Масири саҳифа"
 
-#: templates/base_app.html:76 templates/base_public.html:21
+#: templates/base_app.html:76 templates/base_public.html:28
 msgid "Light mode"
 msgstr "Реҷаи равшан"
 
-#: templates/base_app.html:76 templates/base_public.html:21
+#: templates/base_app.html:76 templates/base_public.html:28
 msgid "Dark mode"
 msgstr "Реҷаи торик"
 
-#: templates/base_public.html:14
+#: templates/base_public.html:8
+msgid "home page"
+msgstr "саҳифаи асосӣ"
+
+#: templates/base_public.html:12
+msgid "Research platform"
+msgstr "Платформаи таҳқиқотӣ"
+
+#: templates/base_public.html:18 templates/base_public.html:50
+msgid "Home"
+msgstr "Асосӣ"
+
+#: templates/base_public.html:19 templates/base_public.html:51
 msgid "Research"
 msgstr "Таҳқиқот"
 
-#: templates/base_public.html:15
-msgid "Participate"
-msgstr "Иштирок"
+#: templates/base_public.html:20 templates/base_public.html:52
+#: templates/base_public.html:92 templates/core/home.html:136
+msgid "Features"
+msgstr "Имкониятҳо"
 
-#: templates/base_public.html:16 templates/core/home.html:106
+#: templates/base_public.html:21 templates/base_public.html:53
+#: templates/core/home.html:246 templates/surveys/detail.html:16
+msgid "Analytics"
+msgstr "Таҳлил"
+
+#: templates/base_public.html:22 templates/base_public.html:54
+#: templates/core/home.html:310
+msgid "How it works"
+msgstr "Тартиби кор"
+
+#: templates/base_public.html:35 templates/base_public.html:60
+#: templates/registration/login.html:3 templates/registration/login.html:28
+msgid "Sign in"
+msgstr "Ворид шудан"
+
+#: templates/base_public.html:37 templates/base_public.html:62
+msgid "Create research"
+msgstr "Эҷоди таҳқиқот"
+
+#: templates/base_public.html:39
+msgid "Menu"
+msgstr "Меню"
+
+#: templates/base_public.html:49
+msgid "Mobile navigation"
+msgstr "Менюи мобилӣ"
+
+#: templates/base_public.html:86 templates/core/home.html:19
+msgid ""
+"A digital platform for designing, conducting and analysing scientific and "
+"social research."
+msgstr ""
+"Платформаи рақамӣ барои таҳия, гузаронидан ва таҳлили таҳқиқоти илмӣ ва "
+"иҷтимоӣ."
+
+#: templates/base_public.html:88 templates/base_public.html:89
+msgid "Platform"
+msgstr "Платформа"
+
+#: templates/base_public.html:91 templates/core/guide.html:25
+msgid "Open studies"
+msgstr "Таҳқиқоти кушода"
+
+#: templates/base_public.html:93 templates/core/guide.html:3
+#: templates/core/guide.html:15
+msgid "Video guide"
+msgstr "Видеодастур"
+
+#: templates/base_public.html:94 templates/registration/login.html:20
+msgid "Researcher sign in"
+msgstr "Воридшавии муҳаққиқ"
+
+#: templates/base_public.html:97 templates/base_public.html:98
+#: templates/core/privacy.html:8
+msgid "Documents"
+msgstr "Ҳуҷҷатҳо"
+
+#: templates/base_public.html:100 templates/core/privacy.html:3
+#: templates/core/privacy.html:9
+msgid "Privacy policy"
+msgstr "Сиёсати махфият"
+
+#: templates/base_public.html:101 templates/core/home.html:31
+#: templates/core/privacy.html:20 templates/public/landing.html:94
+msgid "Informed consent"
+msgstr "Розигии огоҳона"
+
+#: templates/base_public.html:105
 msgid "Contact"
 msgstr "Тамос"
 
-#: templates/base_public.html:28 templates/core/home.html:19
-#: templates/registration/login.html:19
-msgid "Researcher sign in"
-msgstr "Воридшавии муҳаққиқ"
+#: templates/base_public.html:110
+msgid "Contact details will be published by the administrator."
+msgstr "Маълумоти тамосро администратор нашр мекунад."
+
+#: templates/base_public.html:116
+msgid "All rights reserved."
+msgstr "Ҳамаи ҳуқуқҳо ҳифз шудаанд."
+
+#: templates/base_public.html:117
+msgid "Science is the driving force of society’s progress"
+msgstr "Илм — қувваи пешбарандаи пешрафти ҷомеа"
 
 #: templates/core/dashboard.html:9
 #, python-format
@@ -2218,177 +2466,212 @@ msgstr ""
 "Барои оғози ҷамъоварии маълумот пурсишномаро нашр карда, пайванди онро паҳн "
 "кунед."
 
+#: templates/core/guide.html:4
+msgid "How to fill in a questionnaire: a one-minute video guide for students."
+msgstr ""
+"Чӣ тавр пурсишномаро пур кунем: видеодастури якдақиқаина барои донишҷӯён."
+
+#: templates/core/guide.html:9
+msgid "Video guide: how to fill in a questionnaire"
+msgstr "Видеодастур: чӣ тавр пурсишномаро пур кунем"
+
+#: templates/core/guide.html:11 templates/core/guide.html:26
+msgid "Download the video"
+msgstr "Боргирии видео"
+
+#: templates/core/guide.html:15
+msgid "minute"
+msgstr "дақиқа"
+
+#: templates/core/guide.html:16
+msgid "How to fill in a questionnaire"
+msgstr "Чӣ тавр пурсишномаро пур кунем"
+
+#: templates/core/guide.html:17
+msgid ""
+"For students who take part in a scientific survey for the first time. The "
+"video has Tajik subtitles; you can watch it without sound."
+msgstr ""
+"Барои донишҷӯёне, ки бори аввал дар пурсиши илмӣ иштирок мекунанд. Видео "
+"зернависи тоҷикӣ дорад; онро бе овоз ҳам тамошо кардан мумкин аст."
+
+#: templates/core/guide.html:19
+msgid ""
+"Open the link or QR code from your teacher — no registration is needed."
+msgstr "Пайванд ё рамзи QR-ро аз омӯзгор кушоед — сабти ном лозим нест."
+
+#: templates/core/guide.html:20
+msgid ""
+"Read the purpose, tick the consent box and press “Begin the questionnaire”."
+msgstr ""
+"Ҳадафро хонед, розигиро қайд кунед ва «Оғози пурсишнома»-ро пахш кунед."
+
+#: templates/core/guide.html:21
+msgid ""
+"Answer the questions section by section and press “Next”; answers are saved "
+"automatically."
+msgstr ""
+"Ба саволҳо қисм ба қисм ҷавоб диҳед ва «Навбатӣ»-ро пахш кунед; ҷавобҳо "
+"худкор нигоҳ дошта мешаванд."
+
+#: templates/core/guide.html:22
+msgid ""
+"In the last section press “Submit answers” and keep your confirmation ID."
+msgstr ""
+"Дар қисми охирин «Супоридани ҷавобҳо»-ро пахш кунед ва рақами тасдиқро нигоҳ"
+" доред."
+
 #: templates/core/home.html:3
 msgid "Scientific research platform"
 msgstr "Платформаи таҳқиқоти илмӣ"
 
 #: templates/core/home.html:14
-msgid "Evidence-based research,"
-msgstr "Таҳқиқоти далелнок —"
-
-#: templates/core/home.html:14
-msgid "from questionnaire to findings."
-msgstr "аз пурсишнома то хулоса."
+msgid "Platform for scientific and social research"
+msgstr "Платформаи таҳқиқоти илмӣ ва иҷтимоӣ"
 
 #: templates/core/home.html:16
-msgid ""
-"Design scientific questionnaires, collect responses securely, evaluate each "
-"participant and turn real data into transparent statistical reports."
-msgstr ""
-"Пурсишномаҳои илмӣ таҳия кунед, ҷавобҳоро бехатар ҷамъ оваред, ҳар як "
-"иштирокчиро арзёбӣ кунед ва маълумоти воқеиро ба ҳисоботи шаффофи оморӣ "
-"табдил диҳед."
+msgid "Start your research."
+msgstr "Таҳқиқотро оғоз кунед."
 
-#: templates/core/home.html:18
-msgid "Take part in a study"
-msgstr "Иштирок дар таҳқиқот"
+#: templates/core/home.html:17
+msgid "Turn data into knowledge."
+msgstr "Маълумотро ба дониш табдил диҳед."
+
+#: templates/core/home.html:21 templates/core/home.html:342
+msgid "Create a new study"
+msgstr "Эҷоди таҳқиқоти нав"
 
 #: templates/core/home.html:22
-msgid "Anonymous participation supported"
-msgstr "Иштироки беном дастгирӣ мешавад"
+msgid "Explore the platform"
+msgstr "Омӯзиши платформа"
 
-#: templates/core/home.html:23 templates/public/landing.html:37
-msgid "Informed consent"
-msgstr "Розигии огоҳона"
+#: templates/core/home.html:26
+msgid "Taking part in a survey?"
+msgstr "Дар пурсиш иштирок мекунед?"
 
-#: templates/core/home.html:28
-msgid "Research workflow"
-msgstr "Раванди таҳқиқот"
-
-#: templates/core/home.html:30
-msgid "Import or build"
-msgstr "Ворид кунед ё созед"
+#: templates/core/home.html:26
+msgid "See the open studies"
+msgstr "Таҳқиқоти кушода"
 
 #: templates/core/home.html:30
-msgid ""
-"Upload a Word questionnaire; wording is preserved and reviewed before "
-"publication."
-msgstr ""
-"Пурсишномаи Word-ро бор кунед; матн айнан нигоҳ дошта шуда, пеш аз нашр "
-"санҷида мешавад."
+msgid "Anonymous and confidential"
+msgstr "Беном ва махфӣ"
 
-#: templates/core/home.html:31 templates/surveys/participant_fields.html:10
-msgid "Collect"
-msgstr "Ҷамъоварӣ"
+#: templates/core/home.html:43
+msgid "Interface preview"
+msgstr "Намунаи интерфейс"
 
-#: templates/core/home.html:31
-msgid "Share a public link or QR code. Every answer is saved to the database."
-msgstr ""
-"Пайванди умумӣ ё рамзи QR-ро паҳн кунед. Ҳар як ҷавоб дар пойгоҳи маълумот "
-"нигоҳ дошта мешавад."
+#: templates/core/home.html:92
+msgid "Response saved"
+msgstr "Ҷавоб нигоҳ дошта шуд"
 
-#: templates/core/home.html:32 templates/evaluation/evaluate.html:3
-#: templates/evaluation/evaluate.html:7 templates/evaluation/queue.html:26
-#: templates/surveys/response_detail.html:16
-msgid "Evaluate"
-msgstr "Арзёбӣ"
+#: templates/core/home.html:96
+msgid "Key finding"
+msgstr "Хулосаи асосӣ"
 
-#: templates/core/home.html:32
-msgid "Score responses with weighted criteria — originals are never modified."
-msgstr ""
-"Ҷавобҳоро бо меъёрҳои вазндор арзёбӣ кунед — ҷавобҳои аслӣ ҳеҷ гоҳ тағйир "
-"намеёбанд."
-
-#: templates/core/home.html:33
-msgid "Analyse and report"
-msgstr "Таҳлил ва ҳисобот"
-
-#: templates/core/home.html:33
-msgid ""
-"Statistics with sample sizes, tests, traceable findings, Word/PDF/Excel "
-"exports."
-msgstr ""
-"Омор бо ҳаҷми интихоб, санҷишҳо, бозёфтҳои пайгиришаванда, содирот ба "
-"Word/PDF/Excel."
-
-#: templates/core/home.html:41
+#: templates/core/home.html:106
 msgid "Platform statistics"
 msgstr "Омори платформа"
 
-#: templates/core/home.html:43
-msgid "Studies conducted"
-msgstr "Таҳқиқоти гузаронидашуда"
+#: templates/core/home.html:111
+msgid "Research projects"
+msgstr "Лоиҳаҳои таҳқиқотӣ"
 
-#: templates/core/home.html:44
+#: templates/core/home.html:119
 msgid "Completed responses"
 msgstr "Ҷавобҳои пурра"
 
-#: templates/core/home.html:45
-msgid "Studies open now"
-msgstr "Таҳқиқоти ҳозира кушода"
+#: templates/core/home.html:123
+msgid "Active surveys"
+msgstr "Пурсишҳои фаъол"
 
-#: templates/core/home.html:54
-msgid "About the platform"
-msgstr "Дар бораи платформа"
+#: templates/core/home.html:137
+msgid "The full research cycle in one place"
+msgstr "Давраи пурраи таҳқиқот дар як ҷо"
 
-#: templates/core/home.html:55
-msgid "Built for scientific credibility"
-msgstr "Барои эътимоди илмӣ сохта шудааст"
-
-#: templates/core/home.html:59
+#: templates/core/home.html:138
 msgid ""
-"ResearchSurvey supports the full cycle of survey-based research: instrument "
-"design, ethical data collection, individual evaluation, statistical analysis"
-" and reporting."
+"From the first question to the final report — every step is connected, "
+"documented and reproducible."
 msgstr ""
-"ResearchSurvey тамоми давраи таҳқиқоти пурсиширо дастгирӣ мекунад: таҳияи "
-"абзор, ҷамъоварии ахлоқии маълумот, арзёбии инфиродӣ, таҳлили оморӣ ва "
-"ҳисобот."
+"Аз саволи аввал то ҳисоботи ниҳоӣ — ҳар қадам пайваст, ҳуҷҷатгузорӣшуда ва "
+"такроршаванда аст."
 
-#: templates/core/home.html:62
-msgid "Transparent statistics"
-msgstr "Омори шаффоф"
+#: templates/core/home.html:144
+msgid "Survey builder"
+msgstr "Тартибдиҳандаи пурсишнома"
 
-#: templates/core/home.html:62
+#: templates/core/home.html:145
 msgid ""
-"Every result shows its sample size; significance is reported only with the "
-"test used."
+"Build sections and questions or import a Word questionnaire — wording is "
+"preserved."
 msgstr ""
-"Ҳар натиҷа ҳаҷми интихоби худро нишон медиҳад; аҳамияти оморӣ танҳо бо номи "
-"санҷиши истифодашуда гузориш дода мешавад."
+"Қисмҳо ва саволҳо созед ё пурсишномаро аз Word ворид кунед — матн бетағйир "
+"мемонад."
 
-#: templates/core/home.html:63
-msgid "Traceable findings"
-msgstr "Бозёфтҳои пайгиришаванда"
+#: templates/core/home.html:147
+msgid "11 question types, Likert grids"
+msgstr "11 навъи савол, ҷадвалҳои Ликерт"
 
-#: templates/core/home.html:63
-msgid "Findings link back to the questions and responses they come from."
-msgstr ""
-"Бозёфтҳо ба саволҳо ва ҷавобҳое, ки аз онҳо бармеоянд, пайванд доранд."
+#: templates/core/home.html:148
+msgid "Review before publication"
+msgstr "Санҷиш пеш аз нашр"
 
-#: templates/core/home.html:64
-msgid "Privacy by design"
-msgstr "Махфият аз рӯи тарҳ"
+#: templates/core/home.html:154
+msgid "Data collection"
+msgstr "Ҷамъоварии маълумот"
 
-#: templates/core/home.html:64
+#: templates/core/home.html:155
 msgid ""
-"Only the data needed for the research is collected; participants can stay "
-"anonymous."
+"Share a link or QR code. Participants answer on any device, without "
+"registration."
 msgstr ""
-"Танҳо маълумоти барои таҳқиқот зарурӣ ҷамъ оварда мешавад; иштирокчиён "
-"метавонанд беном бошанд."
+"Пайванд ё рамзи QR-ро паҳн кунед. Иштирокчиён дар ҳар дастгоҳ, бе сабти ном "
+"ҷавоб медиҳанд."
 
-#: templates/core/home.html:65
-msgid "Responsible AI"
-msgstr "AI-и масъулиятнок"
+#: templates/core/home.html:157
+msgid "Autosave at every step"
+msgstr "Нигоҳдории худкор дар ҳар қадам"
 
-#: templates/core/home.html:65
+#: templates/core/home.html:158
+msgid "Consent and anonymity"
+msgstr "Розигӣ ва беномӣ"
+
+#: templates/core/home.html:165
 msgid ""
-"AI interpretations are clearly labelled drafts that researchers review and "
-"approve."
+"Distributions, cross-tabulations and statistical tests with the sample size "
+"behind every result."
 msgstr ""
-"Шарҳҳои AI ҳамчун тарҳ возеҳ ишора мешаванд, ки муҳаққиқон онҳоро месанҷанд "
-"ва тасдиқ мекунанд."
+"Тақсимот, ҷадвалҳои омехта ва санҷишҳои оморӣ — бо ҳаҷми интихоб барои ҳар "
+"натиҷа."
 
-#: templates/core/home.html:76
-msgid "Survey participation"
-msgstr "Иштирок дар пурсиш"
+#: templates/core/home.html:174
+msgid "Scientific reporting"
+msgstr "Ҳисоботи илмӣ"
 
-#: templates/core/home.html:77
-msgid "Open studies"
-msgstr "Таҳқиқоти кушода"
+#: templates/core/home.html:175
+msgid ""
+"Structured reports with traceable findings, exported to Word, PDF and Excel."
+msgstr ""
+"Ҳисоботи сохторёфта бо хулосаҳои санҷидашаванда — дар Word, PDF ва Excel."
 
-#: templates/core/home.html:78
+#: templates/core/home.html:177 templates/evaluation/evaluate.html:19
+msgid "Automatic evaluation"
+msgstr "Арзёбии худкор"
+
+#: templates/core/home.html:178
+msgid "AI drafts, reviewed by people"
+msgstr "Лоиҳаҳои ЗС, ки инсон месанҷад"
+
+#: templates/core/home.html:190
+msgid "Open for participation"
+msgstr "Барои иштирок кушода"
+
+#: templates/core/home.html:191
+msgid "Active research"
+msgstr "Таҳқиқоти фаъол"
+
+#: templates/core/home.html:192
 msgid ""
 "Participation is voluntary. Each study explains its purpose and how your "
 "answers are used before you begin."
@@ -2396,21 +2679,83 @@ msgstr ""
 "Иштирок ихтиёрӣ аст. Ҳар як таҳқиқот пеш аз оғоз ҳадаф ва тарзи истифодаи "
 "ҷавобҳои шуморо шарҳ медиҳад."
 
-#: templates/core/home.html:86 templates/surveys/detail.html:122
+#: templates/core/home.html:195
+msgid "Video guide (1 min)"
+msgstr "Видеодастур (1 дақиқа)"
+
+#: templates/core/home.html:204 templates/surveys/detail.html:122
 #: templates/surveys/responses.html:29
 msgid "Open"
 msgstr "Кушода"
 
-#: templates/core/home.html:87
+#: templates/core/home.html:205 templates/public/fill.html:12
+#: templates/public/landing.html:29
+msgid "Scientific questionnaire"
+msgstr "Пурсишномаи илмӣ"
+
+#: templates/core/home.html:210
+msgid "Duration"
+msgstr "Давомнокӣ"
+
+#: templates/core/home.html:210
 #, python-format
 msgid "≈ %(m)s min"
 msgstr "≈ %(m)s дақ."
 
-#: templates/core/home.html:92
-msgid "Open the questionnaire"
-msgstr "Кушодани пурсишнома"
+#: templates/core/home.html:211 templates/core/privacy.html:32
+#: templates/surveys/list.html:21
+msgid "Questions"
+msgstr "Саволҳо"
 
-#: templates/core/home.html:97
+#: templates/core/home.html:212
+msgid "Deadline"
+msgstr "Мӯҳлат"
+
+#: templates/core/home.html:212
+msgid "Open-ended"
+msgstr "Бемӯҳлат"
+
+#: templates/core/home.html:216
+msgid "Take part"
+msgstr "Иштирок кардан"
+
+#: templates/core/home.html:217
+msgid "For pupils, students and teachers"
+msgstr "Барои хонандагон, донишҷӯён ва омӯзгорон"
+
+#: templates/core/home.html:222
+msgid "What to expect"
+msgstr "Чӣ интизор аст"
+
+#: templates/core/home.html:224
+msgid "Read the purpose"
+msgstr "Ҳадафро хонед"
+
+#: templates/core/home.html:224
+msgid "and give your consent."
+msgstr "ва розигии худро қайд кунед."
+
+#: templates/core/home.html:225
+msgid "Answer section by section"
+msgstr "Қисм ба қисм ҷавоб диҳед"
+
+#: templates/core/home.html:225
+msgid "Answers are saved automatically."
+msgstr "Ҷавобҳо худкор нигоҳ дошта мешаванд."
+
+#: templates/core/home.html:226 templates/core/home.html:326
+msgid "Submit your answers"
+msgstr "Ҷавобҳоро супоред"
+
+#: templates/core/home.html:226
+msgid "and keep the confirmation number."
+msgstr "ва рақами тасдиқро нигоҳ доред."
+
+#: templates/core/home.html:228
+msgid "Your name is never asked."
+msgstr "Ному насаби шумо пурсида намешавад."
+
+#: templates/core/home.html:235
 msgid ""
 "No studies are open right now. If you received a link from a researcher, "
 "open it directly."
@@ -2418,17 +2763,216 @@ msgstr ""
 "Ҳоло таҳқиқоти кушода нест. Агар аз муҳаққиқ пайванд гирифта бошед, онро "
 "бевосита кушоед."
 
-#: templates/core/home.html:108
-msgid ""
-"Questions about a study, your data or the platform? Contact the research "
-"team."
-msgstr ""
-"Дар бораи таҳқиқот, маълумоти худ ё платформа савол доред? Бо гурӯҳи "
-"муҳаққиқон тамос гиред."
+#: templates/core/home.html:247
+msgid "From raw answers to scientific conclusions"
+msgstr "Аз ҷавобҳои хом — то хулосаҳои илмӣ"
 
-#: templates/core/home.html:114
-msgid "Contact details will be published by the administrator."
-msgstr "Маълумоти тамосро администратор нашр мекунад."
+#: templates/core/home.html:248
+msgid ""
+"Every chart shows its sample size. Significance is reported only together "
+"with the test that produced it."
+msgstr ""
+"Ҳар диаграмма ҳаҷми интихобро нишон медиҳад. Аҳамиятнокӣ танҳо бо санҷише, "
+"ки онро ҳисоб кардааст, гузориш дода мешавад."
+
+#: templates/core/home.html:250
+msgid "Distributions and Likert profiles for every question"
+msgstr "Тақсимот ва профилҳои Ликерт барои ҳар савол"
+
+#: templates/core/home.html:251
+msgid "Cross-tabulations by status, institution and year"
+msgstr "Ҷадвалҳои омехта аз рӯи мақом, муассиса ва курс"
+
+#: templates/core/home.html:252
+msgid "Findings linked to the questions they come from"
+msgstr "Хулосаҳо бо саволҳои манбаашон пайвастанд"
+
+#: templates/core/home.html:253
+msgid "Charts exported as PNG for articles"
+msgstr "Содироти диаграммаҳо ба PNG барои мақолаҳо"
+
+#: templates/core/home.html:262
+msgid "Overview"
+msgstr "Шарҳи умумӣ"
+
+#: templates/core/home.html:262
+msgid "Cross-tab"
+msgstr "Ҷадвали омехта"
+
+#: templates/core/home.html:262
+msgid "Tests"
+msgstr "Санҷишҳо"
+
+#: templates/core/home.html:294
+msgid "Finding"
+msgstr "Хулоса"
+
+#: templates/core/home.html:301
+msgid ""
+"Illustration of the analytics interface. Real results are visible only to "
+"the researcher."
+msgstr ""
+"Тасвири интерфейси таҳлил. Натиҷаҳои воқеӣ танҳо ба муҳаққиқ намоёнанд."
+
+#: templates/core/home.html:311
+msgid "Three steps — for every role"
+msgstr "Се қадам — барои ҳар нақш"
+
+#: templates/core/home.html:312
+msgid "Choose your role"
+msgstr "Нақши худро интихоб кунед"
+
+#: templates/core/home.html:313
+msgid "For researchers"
+msgstr "Барои муҳаққиқон"
+
+#: templates/core/home.html:314
+msgid "For participants"
+msgstr "Барои иштирокчиён"
+
+#: templates/core/home.html:319
+msgid "Create the research"
+msgstr "Таҳқиқотро созед"
+
+#: templates/core/home.html:319
+msgid ""
+"Import your Word questionnaire or build one; set participant fields, consent"
+" and evaluation criteria."
+msgstr ""
+"Пурсишномаи Word-ро ворид кунед ё нав созед; майдонҳои иштирокчӣ, розигӣ ва "
+"меъёрҳои арзёбиро танзим кунед."
+
+#: templates/core/home.html:320
+msgid "Collect responses"
+msgstr "Ҷавобҳоро ҷамъ кунед"
+
+#: templates/core/home.html:320
+msgid ""
+"Publish and share the link or QR code. Every answer is stored securely in "
+"the database."
+msgstr ""
+"Нашр кунед ва пайванд ё рамзи QR-ро паҳн кунед. Ҳар ҷавоб дар базаи маълумот"
+" бехатар нигоҳ дошта мешавад."
+
+#: templates/core/home.html:321
+msgid "Analyse the results"
+msgstr "Натиҷаҳоро таҳлил кунед"
+
+#: templates/core/home.html:321
+msgid ""
+"Statistics, automatic evaluation and a scientific report ready for export."
+msgstr "Омор, арзёбии худкор ва ҳисоботи илмӣ, ки барои содирот тайёр аст."
+
+#: templates/core/home.html:324
+msgid "Open the link"
+msgstr "Пайвандро кушоед"
+
+#: templates/core/home.html:324
+msgid ""
+"Get the link or QR code from your teacher. No registration or password is "
+"needed."
+msgstr ""
+"Пайванд ё рамзи QR-ро аз омӯзгор гиред. Сабти ном ва парол лозим нест."
+
+#: templates/core/home.html:325
+msgid "Answer the questions"
+msgstr "Ба саволҳо ҷавоб диҳед"
+
+#: templates/core/home.html:325
+msgid ""
+"Move section by section. Answers are saved automatically at every step."
+msgstr ""
+"Қисм ба қисм пеш равед. Ҷавобҳо дар ҳар қадам худкор нигоҳ дошта мешаванд."
+
+#: templates/core/home.html:326
+msgid "Press “Submit answers” and keep the confirmation number."
+msgstr "«Супоридани ҷавобҳо»-ро пахш кунед ва рақами тасдиқро нигоҳ доред."
+
+#: templates/core/home.html:338
+msgid "Start your next study today"
+msgstr "Таҳқиқоти навбатиро имрӯз оғоз кунед"
+
+#: templates/core/home.html:339
+msgid "Import an existing questionnaire and publish it in minutes."
+msgstr "Пурсишномаи тайёрро ворид кунед ва дар чанд дақиқа нашр намоед."
+
+#: templates/core/home.html:343
+msgid "Import from Word"
+msgstr "Ворид кардан аз Word"
+
+#: templates/core/privacy.html:10
+#, python-format
+msgid ""
+"How %(name)s collects, stores and uses the information of research "
+"participants."
+msgstr ""
+"%(name)s маълумоти иштирокчиёни таҳқиқотро чӣ тавр ҷамъ, нигоҳ ва истифода "
+"мебарад."
+
+#: templates/core/privacy.html:16
+msgid "What we collect"
+msgstr "Чӣ ҷамъ оварда мешавад"
+
+#: templates/core/privacy.html:17
+msgid ""
+"Only your answers and the participant fields that the researcher enabled for"
+" a study (for example your status, institution or year of study). Your name "
+"is not asked unless a study explicitly requires it."
+msgstr ""
+"Танҳо ҷавобҳои шумо ва майдонҳое, ки муҳаққиқ барои таҳқиқот фаъол кардааст "
+"(масалан, мақом, муассиса ё курси таҳсил). Ному насаби шумо пурсида "
+"намешавад, агар таҳқиқот онро возеҳ талаб накунад."
+
+#: templates/core/privacy.html:21
+msgid ""
+"Before a questionnaire begins, its purpose and conditions are shown and you "
+"confirm your voluntary participation. You may stop at any moment; you may "
+"leave any question unanswered unless it is marked as required."
+msgstr ""
+"Пеш аз оғози пурсишнома ҳадаф ва шартҳои он нишон дода мешаванд ва шумо "
+"иштироки ихтиёрии худро тасдиқ мекунед. Шумо метавонед ҳар лаҳза қатъ кунед;"
+" ба саволҳое, ки ҳатмӣ ишора нашудаанд, ҷавоб надодан мумкин аст."
+
+#: templates/core/privacy.html:24
+msgid "How the data are used"
+msgstr "Маълумот чӣ тавр истифода мешавад"
+
+#: templates/core/privacy.html:25
+msgid ""
+"Answers are used only for scientific analysis and are published in aggregate"
+" form. They are not passed to third parties. Only the researchers of a study"
+" and the platform administrators can open its responses."
+msgstr ""
+"Ҷавобҳо танҳо барои таҳлили илмӣ истифода шуда, дар шакли умумишуда нашр "
+"мешаванд. Онҳо ба шахсони сеюм дода намешаванд. Ҷавобҳоро танҳо муҳаққиқони "
+"ҳамон таҳқиқот ва маъмурони платформа кушода метавонанд."
+
+#: templates/core/privacy.html:28
+msgid "Storage and security"
+msgstr "Нигоҳдорӣ ва амният"
+
+#: templates/core/privacy.html:29
+msgid ""
+"Data are stored in a protected PostgreSQL database and transmitted over an "
+"encrypted connection (HTTPS). Submitted answers cannot be changed, and staff"
+" actions such as data exports are recorded in an audit log."
+msgstr ""
+"Маълумот дар базаи ҳифзшудаи PostgreSQL нигоҳ дошта мешавад ва тавассути "
+"пайвасти рамзгузоришуда (HTTPS) интиқол меёбад. Ҷавобҳои супоридашударо "
+"тағйир додан мумкин нест ва амалҳои кормандон, масалан, содироти маълумот, "
+"дар маҷаллаи аудит сабт мешаванд."
+
+#: templates/core/privacy.html:33
+msgid ""
+"For questions about a study or your data, contact the researcher who sent "
+"you the link."
+msgstr ""
+"Барои саволҳо дар бораи таҳқиқот ё маълумоти худ ба муҳаққиқе, ки ба шумо "
+"пайвандро фиристодааст, муроҷиат кунед."
+
+#: templates/core/privacy.html:33
+msgid "You can also write to"
+msgstr "Инчунин метавонед нависед ба"
 
 #: templates/core/security.html:6
 msgid "Configuration checks and the audit log of security-relevant actions."
@@ -2600,21 +3144,40 @@ msgstr ""
 "Миқёси арзёбии ҳар як иштирокчиро муайян кунед: меъёр, холи ҳадди аксар ва "
 "вазн. Холи ниҳоии вазндор (0–100%%) худкор ҳисоб карда мешавад."
 
-#: templates/evaluation/criteria.html:10
+#: templates/evaluation/criteria.html:9
+msgid "Copy criteria from another questionnaire"
+msgstr "Нусхабардории меъёрҳо аз пурсишномаи дигар"
+
+#: templates/evaluation/criteria.html:11
+msgid "Copy criteria"
+msgstr "Нусха бардоштани меъёрҳо"
+
+#: templates/evaluation/criteria.html:17
 msgid "Description"
 msgstr "Тавсиф"
 
-#: templates/evaluation/criteria.html:10
+#: templates/evaluation/criteria.html:17
 msgid "Max score"
 msgstr "Холи ҳадди аксар"
 
-#: templates/evaluation/criteria.html:13
+#: templates/evaluation/criteria.html:18 templates/evaluation/queue.html:26
+#: templates/surveys/response_detail.html:47
+msgid "Automatic"
+msgstr "Худкор"
+
+#: templates/evaluation/criteria.html:20
 msgid "Save criteria"
 msgstr "Нигоҳ доштани меъёрҳо"
 
-#: templates/evaluation/criteria.html:13
+#: templates/evaluation/criteria.html:20
 msgid "Go to evaluation queue"
 msgstr "Ба навбати арзёбӣ"
+
+#: templates/evaluation/evaluate.html:3 templates/evaluation/evaluate.html:7
+#: templates/evaluation/queue.html:28
+#: templates/surveys/response_detail.html:16
+msgid "Evaluate"
+msgstr "Арзёбӣ"
 
 #: templates/evaluation/evaluate.html:8
 msgid "Open response"
@@ -2631,10 +3194,18 @@ msgid "Read-only"
 msgstr "Танҳо барои хондан"
 
 #: templates/evaluation/evaluate.html:20
+msgid ""
+"Scores were calculated by transparent rules from the answers. Check them; if"
+" you change a score and save, the evaluation becomes manual."
+msgstr ""
+"Холҳо аз рӯи қоидаҳои шаффоф аз ҷавобҳо ҳисоб карда шудаанд. Онҳоро санҷед; "
+"агар холеро тағйир дода нигоҳ доред, арзёбӣ дастӣ мешавад."
+
+#: templates/evaluation/evaluate.html:25
 msgid "max"
 msgstr "ҳадди аксар"
 
-#: templates/evaluation/evaluate.html:24
+#: templates/evaluation/evaluate.html:29
 msgid ""
 "Final score = Σ(score ÷ max × weight) ÷ Σweight × 100, calculated when all "
 "criteria are scored."
@@ -2642,36 +3213,36 @@ msgstr ""
 "Холи ниҳоӣ = Σ(хол ÷ ҳадди аксар × вазн) ÷ Σвазн × 100; вақте ҳисоб карда "
 "мешавад, ки ҳамаи меъёрҳо баҳо гирифта бошанд."
 
-#: templates/evaluation/evaluate.html:26
+#: templates/evaluation/evaluate.html:31
 msgid "No evaluation criteria are defined for this questionnaire yet."
 msgstr "Барои ин пурсишнома ҳоло меъёрҳои арзёбӣ муайян нашудаанд."
 
-#: templates/evaluation/evaluate.html:26
+#: templates/evaluation/evaluate.html:31
 msgid "Define criteria"
 msgstr "Муайян кардани меъёрҳо"
 
-#: templates/evaluation/evaluate.html:28
+#: templates/evaluation/evaluate.html:33
 msgid "Scientific comment"
 msgstr "Шарҳи илмӣ"
 
-#: templates/evaluation/evaluate.html:30
+#: templates/evaluation/evaluate.html:35
 msgid "Mark as reviewed"
 msgstr "Ҳамчун баррасишуда қайд кардан"
 
-#: templates/evaluation/evaluate.html:31
+#: templates/evaluation/evaluate.html:36
 msgid "Save evaluation"
 msgstr "Нигоҳ доштани арзёбӣ"
 
-#: templates/evaluation/evaluate.html:31
+#: templates/evaluation/evaluate.html:36
 msgid "Save and back to queue"
 msgstr "Нигоҳ доштан ва бозгашт ба навбат"
 
-#: templates/evaluation/evaluate.html:32
+#: templates/evaluation/evaluate.html:37
 #: templates/surveys/response_print.html:7
 msgid "Final score"
 msgstr "Холи ниҳоӣ"
 
-#: templates/evaluation/evaluate.html:37
+#: templates/evaluation/evaluate.html:42
 msgid "Evaluation history"
 msgstr "Таърихи арзёбӣ"
 
@@ -2683,29 +3254,33 @@ msgstr ""
 "Арзёбиҳо алоҳида нигоҳ дошта мешаванд. Ҷавобҳои аслии иштирокчиён ҳеҷ гоҳ "
 "тағйир намеёбанд."
 
-#: templates/evaluation/queue.html:15 templates/surveys/participants.html:11
+#: templates/evaluation/queue.html:8
+msgid "Run automatic evaluation"
+msgstr "Арзёбии худкор"
+
+#: templates/evaluation/queue.html:17 templates/surveys/participants.html:11
 msgid "All questionnaires"
 msgstr "Ҳамаи пурсишномаҳо"
 
-#: templates/evaluation/queue.html:16
+#: templates/evaluation/queue.html:18
 msgid "Criteria"
 msgstr "Меъёрҳо"
 
-#: templates/evaluation/queue.html:20 templates/surveys/participants.html:19
+#: templates/evaluation/queue.html:22 templates/surveys/participants.html:19
 #: templates/surveys/response_detail.html:26
 #: templates/surveys/responses.html:20
 msgid "Participant"
 msgstr "Иштирокчӣ"
 
-#: templates/evaluation/queue.html:24
+#: templates/evaluation/queue.html:26
 msgid "Not started"
 msgstr "Оғоз нашудааст"
 
-#: templates/evaluation/queue.html:29
+#: templates/evaluation/queue.html:31
 msgid "Nothing to evaluate here"
 msgstr "Дар ин ҷо чизе барои арзёбӣ нест"
 
-#: templates/evaluation/queue.html:29
+#: templates/evaluation/queue.html:31
 msgid "Completed responses appear in this queue."
 msgstr "Ҷавобҳои пурра дар ин навбат пайдо мешаванд."
 
@@ -2722,11 +3297,11 @@ msgstr "Саҳифабандӣ"
 msgid "%(a)s–%(b)s of %(n)s"
 msgstr "%(a)s–%(b)s аз %(n)s"
 
-#: templates/includes/pagination.html:5 templates/public/fill.html:43
+#: templates/includes/pagination.html:5 templates/public/fill.html:44
 msgid "Previous"
 msgstr "Қаблӣ"
 
-#: templates/includes/pagination.html:6 templates/public/fill.html:46
+#: templates/includes/pagination.html:6 templates/public/fill.html:47
 msgid "Next"
 msgstr "Навбатӣ"
 
@@ -2752,19 +3327,19 @@ msgstr "Ҳар рутбаро аз 1 (муҳимтарин) то %(n)s як ма
 msgid "Thank you"
 msgstr "Ташаккур"
 
-#: templates/public/done.html:8
+#: templates/public/done.html:10
 msgid "Your answers have been submitted"
 msgstr "Ҷавобҳои шумо супорида шуданд"
 
-#: templates/public/done.html:9
+#: templates/public/done.html:11
 msgid "Thank you for contributing to this research."
 msgstr "Ташаккур барои саҳми шумо дар ин таҳқиқот."
 
-#: templates/public/done.html:13
+#: templates/public/done.html:15
 msgid "Confirmation ID"
 msgstr "Рақами тасдиқ"
 
-#: templates/public/done.html:17
+#: templates/public/done.html:19
 msgid ""
 "Keep the confirmation ID if you want to contact the researchers about your "
 "participation."
@@ -2772,43 +3347,39 @@ msgstr ""
 "Агар хоҳед бо муҳаққиқон оид ба иштироки худ тамос гиред, рақами тасдиқро "
 "нигоҳ доред."
 
-#: templates/public/fill.html:9
+#: templates/public/fill.html:10
 msgid "Preview mode."
 msgstr "Реҷаи пешнамоиш."
 
-#: templates/public/fill.html:9
+#: templates/public/fill.html:10
 msgid "Answers are not saved."
 msgstr "Ҷавобҳо нигоҳ дошта намешаванд."
 
-#: templates/public/fill.html:9
+#: templates/public/fill.html:10
 msgid "Back to builder"
 msgstr "Бозгашт ба конструктор"
 
-#: templates/public/fill.html:11 templates/public/landing.html:7
-msgid "Scientific questionnaire"
-msgstr "Пурсишномаи илмӣ"
-
-#: templates/public/fill.html:16
+#: templates/public/fill.html:17
 msgid "answered"
 msgstr "ҷавоб дода шуд"
 
-#: templates/public/fill.html:17
+#: templates/public/fill.html:18
 msgid "Progress"
 msgstr "Пешрафт"
 
-#: templates/public/fill.html:20
+#: templates/public/fill.html:21
 msgid "Saving"
 msgstr "Нигоҳ дошта мешавад"
 
-#: templates/public/fill.html:21
+#: templates/public/fill.html:22
 msgid "Saved"
 msgstr "Нигоҳ дошта шуд"
 
-#: templates/public/fill.html:22
+#: templates/public/fill.html:23
 msgid "Offline"
 msgstr "Пайваст нест"
 
-#: templates/public/fill.html:25
+#: templates/public/fill.html:26
 msgid ""
 "Some answers are missing or invalid. They are highlighted below; everything "
 "else was saved."
@@ -2816,7 +3387,7 @@ msgstr ""
 "Баъзе ҷавобҳо холӣ ё нодурустанд. Онҳо дар поён ҷудо карда шудаанд; ҳамаи "
 "ҷавобҳои дигар нигоҳ дошта шуданд."
 
-#: templates/public/fill.html:26
+#: templates/public/fill.html:27
 msgid ""
 "Connection lost. Keep this page open — your answers stay in the form and "
 "will be saved when the connection returns."
@@ -2824,59 +3395,75 @@ msgstr ""
 "Пайваст қатъ шуд. Ин саҳифаро набандед — ҷавобҳоятон дар шакл боқӣ мемонанд "
 "ва ҳангоми барқарор шудани пайваст нигоҳ дошта мешаванд."
 
-#: templates/public/fill.html:41
+#: templates/public/fill.html:42
 msgid "Questionnaire navigation"
 msgstr "Гузариш дар пурсишнома"
 
-#: templates/public/fill.html:44
+#: templates/public/fill.html:45
 msgid "Your answers are saved automatically on each step."
 msgstr "Ҷавобҳои шумо дар ҳар қадам худкор нигоҳ дошта мешаванд."
 
-#: templates/public/fill.html:48 templates/public/fill.html:51
+#: templates/public/fill.html:49 templates/public/fill.html:52
 msgid "Submit answers"
 msgstr "Супоридани ҷавобҳо"
 
-#: templates/public/landing.html:11
+#: templates/public/landing.html:16
+msgid "Emblem of Bokhtar State University named after Nosiri Khusrav"
+msgstr "Нишони Донишгоҳи давлатии Бохтар ба номи Носири Хусрав"
+
+#: templates/public/landing.html:35
 #, python-format
 msgid "About %(m)s minutes"
 msgstr "Тақрибан %(m)s дақиқа"
 
-#: templates/public/landing.html:12
+#: templates/public/landing.html:36
 msgid "Anonymous"
 msgstr "Беном"
 
-#: templates/public/landing.html:12
+#: templates/public/landing.html:36
 msgid "Confidential"
 msgstr "Махфӣ"
 
-#: templates/public/landing.html:18
+#: templates/public/landing.html:37
+msgid "Voluntary"
+msgstr "Ихтиёрӣ"
+
+#: templates/public/landing.html:44
 msgid "This questionnaire is not accepting responses"
 msgstr "Ин пурсишнома ҷавоб қабул намекунад"
 
-#: templates/public/landing.html:19
+#: templates/public/landing.html:45
 msgid "It has not opened yet."
 msgstr "Он ҳоло кушода нашудааст."
 
-#: templates/public/landing.html:19
+#: templates/public/landing.html:45
 msgid ""
 "Data collection has finished or is paused. Thank you for your interest."
 msgstr ""
 "Ҷамъоварии маълумот ба охир расидааст ё муваққатан қатъ шудааст. Ташаккур "
 "барои таваҷҷуҳ."
 
-#: templates/public/landing.html:23
+#: templates/public/landing.html:50
+msgid "First time?"
+msgstr "Бори аввал?"
+
+#: templates/public/landing.html:50
+msgid "Watch the one-minute video guide."
+msgstr "Видеодастури якдақиқаинаро тамошо кунед."
+
+#: templates/public/landing.html:54
 msgid "Purpose of the research"
 msgstr "Ҳадафи таҳқиқот"
 
-#: templates/public/landing.html:25
+#: templates/public/landing.html:60
 msgid "Instructions"
 msgstr "Дастур"
 
-#: templates/public/landing.html:31
+#: templates/public/landing.html:78
 msgid "About you"
 msgstr "Дар бораи шумо"
 
-#: templates/public/landing.html:31
+#: templates/public/landing.html:78
 msgid ""
 "Only the information needed for this research. Optional fields can be left "
 "empty."
@@ -2884,7 +3471,7 @@ msgstr ""
 "Танҳо маълумоте, ки барои ин таҳқиқот зарур аст. Майдонҳои ихтиёриро холӣ "
 "гузоштан мумкин аст."
 
-#: templates/public/landing.html:38
+#: templates/public/landing.html:95
 msgid ""
 "Participation is voluntary and you may stop at any time. Your answers are "
 "used only for scientific analysis and are reported in aggregate form."
@@ -2893,23 +3480,19 @@ msgstr ""
 "Ҷавобҳои шумо танҳо барои таҳлили илмӣ истифода шуда, дар шакли умумишуда "
 "нашр мешаванд."
 
-#: templates/public/landing.html:40
+#: templates/public/landing.html:97
 msgid "Consent is required to take part."
 msgstr "Барои иштирок розигӣ зарур аст."
 
-#: templates/public/landing.html:42
+#: templates/public/landing.html:99
 msgid "Begin the questionnaire"
 msgstr "Оғози пурсишнома"
 
-#: templates/registration/login.html:3 templates/registration/login.html:27
-msgid "Sign in"
-msgstr "Ворид шудан"
-
-#: templates/registration/login.html:12
+#: templates/registration/login.html:13
 msgid "Rigorous data. Transparent analysis. Credible conclusions."
 msgstr "Маълумоти дақиқ. Таҳлили шаффоф. Хулосаҳои боэътимод."
 
-#: templates/registration/login.html:20
+#: templates/registration/login.html:21
 msgid ""
 "Participants do not need an account — open the questionnaire link you "
 "received."
@@ -2917,7 +3500,7 @@ msgstr ""
 "Иштирокчиён ҳисоб лозим надоранд — пайванди пурсишномаеро, ки гирифтаед, "
 "кушоед."
 
-#: templates/registration/login.html:29
+#: templates/registration/login.html:30
 msgid ""
 "Protected connection. Repeated failed attempts are temporarily blocked."
 msgstr "Пайвасти ҳифзшуда. Кӯшишҳои такрории ноком муваққатан баста мешаванд."
@@ -3115,10 +3698,6 @@ msgstr "Сохта шуд %(d)s · %(c)s пурра · %(i)s нопурра"
 #: templates/surveys/detail.html:15
 msgid "Details"
 msgstr "Маълумоти асосӣ"
-
-#: templates/surveys/detail.html:16
-msgid "Analytics"
-msgstr "Таҳлил"
 
 #: templates/surveys/detail.html:17
 msgid "Duplicate"
@@ -3379,10 +3958,6 @@ msgid "Search by title or author…"
 msgstr "Ҷустуҷӯ аз рӯи ном ё муаллиф…"
 
 #: templates/surveys/list.html:21
-msgid "Questions"
-msgstr "Саволҳо"
-
-#: templates/surveys/list.html:21
 msgid "Created"
 msgstr "Сохта шуд"
 
@@ -3416,6 +3991,10 @@ msgstr ""
 #: templates/surveys/participant_fields.html:10
 msgid "Field label"
 msgstr "Номи майдон"
+
+#: templates/surveys/participant_fields.html:10
+msgid "Collect"
+msgstr "Ҷамъоварӣ"
 
 #: templates/surveys/participant_fields.html:16
 msgid "Add a research-specific field"
@@ -3539,15 +4118,23 @@ msgstr "Чоп"
 msgid "Identity"
 msgstr "Шахсият"
 
-#: templates/surveys/response_detail.html:39
+#: templates/surveys/response_detail.html:32
+msgid "University"
+msgstr "Донишгоҳ"
+
+#: templates/surveys/response_detail.html:35
+msgid "Academic year"
+msgstr "Курс"
+
+#: templates/surveys/response_detail.html:40
 msgid "Consent"
 msgstr "Розигӣ"
 
-#: templates/surveys/response_detail.html:39
+#: templates/surveys/response_detail.html:40
 msgid "Given"
 msgstr "Дода шуд"
 
-#: templates/surveys/response_detail.html:48
+#: templates/surveys/response_detail.html:49
 msgid "Not evaluated yet."
 msgstr "Ҳоло арзёбӣ нашудааст."
 
@@ -3588,205 +4175,3 @@ msgstr "Филтрҳоро тағйир диҳед ё то супоридани 
 #: templates/surveys/section_form.html:6
 msgid "Edit section"
 msgstr "Таҳрири қисм"
-
-msgid "Copy criteria from another questionnaire"
-msgstr "Нусхабардории меъёрҳо аз пурсишномаи дигар"
-
-msgid "Copy criteria"
-msgstr "Нусха бардоштани меъёрҳо"
-
-msgid "%(n)s criteria copied."
-msgstr "%(n)s меъёр нусхабардорӣ шуд."
-
-msgid "Run automatic evaluation"
-msgstr "Арзёбии худкор"
-
-msgid "Automatic"
-msgstr "Худкор"
-
-msgid "Automatic evaluation"
-msgstr "Арзёбии худкор"
-
-msgid "automatic evaluation"
-msgstr "арзёбии худкор"
-
-msgid "automatic scoring rule"
-msgstr "қоидаи арзёбии худкор"
-
-msgid ""
-"Transparent rule used for automatic evaluation; empty means manual scoring "
-"only."
-msgstr ""
-"Қоидаи шаффоф барои арзёбии худкор; агар холӣ бошад, танҳо арзёбии дастӣ."
-
-msgid ""
-"Scores were calculated by transparent rules from the answers. Check them; if"
-" you change a score and save, the evaluation becomes manual."
-msgstr ""
-"Холҳо аз рӯи қоидаҳои шаффоф аз ҷавобҳо ҳисоб карда шудаанд. Онҳоро санҷед; "
-"агар холеро тағйир дода нигоҳ доред, арзёбӣ дастӣ мешавад."
-
-msgid ""
-"%(n)s responses were evaluated automatically. Review the scores and mark "
-"them as reviewed."
-msgstr ""
-"%(n)s ҷавоб худкор арзёбӣ шуд. Холҳоро санҷед ва ҳамчун баррасишуда қайд "
-"кунед."
-
-msgid ""
-"No responses needed automatic evaluation (or no criteria have automatic "
-"rules)."
-msgstr "Ҷавобе барои арзёбии худкор нест (ё меъёрҳо қоидаи худкор надоранд)."
-
-msgid "Video guide"
-msgstr "Видеодастур"
-
-msgid "minute"
-msgstr "дақиқа"
-
-msgid "How to fill in a questionnaire: a one-minute video guide for students."
-msgstr ""
-"Чӣ тавр пурсишномаро пур кунем: видеодастури якдақиқаина барои донишҷӯён."
-
-msgid "Video guide: how to fill in a questionnaire"
-msgstr "Видеодастур: чӣ тавр пурсишномаро пур кунем"
-
-msgid "Download the video"
-msgstr "Боргирии видео"
-
-msgid "How to fill in a questionnaire"
-msgstr "Чӣ тавр пурсишномаро пур кунем"
-
-msgid ""
-"For students who take part in a scientific survey for the first time. The "
-"video has Tajik subtitles; you can watch it without sound."
-msgstr ""
-"Барои донишҷӯёне, ки бори аввал дар пурсиши илмӣ иштирок мекунанд. Видео "
-"зернависи тоҷикӣ дорад; онро бе овоз ҳам тамошо кардан мумкин аст."
-
-msgid ""
-"Open the link or QR code from your teacher — no registration is needed."
-msgstr "Пайванд ё рамзи QR-ро аз омӯзгор кушоед — сабти ном лозим нест."
-
-msgid ""
-"Read the purpose, tick the consent box and press “Begin the questionnaire”."
-msgstr ""
-"Ҳадафро хонед, розигиро қайд кунед ва «Оғози пурсишнома»-ро пахш кунед."
-
-msgid ""
-"Answer the questions section by section and press “Next”; answers are saved "
-"automatically."
-msgstr ""
-"Ба саволҳо қисм ба қисм ҷавоб диҳед ва «Навбатӣ»-ро пахш кунед; ҷавобҳо "
-"худкор нигоҳ дошта мешаванд."
-
-msgid ""
-"In the last section press “Submit answers” and keep your confirmation ID."
-msgstr ""
-"Дар қисми охирин «Супоридани ҷавобҳо»-ро пахш кунед ва рақами тасдиқро нигоҳ"
-" доред."
-
-msgid "Video guide (1 min)"
-msgstr "Видеодастур (1 дақиқа)"
-
-msgid "First time?"
-msgstr "Бори аввал?"
-
-msgid "Watch the one-minute video guide."
-msgstr "Видеодастури якдақиқаинаро тамошо кунед."
-
-msgid "Level of education"
-msgstr "Сатҳи таҳсилот"
-
-msgid "Educational institution"
-msgstr "Муассисаи таҳсилотӣ"
-
-msgid "Faculty / department"
-msgstr "Факултет / шуъба"
-
-msgid "Specialty / field of study"
-msgstr "Ихтисос / самт"
-
-msgid "Year or grade"
-msgstr "Курс ё синф"
-
-msgid "School pupil"
-msgstr "Хонандаи мактаб"
-
-msgid "College / lyceum student"
-msgstr "Донишҷӯи коллеҷ / литсей"
-
-msgid "University student (bachelor)"
-msgstr "Донишҷӯи донишгоҳ (бакалавр)"
-
-msgid "Master's or doctoral student"
-msgstr "Магистрант / докторант"
-
-msgid "Other"
-msgstr "Дигар"
-
-msgid "Name of your university, college or school"
-msgstr "Номи донишгоҳ, коллеҷ ё мактаби шумо"
-
-msgid "If applicable — school pupils can leave it empty"
-msgstr "Агар бошад — хонандагони мактаб метавонанд холӣ гузоранд"
-
-msgid "For example: 2nd year or 10th grade"
-msgstr "Масалан: курси 2 ё синфи 10"
-
-msgid "Your status"
-msgstr "Мақоми шумо"
-
-msgid "Subject taught"
-msgstr "Фанни таълимӣ"
-
-msgid "School teacher"
-msgstr "Омӯзгори мактаб"
-
-msgid "College / lyceum teacher"
-msgstr "Омӯзгори коллеҷ / литсей"
-
-msgid "University teacher"
-msgstr "Омӯзгори донишгоҳ"
-
-msgid "Name of your school"
-msgstr "Номи мактаби шумо"
-
-msgid "For example: Secondary school No. 5, Bokhtar"
-msgstr "Масалан: Мактаби миёнаи №5, ш. Бохтар"
-
-msgid "Grade"
-msgstr "Синф"
-
-msgid "For example: 9th grade"
-msgstr "Масалан: синфи 9"
-
-msgid "Name of your college or lyceum"
-msgstr "Номи коллеҷ ё литсеи шумо"
-
-msgid "Year of study"
-msgstr "Курс"
-
-msgid "For example: 2nd year"
-msgstr "Масалан: курси 2"
-
-msgid "Name of your university"
-msgstr "Номи донишгоҳи шумо"
-
-msgid "University or research institution"
-msgstr "Донишгоҳ ё муассисаи илмӣ"
-
-msgid "Subject you teach"
-msgstr "Фанне, ки таълим медиҳед"
-
-msgid "For example: mathematics"
-msgstr "Масалан: математика"
-
-msgid "Department"
-msgstr "Шуъба / кафедра"
-
-msgid "Institution or organisation"
-msgstr "Муассиса ё ташкилот"
-
-msgid "“%(f)s” is required."
-msgstr "«%(f)s» ҳатмӣ аст."

@@ -275,5 +275,44 @@
     }));
   });
 
+  /* ---------------------------------------------------------------- public pages: reveal-on-scroll + counters */
+  function initPublicMotion() {
+    const reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const reveals = [...document.querySelectorAll(".rs-reveal")];
+    const counters = [...document.querySelectorAll("[data-count]")];
+    const show = (el) => el.classList.add("is-visible");
+    const count = (el) => {
+      const target = parseInt(el.dataset.count, 10);
+      const final = el.textContent;
+      if (reduce || !Number.isFinite(target) || target < 2) return;
+      const start = performance.now();
+      const dur = Math.min(1600, 500 + target * 6);
+      const fmt = new Intl.NumberFormat(document.documentElement.lang || undefined);
+      const step = (now) => {
+        const p = Math.min(1, (now - start) / dur);
+        const eased = 1 - Math.pow(1 - p, 3);
+        el.textContent = fmt.format(Math.round(target * eased));
+        if (p < 1) requestAnimationFrame(step); else el.textContent = final;
+      };
+      requestAnimationFrame(step);
+    };
+    if (!("IntersectionObserver" in window) || reduce) { reveals.forEach(show); return; }
+    let fired = false;
+    const io = new IntersectionObserver((entries) => {
+      fired = true;
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        if (e.target.dataset.count !== undefined) count(e.target); else show(e.target);
+      });
+    }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+    reveals.forEach((el, i) => { el.style.transitionDelay = `${Math.min(i % 4, 3) * 70}ms`; io.observe(el); });
+    counters.forEach((el) => io.observe(el));
+    /* Safety net: never leave content hidden if the observer does not fire. */
+    setTimeout(() => { if (!fired) reveals.forEach(show); }, 2500);
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", initPublicMotion);
+  else initPublicMotion();
+
   window.RS = { renderCharts, exportChart, setTheme };
 })();

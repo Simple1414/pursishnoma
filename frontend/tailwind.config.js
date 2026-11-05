@@ -7,7 +7,7 @@ module.exports = {
     extend: {
       colors: {
         rs: {
-          navy: v("navy"), royal: v("royal"), gold: v("gold"), bg: v("bg"), surface: v("surface"),
+          navy: v("navy"), royal: v("royal"), electric: v("electric"), gold: v("gold"), bg: v("bg"), surface: v("surface"),
           raised: v("raised"), text: v("text"), muted: v("muted"), border: v("border"),
           success: v("success"), warning: v("warning"), danger: v("danger"), accent: v("accent"),
         },
@@ -17,8 +17,9 @@ module.exports = {
         serif: ['"Source Serif 4"', "Georgia", "Cambria", "Times New Roman", "serif"],
       },
       boxShadow: {
-        card: "0 1px 2px rgb(16 42 67 / 0.04), 0 4px 16px -4px rgb(16 42 67 / 0.08)",
-        lift: "0 2px 4px rgb(16 42 67 / 0.06), 0 12px 32px -8px rgb(16 42 67 / 0.18)",
+        card: "0 1px 2px rgb(16 29 53 / 0.04), 0 4px 16px -4px rgb(16 29 53 / 0.08)",
+        lift: "0 2px 4px rgb(16 29 53 / 0.06), 0 12px 32px -8px rgb(16 29 53 / 0.18)",
+        glow: "0 1px 2px rgb(16 29 53 / 0.05), 0 24px 64px -24px rgb(37 99 235 / 0.35)",
       },
       borderRadius: { xl: "0.875rem", "2xl": "1.125rem" },
     },

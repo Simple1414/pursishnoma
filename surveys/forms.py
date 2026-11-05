@@ -19,7 +19,7 @@ class QuestionnaireForm(StyledFormMixin, forms.ModelForm):
     class Meta:
         model = Questionnaire
         fields = [
-            "title", "description", "objective", "author", "language", "estimated_minutes",
+            "title", "description", "show_institution_emblem", "objective", "author", "language", "estimated_minutes",
             "instructions", "consent_text", "require_consent", "completion_message", "opens_at", "closes_at",
         ]
         widgets = {

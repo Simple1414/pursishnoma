@@ -176,3 +176,16 @@ class AccessControlTests(TestCase):
         self.assertEqual(data["count"], 1)
         stats = self.client.get(reverse("questionnaire-statistics", args=[self.qn.pk])).json()
         self.assertEqual(stats["N"], 1)
+
+
+class EmblemSettingTests(TestCase):
+    def test_edit_form_shows_and_keeps_the_emblem_setting(self):
+        owner = make_user("owner")
+        qn = make_questionnaire(owner, published=False)
+        self.client.force_login(owner)
+        url = reverse("surveys:edit", args=[qn.pk])
+        self.assertContains(self.client.get(url), 'name="show_institution_emblem"')
+        data = {"title": qn.title, "language": "tg", "estimated_minutes": 15, "require_consent": "on", "show_institution_emblem": "on"}
+        self.client.post(url, data)
+        qn.refresh_from_db()
+        self.assertTrue(qn.show_institution_emblem)
