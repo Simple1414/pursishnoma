@@ -29,11 +29,12 @@
         <div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Identity" %}</dt><dd class="text-right">{{ p }}</dd></div>
         {% if p.age %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Age" %}</dt><dd>{{ p.age }}</dd></div>{% endif %}
         {% if p.gender %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Gender" %}</dt><dd>{{ p.gender }}</dd></div>{% endif %}
-        {% if p.education_level %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Education level" %}</dt><dd class="text-right">{{ p.education_level }}</dd></div>{% endif %}
         {% if p.university %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "University" %}</dt><dd class="text-right">{{ p.university }}</dd></div>{% endif %}
         {% if p.faculty %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Faculty" %}</dt><dd class="text-right">{{ p.faculty }}</dd></div>{% endif %}
         {% if p.specialty %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Specialty" %}</dt><dd class="text-right">{{ p.specialty }}</dd></div>{% endif %}
         {% if p.academic_year %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Academic year" %}</dt><dd>{{ p.academic_year }}</dd></div>{% endif %}
+        {% if p.education_level %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Your status" %}</dt><dd class="text-right">{{ p.education_level }}</dd></div>{% endif %}
+        {% if p.subject %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Subject taught" %}</dt><dd class="text-right">{{ p.subject }}</dd></div>{% endif %}
         {% if p.group_name %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Group" %}</dt><dd>{{ p.group_name }}</dd></div>{% endif %}
         {% for k, v in p.extra.items %}<div class="flex justify-between gap-3"><dt class="text-rs-muted">{{ k }}</dt><dd class="text-right">{{ v }}</dd></div>{% endfor %}
         <div class="flex justify-between gap-3"><dt class="text-rs-muted">{% translate "Consent" %}</dt><dd>{% if p.consent_given %}{% translate "Given" %} {{ p.consent_at|date:"Y-m-d H:i" }}{% else %}—{% endif %}</dd></div>

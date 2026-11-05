@@ -9,7 +9,7 @@ from django.utils.translation import gettext as _
 
 from analytics import stats
 from evaluation.models import Evaluation, EvaluationCriterion
-from surveys.models import Question, SurveyResponse
+from surveys.models import Participant, Question, SurveyResponse
 
 FORMULA_PREFIXES = ("=", "+", "-", "@", "\t", "\r")
 
@@ -38,7 +38,7 @@ def wide_dataset(ds: stats.Dataset, *, labels: bool) -> pd.DataFrame:
             "duration_sec": r.duration_seconds,
             "consent": int(p.consent_given),
         }
-        for name in ("name", "age", "gender", "education_level", "university", "faculty", "specialty", "academic_year", "group_name"):
+        for name in Participant.STANDARD_FIELDS:
             rows[rid][f"p_{name}"] = getattr(p, name) or None
         for k, v in (p.extra or {}).items():
             rows[rid][f"p_{k}"] = v

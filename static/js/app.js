@@ -244,6 +244,26 @@
       },
     }));
 
+    /* Participant form: fields depend on the chosen status (pupil, student, teacher …). */
+    Alpine.data("participantFields", () => ({
+      status: "",
+      roles: {},
+      cond: [],
+      init() {
+        const read = (id, fallback) => { try { return JSON.parse(document.getElementById(id).textContent); } catch (e) { return fallback; } };
+        this.roles = read("rs-roles", {});
+        this.cond = read("rs-cond", []);
+        const chosen = this.$el.querySelector('select[x-model="status"] option[selected]');
+        this.status = chosen ? chosen.value : "";
+      },
+      spec(n) { return (this.roles[this.status] || {})[n]; },
+      isCond(n) { return this.cond.includes(n); },
+      visible(n) { return !this.isCond(n) || (!!this.status && !!this.spec(n)); },
+      label(n, d) { const r = this.spec(n); return (this.isCond(n) && r && r.label) || d; },
+      req(n, d) { if (!this.isCond(n)) return d; const r = this.spec(n); return !!(r && r.required); },
+      hint(n, d) { if (!this.isCond(n)) return d; const r = this.spec(n); return r ? r.hint : ""; },
+    }));
+
     /* Ranking: keeps rank numbers unique within one question. */
     Alpine.data("ranking", () => ({
       fix(changed) {

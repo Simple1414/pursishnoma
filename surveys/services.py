@@ -36,6 +36,7 @@ DEFAULT_PARTICIPANT_FIELDS = [
     ParticipantField.Key.SPECIALTY,
     ParticipantField.Key.ACADEMIC_YEAR,
     ParticipantField.Key.GROUP,
+    ParticipantField.Key.SUBJECT,
 ]
 
 

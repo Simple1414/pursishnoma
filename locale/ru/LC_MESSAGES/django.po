@@ -3706,3 +3706,60 @@ msgstr "Если есть — школьники могут оставить п�
 
 msgid "For example: 2nd year or 10th grade"
 msgstr "Например: 2 курс или 10 класс"
+
+msgid "Your status"
+msgstr "Ваш статус"
+
+msgid "Subject taught"
+msgstr "Преподаваемый предмет"
+
+msgid "School teacher"
+msgstr "Учитель школы"
+
+msgid "College / lyceum teacher"
+msgstr "Преподаватель колледжа / лицея"
+
+msgid "University teacher"
+msgstr "Преподаватель вуза"
+
+msgid "Name of your school"
+msgstr "Название вашей школы"
+
+msgid "For example: Secondary school No. 5, Bokhtar"
+msgstr "Например: средняя школа № 5, г. Бохтар"
+
+msgid "Grade"
+msgstr "Класс"
+
+msgid "For example: 9th grade"
+msgstr "Например: 9 класс"
+
+msgid "Name of your college or lyceum"
+msgstr "Название вашего колледжа или лицея"
+
+msgid "Year of study"
+msgstr "Курс"
+
+msgid "For example: 2nd year"
+msgstr "Например: 2 курс"
+
+msgid "Name of your university"
+msgstr "Название вашего вуза"
+
+msgid "University or research institution"
+msgstr "Вуз или научное учреждение"
+
+msgid "Subject you teach"
+msgstr "Предмет, который вы преподаёте"
+
+msgid "For example: mathematics"
+msgstr "Например: математика"
+
+msgid "Department"
+msgstr "Отделение / кафедра"
+
+msgid "Institution or organisation"
+msgstr "Учреждение или организация"
+
+msgid "“%(f)s” is required."
+msgstr "Поле «%(f)s» обязательно."

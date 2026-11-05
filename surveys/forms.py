@@ -9,6 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 from core.forms import StyledFormMixin
 
+from .participant_roles import CONDITIONAL_KEYS, ROLE_FIELDS
 from .models import EDUCATION_LEVEL_CHOICES, AnswerOption, Participant, ParticipantField, Question, Questionnaire, Section
 
 DATETIME_WIDGET = forms.DateTimeInput(attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M")
@@ -128,16 +129,20 @@ class CustomParticipantFieldForm(StyledFormMixin, forms.Form):
 
 
 class StartForm(forms.Form):
-    """Consent + configured participant fields (built dynamically)."""
+    """Consent + configured participant fields (built dynamically).
+
+    If the questionnaire collects "Your status", the institution fields depend on the
+    chosen status (see ``participant_roles``): only the relevant ones are shown,
+    validated and stored.
+    """
 
     def __init__(self, *args, questionnaire: Questionnaire, **kwargs):
         super().__init__(*args, **kwargs)
         self.questionnaire = questionnaire
         self.field_defs = list(questionnaire.participant_fields.filter(enabled=True))
+        self.status_field = next((pf for pf in self.field_defs if pf.key == ParticipantField.Key.EDUCATION), None)
         hints = {
             ParticipantField.Key.UNIVERSITY: _("Name of your university, college or school"),
-            ParticipantField.Key.FACULTY: _("If applicable — school pupils can leave it empty"),
-            ParticipantField.Key.SPECIALTY: _("If applicable — school pupils can leave it empty"),
             ParticipantField.Key.ACADEMIC_YEAR: _("For example: 2nd year or 10th grade"),
         }
         for pf in self.field_defs:
@@ -145,11 +150,14 @@ class StartForm(forms.Form):
                 field = forms.IntegerField(min_value=7, max_value=120)
             elif pf.key == ParticipantField.Key.EDUCATION:
                 field = forms.ChoiceField(choices=[("", "—")] + EDUCATION_LEVEL_CHOICES)
+                field.widget.attrs["x-model"] = "status"
             else:
                 field = forms.CharField(max_length=200)
             field.label = pf.label
             field.required = pf.required
             field.help_text = hints.get(pf.key, "")
+            if self.status_field and pf.key in CONDITIONAL_KEYS:
+                field.required = False  # decided per status in clean()
             field.widget.attrs["class"] = "rs-input"
             self.fields[pf.form_name] = field
         if questionnaire.require_consent:
@@ -158,6 +166,42 @@ class StartForm(forms.Form):
                 label=_("I have read the information above and agree to take part voluntarily."),
                 widget=forms.CheckboxInput(attrs={"class": "rs-checkbox"}),
             )
+
+    def role_config(self) -> dict:
+        """{status: {form_name: {label, required, hint}}} for the conditional fields of this form."""
+        if not self.status_field:
+            return {}
+        names = {pf.key: pf.form_name for pf in self.field_defs if pf.key in CONDITIONAL_KEYS}
+        return {
+            status: {
+                names[key]: {"label": str(label), "required": required, "hint": str(hint)}
+                for key, (label, required, hint) in spec.items()
+                if key in names
+            }
+            for status, spec in ROLE_FIELDS.items()
+        }
+
+    def conditional_names(self) -> list[str]:
+        if not self.status_field:
+            return []
+        return [pf.form_name for pf in self.field_defs if pf.key in CONDITIONAL_KEYS]
+
+    def clean(self):
+        data = super().clean()
+        if not self.status_field:
+            return data
+        status = data.get(self.status_field.form_name) or ""
+        spec = ROLE_FIELDS.get(status, {})
+        for pf in self.field_defs:
+            if pf.key not in CONDITIONAL_KEYS:
+                continue
+            if pf.key not in spec:
+                data[pf.form_name] = ""  # not applicable to this status: never stored
+                continue
+            label, required, _hint = spec[pf.key]
+            if required and not data.get(pf.form_name):
+                self.add_error(pf.form_name, _("“%(f)s” is required.") % {"f": label})
+        return data
 
     def participant_data(self) -> dict:
         data: dict = {}

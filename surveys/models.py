@@ -247,6 +247,9 @@ EDUCATION_LEVEL_CHOICES = [
     ("Донишҷӯи коллеҷ / литсей", _("College / lyceum student")),
     ("Донишҷӯи донишгоҳ (бакалавр)", _("University student (bachelor)")),
     ("Магистрант / докторант", _("Master's or doctoral student")),
+    ("Омӯзгори мактаб", _("School teacher")),
+    ("Омӯзгори коллеҷ / литсей", _("College / lyceum teacher")),
+    ("Омӯзгори донишгоҳ", _("University teacher")),
     ("Дигар", _("Other")),
 ]
 
@@ -258,12 +261,13 @@ class ParticipantField(models.Model):
         NAME = "name", _("Participant name")
         AGE = "age", _("Age")
         GENDER = "gender", _("Gender")
-        EDUCATION = "education_level", _("Level of education")
+        EDUCATION = "education_level", _("Your status")
         UNIVERSITY = "university", _("Educational institution")
         FACULTY = "faculty", _("Faculty / department")
         SPECIALTY = "specialty", _("Specialty / field of study")
         ACADEMIC_YEAR = "academic_year", _("Year or grade")
         GROUP = "group_name", _("Group")
+        SUBJECT = "subject", _("Subject taught")
         CUSTOM = "custom", _("Custom field")
 
     questionnaire = models.ForeignKey(Questionnaire, on_delete=models.CASCADE, related_name="participant_fields")
@@ -298,6 +302,7 @@ class Participant(models.Model):
     specialty = models.CharField(max_length=255, blank=True, db_index=True)
     academic_year = models.CharField(max_length=20, blank=True, db_index=True)
     group_name = models.CharField(max_length=60, blank=True)
+    subject = models.CharField(max_length=255, blank=True, help_text="Subject taught (teachers).")
     extra = models.JSONField(default=dict, blank=True)
     consent_given = models.BooleanField(default=False)
     consent_at = models.DateTimeField(null=True, blank=True)
@@ -306,6 +311,7 @@ class Participant(models.Model):
 
     STANDARD_FIELDS = (
         "name", "age", "gender", "education_level", "university", "faculty", "specialty", "academic_year", "group_name",
+        "subject",
     )
 
     class Meta:

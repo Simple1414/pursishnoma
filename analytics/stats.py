@@ -30,6 +30,7 @@ PARTICIPANT_VARIABLES = [
     ("university", Participant._meta.get_field("university")),
     ("education_level", Participant._meta.get_field("education_level")),
     ("group_name", Participant._meta.get_field("group_name")),
+    ("subject", Participant._meta.get_field("subject")),
 ]
 PARTICIPANT_LABELS = {
     "gender": "Gender",
@@ -37,8 +38,9 @@ PARTICIPANT_LABELS = {
     "faculty": "Faculty / department",
     "specialty": "Specialty / field of study",
     "university": "Educational institution",
-    "education_level": "Level of education",
+    "education_level": "Your status",
     "group_name": "Group",
+    "subject": "Subject taught",
 }
 
 

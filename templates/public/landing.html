@@ -33,7 +33,17 @@
       {% with fields=form.visible_fields %}
       {% if form.field_defs %}
       <div class="rs-card-header"><div><h2 class="text-lg font-semibold">{% translate "About you" %}</h2><p class="text-xs text-rs-muted mt-0.5">{% translate "Only the information needed for this research. Optional fields can be left empty." %}</p></div></div>
-      <div class="rs-card-pad grid sm:grid-cols-2 gap-4">{% for f in form %}{% if f.name != "consent" %}{% field f %}{% endif %}{% endfor %}</div>
+      {{ form.role_config|json_script:"rs-roles" }}{{ form.conditional_names|json_script:"rs-cond" }}
+      <div class="rs-card-pad grid sm:grid-cols-2 gap-4" x-data="participantFields">
+        {% for f in form %}{% if f.name != "consent" %}
+        <div data-pf="{{ f.name }}" x-show="visible('{{ f.name }}')" x-transition.opacity>
+          <label for="{{ f.id_for_label }}" class="rs-label"><span x-text="label('{{ f.name }}', '{{ f.label|escapejs }}')">{{ f.label }}</span><span class="text-rs-danger" aria-hidden="true" x-show="req('{{ f.name }}', {{ f.field.required|yesno:'true,false' }})"> *</span></label>
+          {{ f }}
+          <p class="rs-help" x-show="hint('{{ f.name }}', '{{ f.help_text|escapejs }}')" x-text="hint('{{ f.name }}', '{{ f.help_text|escapejs }}')">{{ f.help_text }}</p>
+          {% for e in f.errors %}<p class="rs-error">{{ e }}</p>{% endfor %}
+        </div>
+        {% endif %}{% endfor %}
+      </div>
       {% endif %}
       {% endwith %}
       <div class="rs-card-pad {% if form.field_defs %}border-t border-rs-border{% endif %} space-y-4">

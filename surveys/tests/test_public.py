@@ -170,37 +170,47 @@ class PublicFlowTests(TestCase):
 
 
 class InstitutionFieldsTests(TestCase):
-    """Schools, colleges and universities can all describe themselves."""
+    """Pupils, students and teachers of schools, colleges and universities."""
 
     def setUp(self):
-        self.qn = make_questionnaire(make_user("owner"))
         import importlib
 
         from django.apps import apps
 
-        importlib.import_module("surveys.migrations.0004_institution_fields").forwards(apps, None)
+        self.qn = make_questionnaire(make_user("owner"))
+        for name in ("0004_institution_fields", "0006_pupils_and_teachers"):
+            importlib.import_module(f"surveys.migrations.{name}").forwards(apps, None)
+        self.f = {pf.key: pf.form_name for pf in self.qn.participant_fields.filter(enabled=True)}
+        self.start = reverse("public:start", args=[self.qn.public_id])
 
-    def test_published_questionnaire_collects_institution_details(self):
-        fields = {f.key: f for f in self.qn.participant_fields.filter(enabled=True)}
-        self.assertEqual(set(fields), {"education_level", "university", "faculty", "specialty"})
-        self.assertTrue(fields["education_level"].required and fields["university"].required)
-        self.assertFalse(fields["faculty"].required or fields["specialty"].required)
-        self.assertEqual(fields["university"].label, "Муассисаи таҳсилотӣ")
+    def post(self, **values):
+        data = {"consent": "on"}
+        data.update({self.f[k]: v for k, v in values.items()})
+        return self.client.post(self.start, data)
+
+    def test_fields_and_status_choices(self):
+        self.assertEqual(set(self.f), {"education_level", "university", "faculty", "specialty", "academic_year", "subject"})
+        self.assertEqual(self.qn.participant_fields.get(key="education_level").label, "Мақоми шумо")
         page = self.client.get(reverse("public:landing", args=[self.qn.public_id]))
-        self.assertContains(page, "Хонандаи мактаб")
-        self.assertContains(page, "Донишҷӯи коллеҷ / литсей")
+        for status in ("Хонандаи мактаб", "Донишҷӯи коллеҷ / литсей", "Омӯзгори мактаб", "Омӯзгори донишгоҳ"):
+            self.assertContains(page, status)
+        self.assertContains(page, 'id="rs-roles"')
 
-    def test_school_pupil_can_start_without_faculty(self):
-        f = {pf.key: pf.form_name for pf in self.qn.participant_fields.filter(enabled=True)}
-        r = self.client.post(reverse("public:start", args=[self.qn.public_id]), {
-            "consent": "on", f["education_level"]: "Хонандаи мактаб", f["university"]: "Мактаби №5, ш. Бохтар",
-        })
+    def test_school_pupil(self):
+        r = self.post(education_level="Хонандаи мактаб", university="Мактаби №5", academic_year="синфи 9", faculty="ignored", subject="ignored")
         self.assertEqual(r.status_code, 302)
         p = Participant.objects.get()
-        self.assertEqual((p.education_level, p.university, p.faculty), ("Хонандаи мактаб", "Мактаби №5, ш. Бохтар", ""))
+        self.assertEqual((p.education_level, p.university, p.academic_year), ("Хонандаи мактаб", "Мактаби №5", "синфи 9"))
+        self.assertEqual((p.faculty, p.subject), ("", ""), "fields not applicable to pupils are not stored")
 
-    def test_institution_is_required_and_level_must_be_valid(self):
-        f = {pf.key: pf.form_name for pf in self.qn.participant_fields.filter(enabled=True)}
-        r = self.client.post(reverse("public:start", args=[self.qn.public_id]), {"consent": "on", f["education_level"]: "Invalid"})
-        self.assertEqual(r.status_code, 400)
+    def test_university_teacher(self):
+        r = self.post(education_level="Омӯзгори донишгоҳ", university="ДДБ", faculty="Математика", subject="Таҳлили математикӣ", academic_year="ignored")
+        self.assertEqual(r.status_code, 302)
+        p = Participant.objects.get()
+        self.assertEqual((p.faculty, p.subject, p.academic_year), ("Математика", "Таҳлили математикӣ", ""))
+
+    def test_institution_required_per_status_and_invalid_status_rejected(self):
+        self.assertEqual(self.post(education_level="Омӯзгори мактаб").status_code, 400)
+        self.assertEqual(self.post(education_level="Invalid", university="X").status_code, 400)
         self.assertFalse(Participant.objects.exists())
+        self.assertEqual(self.post(education_level="Дигар").status_code, 302, "institution optional for “other”")

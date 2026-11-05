@@ -121,3 +121,29 @@ class ImportViewTests(TestCase):
         response = self.upload(docx_bytes(build_original_style).getvalue())
         self.assertEqual(response.status_code, 302)
         self.assertFalse(Questionnaire.objects.exists())
+
+
+class SchoolGradesMigrationTests(TestCase):
+    def test_question_1_gets_grades_and_becomes_optional(self):
+        import importlib
+        from pathlib import Path
+
+        from django.apps import apps
+        from django.conf import settings
+
+        from surveys import services
+
+        user = make_user("owner")
+        path = Path(settings.BASE_DIR) / "seed" / "02-pursishnoma-islohshuda.docx"
+        with path.open("rb") as fh:
+            qn = services.create_from_parsed(parse_docx(fh), user)
+        Questionnaire.objects.filter(pk=qn.pk).update(status="published")
+        mig = importlib.import_module("surveys.migrations.0006_pupils_and_teachers")
+        mig.forwards(apps, None)
+        mig.forwards(apps, None)  # idempotent
+        q1 = qn.questions.get(code="Q1")
+        self.assertEqual([o.text for o in q1.options.all()], ["1", "2", "3", "4", "5", "магистратура", "синфи 5–9", "синфи 10–11"])
+        self.assertEqual([o.value for o in q1.options.all()][-2:], [7, 8])
+        self.assertFalse(q1.required)
+        self.assertFalse(qn.questions.get(code="Q11").required)
+        self.assertTrue(qn.questions.get(code="Q2").required)

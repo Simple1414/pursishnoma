@@ -18,7 +18,7 @@ class BuilderTests(TestCase):
         self.assertRedirects(r, qn.get_absolute_url())
         self.assertEqual(qn.sections.count(), 1)
         self.assertEqual(qn.owner, self.user)
-        self.assertEqual(qn.participant_fields.count(), 9)
+        self.assertEqual(qn.participant_fields.count(), 10)
         self.assertFalse(qn.participant_fields.filter(enabled=True).exists(), "participation is anonymous by default")
 
     def test_add_question_with_options(self):

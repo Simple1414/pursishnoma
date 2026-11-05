@@ -3733,3 +3733,60 @@ msgstr "Агар бошад — хонандагони мактаб метаво
 
 msgid "For example: 2nd year or 10th grade"
 msgstr "Масалан: курси 2 ё синфи 10"
+
+msgid "Your status"
+msgstr "Мақоми шумо"
+
+msgid "Subject taught"
+msgstr "Фанни таълимӣ"
+
+msgid "School teacher"
+msgstr "Омӯзгори мактаб"
+
+msgid "College / lyceum teacher"
+msgstr "Омӯзгори коллеҷ / литсей"
+
+msgid "University teacher"
+msgstr "Омӯзгори донишгоҳ"
+
+msgid "Name of your school"
+msgstr "Номи мактаби шумо"
+
+msgid "For example: Secondary school No. 5, Bokhtar"
+msgstr "Масалан: Мактаби миёнаи №5, ш. Бохтар"
+
+msgid "Grade"
+msgstr "Синф"
+
+msgid "For example: 9th grade"
+msgstr "Масалан: синфи 9"
+
+msgid "Name of your college or lyceum"
+msgstr "Номи коллеҷ ё литсеи шумо"
+
+msgid "Year of study"
+msgstr "Курс"
+
+msgid "For example: 2nd year"
+msgstr "Масалан: курси 2"
+
+msgid "Name of your university"
+msgstr "Номи донишгоҳи шумо"
+
+msgid "University or research institution"
+msgstr "Донишгоҳ ё муассисаи илмӣ"
+
+msgid "Subject you teach"
+msgstr "Фанне, ки таълим медиҳед"
+
+msgid "For example: mathematics"
+msgstr "Масалан: математика"
+
+msgid "Department"
+msgstr "Шуъба / кафедра"
+
+msgid "Institution or organisation"
+msgstr "Муассиса ё ташкилот"
+
+msgid "“%(f)s” is required."
+msgstr "«%(f)s» ҳатмӣ аст."
