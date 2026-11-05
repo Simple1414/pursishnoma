@@ -42,6 +42,7 @@ class Command(BaseCommand):
             existing = Questionnaire.objects.filter(import_report__seed_file=name).first()
             if existing is not None:
                 self.stdout.write(f"{name}: already imported — skipped.")
+                self._ensure_criteria(existing, entry, owner)
                 self._maybe_publish(existing, entry, owner)
                 continue
             path = seed_dir / name
@@ -56,7 +57,36 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.SUCCESS(f"{name}: imported as draft #{qn.pk} — {len(parsed.questions)} questions, {len(parsed.sections)} sections.")
             )
+            self._ensure_criteria(qn, entry, owner)
             self._maybe_publish(qn, entry, owner)
+
+    def _ensure_criteria(self, qn, entry, owner):
+        """Create the manifest's evaluation criteria only if the questionnaire has none yet.
+
+        Criteria the researcher has edited or added in the interface are never overwritten.
+        """
+        from decimal import Decimal
+
+        from evaluation.models import EvaluationCriterion
+
+        items = entry.get("criteria") or []
+        if not items or EvaluationCriterion.objects.filter(questionnaire=qn).exists():
+            return
+        EvaluationCriterion.objects.bulk_create(
+            [
+                EvaluationCriterion(
+                    questionnaire=qn,
+                    name=c["name"][:255],
+                    description=c.get("description", ""),
+                    max_score=Decimal(str(c.get("max_score", 10))),
+                    weight=Decimal(str(c.get("weight", 1))),
+                    order=c.get("order", i),
+                )
+                for i, c in enumerate(items)
+            ]
+        )
+        log_action(None, "evaluation.criteria", qn, user=owner, via="seed_questionnaires", count=len(items))
+        self.stdout.write(self.style.SUCCESS(f"{entry['file']}: {len(items)} evaluation criteria created."))
 
     def _maybe_publish(self, qn, entry, owner):
         """Approve and publish once, when the manifest says so and the owner authorised it.

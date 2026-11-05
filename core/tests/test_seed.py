@@ -30,6 +30,23 @@ class SeedQuestionnairesTests(TestCase):
         self.assertTrue(corrected.accepting_responses())
         for qn in seeded:
             self.assertEqual(qn.owner, admin)
+        from evaluation.models import EvaluationCriterion
+
+        crit = EvaluationCriterion.objects.filter(questionnaire=corrected)
+        self.assertEqual(crit.count(), 5)
+        self.assertEqual(sum(c.weight for c in crit), 10)
+        self.assertFalse(EvaluationCriterion.objects.filter(questionnaire=original).exists())
+
+    def test_existing_criteria_are_not_overwritten(self):
+        from evaluation.models import EvaluationCriterion
+
+        make_user("admin", role=User.Role.ADMIN)
+        call_command("seed_questionnaires", stdout=StringIO())
+        corrected = Questionnaire.objects.get(import_report__seed_file="02-pursishnoma-islohshuda.docx")
+        EvaluationCriterion.objects.filter(questionnaire=corrected).delete()
+        EvaluationCriterion.objects.create(questionnaire=corrected, name="Own criterion", max_score=5, weight=1)
+        call_command("seed_questionnaires", stdout=StringIO())
+        self.assertEqual(list(EvaluationCriterion.objects.filter(questionnaire=corrected).values_list("name", flat=True)), ["Own criterion"])
 
     def test_publishes_only_once(self):
         make_user("admin", role=User.Role.ADMIN)
