@@ -16,7 +16,9 @@ from django.core.management.base import BaseCommand
 
 from surveys.importer import parse_docx
 from surveys.models import Questionnaire
-from surveys.services import create_from_parsed
+from surveys.services import approve, create_from_parsed, publish
+
+from core.audit import log_action
 
 
 class Command(BaseCommand):
@@ -37,8 +39,10 @@ class Command(BaseCommand):
             return
         for entry in json.loads(manifest.read_text(encoding="utf-8")):
             name = entry["file"]
-            if Questionnaire.objects.filter(import_report__seed_file=name).exists():
+            existing = Questionnaire.objects.filter(import_report__seed_file=name).first()
+            if existing is not None:
                 self.stdout.write(f"{name}: already imported — skipped.")
+                self._maybe_publish(existing, entry, owner)
                 continue
             path = seed_dir / name
             with path.open("rb") as fh:
@@ -52,6 +56,24 @@ class Command(BaseCommand):
             self.stdout.write(
                 self.style.SUCCESS(f"{name}: imported as draft #{qn.pk} — {len(parsed.questions)} questions, {len(parsed.sections)} sections.")
             )
+            self._maybe_publish(qn, entry, owner)
+
+    def _maybe_publish(self, qn, entry, owner):
+        """Approve and publish once, when the manifest says so and the owner authorised it.
+
+        Runs only for a draft without responses and only the first time, so a
+        questionnaire the researcher later closes or returns to draft stays as they left it.
+        """
+        if not entry.get("publish") or qn.import_report.get("seed_published"):
+            return
+        if qn.status != Questionnaire.Status.DRAFT or qn.responses.exists():
+            return
+        approve(qn, owner)
+        publish(qn)
+        qn.import_report = {**qn.import_report, "seed_published": True}
+        qn.save(update_fields=["import_report"])
+        log_action(None, "questionnaire.publish", qn, user=owner, via="seed_questionnaires")
+        self.stdout.write(self.style.SUCCESS(f"{entry['file']}: approved and published — public URL /s/{qn.public_id}/"))
 
     @staticmethod
     def _owner():
@@ -61,4 +83,10 @@ class Command(BaseCommand):
             user = User.objects.filter(username=username, is_active=True).first()
             if user:
                 return user
-        return User.objects.filter(is_active=True, is_superuser=True).order_by("pk").first()
+        from django.db.models import Q
+
+        return (
+            User.objects.filter(Q(is_superuser=True) | Q(role=User.Role.ADMIN), is_active=True)
+            .order_by("-is_superuser", "pk")
+            .first()
+        )

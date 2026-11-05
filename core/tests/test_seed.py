@@ -23,9 +23,22 @@ class SeedQuestionnairesTests(TestCase):
         self.assertEqual(seeded.count(), 2)
         self.assertIn("skipped", out.getvalue())
         self.assertEqual([q.questions.count() for q in seeded], [40, 53])
+        original, corrected = seeded
+        self.assertEqual(original.status, Questionnaire.Status.DRAFT)
+        self.assertEqual(corrected.status, Questionnaire.Status.PUBLISHED)
+        self.assertEqual(corrected.approved_by, admin)
+        self.assertTrue(corrected.accepting_responses())
         for qn in seeded:
-            self.assertEqual(qn.status, Questionnaire.Status.DRAFT)
             self.assertEqual(qn.owner, admin)
+
+    def test_publishes_only_once(self):
+        make_user("admin", role=User.Role.ADMIN)
+        call_command("seed_questionnaires", stdout=StringIO())
+        corrected = Questionnaire.objects.get(import_report__seed_file="02-pursishnoma-islohshuda.docx")
+        Questionnaire.objects.filter(pk=corrected.pk).update(status=Questionnaire.Status.DRAFT, approved_at=None)
+        call_command("seed_questionnaires", stdout=StringIO())
+        corrected.refresh_from_db()
+        self.assertEqual(corrected.status, Questionnaire.Status.DRAFT, "researcher's later change is respected")
 
     def test_skips_without_admin(self):
         out = StringIO()
