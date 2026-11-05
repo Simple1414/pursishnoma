@@ -226,3 +226,6 @@ backups/
 node_modules/
 # Compiled translations are committed so hosts without gettext (e.g. Render) can serve them
 !locale/**/*.mo
+
+# Graphify knowledge graph (built locally: graphify update .)
+graphify-out/
