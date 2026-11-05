@@ -14,3 +14,6 @@ Rules:
 - **Ponytail** and **Agent Skills** (addyosmani) are enabled in `.claude/settings.json`; Claude Code installs them from their marketplaces on first trust of this folder (Ponytail needs Node.js on PATH).
 - **Graphify** hooks in `.claude/settings.json` call the `graphify` CLI. Install it once and build the graph locally (it is gitignored):
   `pip install graphifyy && graphify update .`
+- **Design plugins** enabled in `.claude/settings.json`: UI UX Pro Max (needs Python), Taste (needs Node 22+ and Chrome/Chromium), Impeccable (runs a design-check hook on UI edits; downloads its engine to `~/.impeccable/bin/` on first use; turn telemetry off with `DO_NOT_TRACK=1`), PPT Master (run `pip install -r requirements.txt` in its plugin folder before generating decks).
+- **Archify** (diagrams) is gitignored because of its size; `skills-lock.json` records it. Restore it with:
+  `npx -y skills@latest add tt-a1i/archify --skill archify --agent claude-code --copy --yes`

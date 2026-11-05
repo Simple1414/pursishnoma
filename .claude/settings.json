@@ -48,10 +48,38 @@
         "source": "github",
         "repo": "addyosmani/agent-skills"
       }
+    },
+    "ui-ux-pro-max-skill": {
+      "source": {
+        "source": "github",
+        "repo": "nextlevelbuilder/ui-ux-pro-max-skill"
+      }
+    },
+    "taste-skill": {
+      "source": {
+        "source": "github",
+        "repo": "Leonxlnx/taste-skill"
+      }
+    },
+    "impeccable": {
+      "source": {
+        "source": "github",
+        "repo": "pbakaus/impeccable"
+      }
+    },
+    "ppt-master": {
+      "source": {
+        "source": "github",
+        "repo": "hugohe3/ppt-master"
+      }
     }
   },
   "enabledPlugins": {
     "ponytail@ponytail": true,
-    "agent-skills@addy-agent-skills": true
+    "agent-skills@addy-agent-skills": true,
+    "ui-ux-pro-max@ui-ux-pro-max-skill": true,
+    "taste-skill@taste-skill": true,
+    "impeccable@impeccable": true,
+    "ppt-master@ppt-master": true
   }
 }
