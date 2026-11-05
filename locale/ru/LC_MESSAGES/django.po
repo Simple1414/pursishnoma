@@ -3561,3 +3561,12 @@ msgstr "Измените фильтры или дождитесь ответов
 #: templates/surveys/section_form.html:6
 msgid "Edit section"
 msgstr "Редактирование раздела"
+
+msgid "Copy criteria from another questionnaire"
+msgstr "Скопировать критерии из другой анкеты"
+
+msgid "Copy criteria"
+msgstr "Скопировать критерии"
+
+msgid "%(n)s criteria copied."
+msgstr "Скопировано критериев: %(n)s."

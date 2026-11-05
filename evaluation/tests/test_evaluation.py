@@ -96,3 +96,33 @@ class EvaluationViewTests(TestCase):
         self.client.login(username="bob", password=PASSWORD)
         r = self.client.post(reverse("evaluation:evaluate", args=[self.response.pk]), {f"score_{self.criterion.pk}": "1"})
         self.assertEqual(r.status_code, 404)
+
+
+class CopyCriteriaTests(TestCase):
+    def setUp(self):
+        self.user = make_user("alice")
+        self.source = make_questionnaire(self.user, title="Source")
+        self.target = make_questionnaire(self.user, title="Target")
+        EvaluationCriterion.objects.create(questionnaire=self.source, name="Depth", max_score=10, weight=3)
+        EvaluationCriterion.objects.create(questionnaire=self.source, name="Accuracy", max_score=10, weight=1)
+        EvaluationCriterion.objects.create(questionnaire=self.target, name="Depth", max_score=5, weight=1)
+        self.client.login(username="alice", password=PASSWORD)
+
+    def test_copies_missing_criteria_only(self):
+        url = reverse("evaluation:copy_criteria", args=[self.target.pk])
+        self.assertEqual(self.client.get(url).status_code, 405)
+        self.client.post(url, {"source": self.source.pk})
+        names = dict(EvaluationCriterion.objects.filter(questionnaire=self.target).values_list("name", "max_score"))
+        self.assertEqual(set(names), {"Depth", "Accuracy"})
+        self.assertEqual(names["Depth"], Decimal("5"), "existing criterion is kept unchanged")
+        page = self.client.get(reverse("evaluation:criteria", args=[self.target.pk]))
+        self.assertContains(page, "Source")
+
+    def test_cannot_copy_from_or_to_foreign_questionnaire(self):
+        other = make_questionnaire(make_user("bob"), title="Bob")
+        EvaluationCriterion.objects.create(questionnaire=other, name="Secret", max_score=10, weight=1)
+        r = self.client.post(reverse("evaluation:copy_criteria", args=[self.target.pk]), {"source": other.pk})
+        self.assertEqual(r.status_code, 404)
+        r = self.client.post(reverse("evaluation:copy_criteria", args=[other.pk]), {"source": self.source.pk})
+        self.assertEqual(r.status_code, 404)
+        self.assertFalse(EvaluationCriterion.objects.filter(questionnaire=self.target, name="Secret").exists())

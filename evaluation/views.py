@@ -128,7 +128,38 @@ def criteria(request, pk: int):
             log_action(request, "evaluation.criteria", qn)
             messages.success(request, _("Evaluation criteria saved."))
             return redirect("evaluation:criteria", pk=qn.pk)
-    return render(request, "evaluation/criteria.html", {"questionnaire": qn, "formset": formset})
+    sources = (
+        Questionnaire.objects.visible_to(request.user)
+        .exclude(pk=qn.pk)
+        .filter(criteria__isnull=False)
+        .distinct()
+        .order_by("-updated_at")
+    )
+    return render(request, "evaluation/criteria.html", {"questionnaire": qn, "formset": formset, "sources": sources})
+
+
+@staff_required
+@require_POST
+def copy_criteria(request, pk: int):
+    """Copy criteria from another questionnaire the user can manage (existing names are kept)."""
+    qn = get_questionnaire(request.user, pk)
+    source_id = request.POST.get("source", "")
+    if not source_id.isdigit():
+        messages.error(request, _("Choose a questionnaire."))
+        return redirect("evaluation:criteria", pk=qn.pk)
+    source = get_questionnaire(request.user, int(source_id))
+    existing = set(EvaluationCriterion.objects.filter(questionnaire=qn).values_list("name", flat=True))
+    copies = [
+        EvaluationCriterion(
+            questionnaire=qn, name=c.name, description=c.description, max_score=c.max_score, weight=c.weight, order=c.order
+        )
+        for c in EvaluationCriterion.objects.filter(questionnaire=source)
+        if c.name not in existing
+    ]
+    EvaluationCriterion.objects.bulk_create(copies)
+    log_action(request, "evaluation.criteria_copy", qn, source=source.pk, count=len(copies))
+    messages.success(request, _("%(n)s criteria copied.") % {"n": len(copies)})
+    return redirect("evaluation:criteria", pk=qn.pk)
 
 
 @staff_required

@@ -20,7 +20,7 @@
   <div class="rs-table-wrap"><table class="rs-table">
     <thead><tr><th>{% translate "Questionnaire" %}</th><th>{% translate "Status" %}</th><th class="text-right">{% translate "Questions" %}</th><th class="text-right">{% translate "Participants" %}</th><th class="text-right">{% translate "Completed" %}</th><th>{% translate "Created" %}</th></tr></thead>
     <tbody>{% for q in page %}
-      <tr><td class="min-w-[260px]"><a href="{{ q.get_absolute_url }}" class="font-semibold text-rs-text hover:text-rs-royal">{{ q.title }}</a><p class="text-xs text-rs-muted mt-0.5">{{ q.author|default:q.owner }} · {{ q.get_language_display }}</p></td>
+      <tr><td class="min-w-[260px]"><a href="{{ q.get_absolute_url }}" class="font-semibold text-rs-text hover:text-rs-royal">{{ q.title }}</a><p class="text-xs text-rs-muted mt-0.5"><span class="font-mono font-semibold text-rs-text">#{{ q.pk }}</span> · {{ q.author|default:q.owner }} · {{ q.get_language_display }}</p></td>
       <td><span class="{{ q.status|status_badge }}">{{ q.get_status_display }}</span>{% if not q.is_active %} <span class="rs-badge-danger">{% translate "Inactive" %}</span>{% endif %}</td>
       <td class="text-right tabular-nums">{{ q.question_count }}</td><td class="text-right tabular-nums">{{ q.participant_count }}</td><td class="text-right tabular-nums">{{ q.completed_count }}</td>
       <td class="text-xs text-rs-muted whitespace-nowrap">{{ q.created_at|date:"Y-m-d" }}</td></tr>

@@ -4,6 +4,13 @@
 {% block breadcrumbs %}<a href="{{ questionnaire.get_absolute_url }}" class="truncate max-w-[260px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Evaluation criteria" %}</span>{% endblock %}
 {% block content %}
 <div class="mb-6 max-w-3xl"><p class="rs-eyebrow mb-1.5">#{{ questionnaire.pk }} · {{ questionnaire.get_status_display }}</p><h1 class="rs-title">{% translate "Evaluation criteria" %}</h1><p class="mt-1.5 font-semibold text-rs-navy">{{ questionnaire.title }}</p><p class="rs-subtitle mt-1.5">{% translate "Define the scale for evaluating each participant: criterion, maximum score and weight. The weighted final score (0–100%) is calculated automatically." %}</p></div>
+{% if sources %}
+<form method="post" action="{% url 'evaluation:copy_criteria' questionnaire.pk %}" class="rs-card rs-card-pad max-w-5xl mb-6 flex flex-col sm:flex-row gap-3 sm:items-end">{% csrf_token %}
+  <div class="flex-1"><label for="copy-src" class="rs-label">{% translate "Copy criteria from another questionnaire" %}</label>
+    <select id="copy-src" name="source" class="rs-input" required>{% for s in sources %}<option value="{{ s.pk }}">#{{ s.pk }} · {{ s.title|truncatechars:90 }} ({{ s.get_status_display }})</option>{% endfor %}</select></div>
+  <button class="rs-btn-secondary">{% icon "copy" "h-4 w-4" %}{% translate "Copy criteria" %}</button>
+</form>
+{% endif %}
 <form method="post" class="rs-card max-w-5xl" novalidate>{% csrf_token %}{{ formset.management_form }}
   {% if formset.non_form_errors %}<div class="rs-alert-danger m-5">{{ formset.non_form_errors }}</div>{% endif %}
   <div class="rs-table-wrap"><table class="rs-table">

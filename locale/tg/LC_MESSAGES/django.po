@@ -3588,3 +3588,12 @@ msgstr "Филтрҳоро тағйир диҳед ё то супоридани 
 #: templates/surveys/section_form.html:6
 msgid "Edit section"
 msgstr "Таҳрири қисм"
+
+msgid "Copy criteria from another questionnaire"
+msgstr "Нусхабардории меъёрҳо аз пурсишномаи дигар"
+
+msgid "Copy criteria"
+msgstr "Нусха бардоштани меъёрҳо"
+
+msgid "%(n)s criteria copied."
+msgstr "%(n)s меъёр нусхабардорӣ шуд."
