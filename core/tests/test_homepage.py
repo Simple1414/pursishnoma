@@ -59,6 +59,11 @@ class HomepageTests(TestCase):
         for name in ("core:guide", "core:privacy", "login"):
             self.assertContains(r, f'href="{reverse(name)}', msg_prefix=name)
 
+    def test_no_analytics_preview_section(self):
+        r = self.get()
+        self.assertNotContains(r, 'id="analytics"')
+        self.assertNotContains(r, "#analytics")
+
     def test_no_create_research_buttons_for_visitors(self):
         r = self.get()
         self.assertNotContains(r, reverse("surveys:create"))
