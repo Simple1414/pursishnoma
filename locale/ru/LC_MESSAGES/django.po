@@ -3570,3 +3570,45 @@ msgstr "Скопировать критерии"
 
 msgid "%(n)s criteria copied."
 msgstr "Скопировано критериев: %(n)s."
+
+msgid "Run automatic evaluation"
+msgstr "Автоматическая оценка"
+
+msgid "Automatic"
+msgstr "Автоматически"
+
+msgid "Automatic evaluation"
+msgstr "Автоматическая оценка"
+
+msgid "automatic evaluation"
+msgstr "автоматическая оценка"
+
+msgid "automatic scoring rule"
+msgstr "правило автоматической оценки"
+
+msgid ""
+"Transparent rule used for automatic evaluation; empty means manual scoring "
+"only."
+msgstr ""
+"Прозрачное правило автоматической оценки; пусто — только ручная оценка."
+
+msgid ""
+"Scores were calculated by transparent rules from the answers. Check them; if"
+" you change a score and save, the evaluation becomes manual."
+msgstr ""
+"Баллы рассчитаны по прозрачным правилам на основе ответов. Проверьте их; "
+"если вы измените балл и сохраните, оценка станет ручной."
+
+msgid ""
+"%(n)s responses were evaluated automatically. Review the scores and mark "
+"them as reviewed."
+msgstr ""
+"Автоматически оценено ответов: %(n)s. Проверьте баллы и отметьте их как "
+"проверенные."
+
+msgid ""
+"No responses needed automatic evaluation (or no criteria have automatic "
+"rules)."
+msgstr ""
+"Нет ответов для автоматической оценки (или у критериев нет автоматических "
+"правил)."

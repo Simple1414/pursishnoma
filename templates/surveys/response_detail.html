@@ -43,7 +43,7 @@
       <h2 class="text-base font-semibold mb-3">{% translate "Evaluation" %}</h2>
       {% if evaluation %}
         <p class="font-serif text-3xl text-rs-navy">{% if evaluation.final_score is not None %}{{ evaluation.final_score|floatformat:1 }}%{% else %}—{% endif %}</p>
-        <p class="mt-1"><span class="{{ evaluation.status|status_badge }}">{{ evaluation.get_status_display }}</span> <span class="text-xs text-rs-muted">v{{ evaluation.version }} · {{ evaluation.updated_at|date:"Y-m-d" }}</span></p>
+        <p class="mt-1"><span class="{{ evaluation.status|status_badge }}">{{ evaluation.get_status_display }}</span>{% if evaluation.is_automatic %} <span class="rs-badge-gold">{% translate "Automatic" %}</span>{% endif %} <span class="text-xs text-rs-muted">v{{ evaluation.version }} · {{ evaluation.updated_at|date:"Y-m-d" }}</span></p>
         {% if evaluation.comment %}<p class="mt-3 text-rs-muted rs-prose">{{ evaluation.comment|truncatechars:300 }}</p>{% endif %}
       {% else %}<p class="text-rs-muted">{% translate "Not evaluated yet." %}</p>{% endif %}
     </section>

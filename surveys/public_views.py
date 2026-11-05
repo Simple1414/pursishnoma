@@ -6,6 +6,7 @@ open another participant's response. Every answer is written to PostgreSQL
 """
 from __future__ import annotations
 
+import logging
 import uuid
 
 from django.conf import settings
@@ -23,6 +24,8 @@ from core.ratelimit import is_rate_limited
 from . import services
 from .forms import StartForm
 from .models import Questionnaire, SurveyResponse
+
+logger = logging.getLogger(__name__)
 
 
 def _session_key(qn: Questionnaire) -> str:
@@ -142,6 +145,7 @@ def submit(request, public_id):
         token = uuid.uuid4()
     ok, parsed = services.submit(response, request.POST, token)
     if ok:
+        _auto_evaluate_safely(response)
         return redirect("public:done", public_id=qn.public_id)
     context = build_fill_context(qn, _post_values(request.POST), parsed.errors)
     context["response"] = response
@@ -151,6 +155,17 @@ def submit(request, public_id):
     )
     messages.error(request, _("Please answer the highlighted questions."))
     return render(request, "public/fill.html", context, status=400)
+
+
+def _auto_evaluate_safely(response: SurveyResponse) -> None:
+    """Automatic evaluation must never break or slow a participant's submission."""
+    try:
+        from evaluation.services import auto_evaluate
+
+        response.refresh_from_db()
+        auto_evaluate(response)
+    except Exception:  # noqa: BLE001
+        logger.exception("automatic evaluation failed for response %s", response.pk)
 
 
 def done(request, public_id):

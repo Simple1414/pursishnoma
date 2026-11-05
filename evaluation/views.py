@@ -9,6 +9,7 @@ from django.core.paginator import Paginator
 from django.db.models import ProtectedError
 from django.forms import modelformset_factory
 from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse
 from django.utils.translation import gettext as _
 from django.utils.translation import gettext_lazy
 from django.views.decorators.http import require_POST
@@ -151,7 +152,8 @@ def copy_criteria(request, pk: int):
     existing = set(EvaluationCriterion.objects.filter(questionnaire=qn).values_list("name", flat=True))
     copies = [
         EvaluationCriterion(
-            questionnaire=qn, name=c.name, description=c.description, max_score=c.max_score, weight=c.weight, order=c.order
+            questionnaire=qn, name=c.name, description=c.description, max_score=c.max_score, weight=c.weight, order=c.order,
+            auto_rule=c.auto_rule,
         )
         for c in EvaluationCriterion.objects.filter(questionnaire=source)
         if c.name not in existing
@@ -160,6 +162,25 @@ def copy_criteria(request, pk: int):
     log_action(request, "evaluation.criteria_copy", qn, source=source.pk, count=len(copies))
     messages.success(request, _("%(n)s criteria copied.") % {"n": len(copies)})
     return redirect("evaluation:criteria", pk=qn.pk)
+
+
+@staff_required
+@require_POST
+def run_auto(request):
+    """Score not-yet-evaluated responses (and refresh unreviewed automatic ones) with the rules."""
+    visible = Questionnaire.objects.visible_to(request.user)
+    qid = request.POST.get("questionnaire", "")
+    targets = visible.filter(pk=int(qid)) if qid.isdigit() else visible
+    total = 0
+    for qn in targets:
+        total += services.auto_evaluate_pending(qn, force=True)
+    log_action(request, "evaluation.auto_run", None, count=total)
+    if total:
+        messages.success(request, _("%(n)s responses were evaluated automatically. Review the scores and mark them as reviewed.") % {"n": total})
+    else:
+        messages.info(request, _("No responses needed automatic evaluation (or no criteria have automatic rules)."))
+    url = reverse("evaluation:queue")
+    return redirect(f"{url}?questionnaire={qid}" if qid.isdigit() else url)
 
 
 @staff_required

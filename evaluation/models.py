@@ -18,6 +18,10 @@ class EvaluationCriterion(models.Model):
     max_score = models.DecimalField(_("maximum score"), max_digits=8, decimal_places=2, default=Decimal("10"))
     weight = models.DecimalField(_("weight"), max_digits=6, decimal_places=2, default=Decimal("1"))
     order = models.PositiveIntegerField(default=0)
+    auto_rule = models.JSONField(
+        _("automatic scoring rule"), default=dict, blank=True,
+        help_text=_("Transparent rule used for automatic evaluation; empty means manual scoring only."),
+    )
 
     class Meta:
         ordering = ["order", "id"]
@@ -48,6 +52,8 @@ class Evaluation(models.Model):
     evaluated_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     version = models.PositiveIntegerField(default=1)
+    is_automatic = models.BooleanField(_("automatic evaluation"), default=False, db_index=True)
+    auto_details = models.JSONField(default=list, blank=True, help_text="Per-criterion explanation of automatic scores.")
 
     class Meta:
         ordering = ["-updated_at"]

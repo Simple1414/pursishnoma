@@ -15,6 +15,11 @@
       <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Evaluation" %}</h2>{% if evaluation %}<span class="text-xs text-rs-muted">v{{ evaluation.version }}</span>{% endif %}</div>
       <div class="rs-card-pad space-y-5">
         {% if errors %}<div class="rs-alert-danger" role="alert"><ul>{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+        {% if evaluation.is_automatic %}
+        <div class="rs-alert-warning text-sm">{% icon "sparkles" "h-5 w-5 shrink-0 text-rs-accent" %}<div><p class="font-semibold">{% translate "Automatic evaluation" %}</p>
+          <p class="text-rs-muted">{% translate "Scores were calculated by transparent rules from the answers. Check them; if you change a score and save, the evaluation becomes manual." %}</p>
+          <ul class="mt-2 space-y-2">{% for d in evaluation.auto_details %}<li><span class="font-semibold">{{ d.criterion }}: {{ d.score|default:"—" }} / {{ d.max }}</span><ul class="list-disc pl-5 text-xs text-rs-muted">{% for n in d.notes %}<li>{{ n }}</li>{% endfor %}</ul></li>{% endfor %}</ul></div></div>
+        {% endif %}
         {% if rows %}
           {% for row in rows %}
           <div><label for="score-{{ row.criterion.pk }}" class="rs-label flex justify-between"><span>{{ row.criterion.name }}</span><span class="text-xs text-rs-muted font-normal">{% translate "max" %} {{ row.criterion.max_score|floatformat:"-2" }} · {% translate "weight" %} {{ row.criterion.weight|floatformat:"-2" }}</span></label>

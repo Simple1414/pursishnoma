@@ -3,7 +3,9 @@
 {% block title %}{% translate "Response Evaluation" %}{% endblock %}
 {% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Response Evaluation" %}</span>{% endblock %}
 {% block content %}
-<div class="mb-6"><p class="rs-eyebrow">{% translate "Evaluation" %}</p><h1 class="rs-title mt-1.5">{% translate "Response Evaluation" %}</h1><p class="rs-subtitle mt-1">{% translate "Evaluations are stored separately. Original participant answers are never changed." %}</p></div>
+<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-6"><div><p class="rs-eyebrow">{% translate "Evaluation" %}</p><h1 class="rs-title mt-1.5">{% translate "Response Evaluation" %}</h1><p class="rs-subtitle mt-1">{% translate "Evaluations are stored separately. Original participant answers are never changed." %}</p></div>
+  <form method="post" action="{% url 'evaluation:run_auto' %}" x-data="{busy:false}" @submit="busy=true">{% csrf_token %}<input type="hidden" name="questionnaire" value="{{ qid }}">
+    <button class="rs-btn-gold" :disabled="busy"><span x-show="busy" class="rs-spinner" x-cloak></span>{% icon "sparkles" "h-4 w-4" %}{% translate "Run automatic evaluation" %}</button></form></div>
 <div class="rs-card">
   <form method="get" class="rs-card-header">
     <div class="flex flex-wrap gap-1.5">
@@ -21,7 +23,7 @@
     <tbody>{% for r in page %}<tr>
       <td class="font-mono text-xs">{{ r.reference }}</td><td class="font-medium">{{ r.participant }}</td><td class="max-w-[260px]"><span class="line-clamp-1 text-sm">{{ r.questionnaire.title }}</span></td>
       <td class="text-xs text-rs-muted whitespace-nowrap">{{ r.submitted_at|date:"Y-m-d H:i" }}</td>
-      <td>{% if r.evaluation %}<span class="{{ r.evaluation.status|status_badge }}">{{ r.evaluation.get_status_display }}</span>{% else %}<span class="rs-badge-draft">{% translate "Not started" %}</span>{% endif %}</td>
+      <td>{% if r.evaluation %}<span class="{{ r.evaluation.status|status_badge }}">{{ r.evaluation.get_status_display }}</span>{% if r.evaluation.is_automatic %} <span class="rs-badge-gold">{% translate "Automatic" %}</span>{% endif %}{% else %}<span class="rs-badge-draft">{% translate "Not started" %}</span>{% endif %}</td>
       <td class="text-right tabular-nums">{% if r.evaluation.final_score is not None and r.evaluation %}{{ r.evaluation.final_score|floatformat:1 }}%{% else %}—{% endif %}</td>
       <td class="text-right"><a href="{% url 'evaluation:evaluate' r.pk %}" class="rs-btn-gold rs-btn-sm">{% translate "Evaluate" %}</a></td></tr>{% endfor %}</tbody>
   </table></div>

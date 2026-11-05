@@ -29,6 +29,13 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         seed_dir = Path(options["dir"])
+        try:
+            self._import_manifest(seed_dir)
+        finally:
+            # After imports, so criteria created from the manifest get their rules in the same run.
+            self._apply_auto_rules(seed_dir)
+
+    def _import_manifest(self, seed_dir: Path) -> None:
         manifest = seed_dir / "manifest.json"
         if not manifest.exists():
             self.stdout.write("No seed manifest — nothing to import.")
@@ -59,6 +66,36 @@ class Command(BaseCommand):
             )
             self._ensure_criteria(qn, entry, owner)
             self._maybe_publish(qn, entry, owner)
+
+    def _apply_auto_rules(self, seed_dir: Path) -> None:
+        """Attach automatic scoring rules (seed/auto_rules.json, keyed by criterion name).
+
+        A rule is attached only to criteria without a rule whose questionnaire contains
+        every question code the rule refers to, so it never applies to an unrelated survey.
+        """
+        import re
+
+        from evaluation.autoscore import validate_rule
+        from evaluation.models import EvaluationCriterion
+
+        path = seed_dir / "auto_rules.json"
+        if not path.exists():
+            return
+        rules = json.loads(path.read_text(encoding="utf-8"))
+        for name, rule in rules.items():
+            if not validate_rule(rule):
+                self.stderr.write(f"auto rule for “{name}” is invalid — skipped.")
+                continue
+            codes = set(re.findall(r'"(Q\d+)"', json.dumps(rule)))
+            for crit in EvaluationCriterion.objects.filter(name=name).select_related("questionnaire"):
+                if crit.auto_rule:
+                    continue
+                have = set(crit.questionnaire.questions.values_list("code", flat=True))
+                if not codes <= have:
+                    continue
+                crit.auto_rule = rule
+                crit.save(update_fields=["auto_rule"])
+                self.stdout.write(self.style.SUCCESS(f"auto rule attached: questionnaire #{crit.questionnaire_id} — {name}"))
 
     def _ensure_criteria(self, qn, entry, owner):
         """Create the manifest's evaluation criteria only if the questionnaire has none yet.

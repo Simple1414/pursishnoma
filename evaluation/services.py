@@ -30,6 +30,7 @@ def _snapshot(evaluation: Evaluation) -> dict:
         "comment": evaluation.comment,
         "recommendations": evaluation.recommendations,
         "final_score": str(evaluation.final_score) if evaluation.final_score is not None else None,
+        "automatic": evaluation.is_automatic,
         "scores": {
             s.criterion.name: {"score": str(s.score), "max": str(s.criterion.max_score), "weight": str(s.criterion.weight)}
             for s in evaluation.scores.select_related("criterion")
@@ -46,6 +47,8 @@ def save_evaluation(
     comment: str,
     recommendations: str,
     reviewed: bool,
+    automatic: bool = False,
+    auto_details: list | None = None,
 ) -> Evaluation:
     if not response.is_completed:
         raise ValidationError(_("Only completed responses can be evaluated."))
@@ -72,6 +75,8 @@ def save_evaluation(
     evaluation.recommendations = recommendations
     evaluation.status = Evaluation.Status.REVIEWED if reviewed else Evaluation.Status.IN_REVIEW
     evaluation.final_score = weighted_score(clean) if len(clean) == len(criteria) and criteria else None
+    evaluation.is_automatic = automatic
+    evaluation.auto_details = (auto_details or []) if automatic else []
     evaluation.save()
     evaluation.scores.all().delete()
     CriterionScore.objects.bulk_create([CriterionScore(evaluation=evaluation, criterion=c, score=s) for c, s in clean.items()])
@@ -79,3 +84,54 @@ def save_evaluation(
         evaluation=evaluation, version=evaluation.version, snapshot=_snapshot(evaluation), changed_by=user
     )
     return evaluation
+
+
+# --------------------------------------------------------------------------- automatic evaluation
+AUTO_COMMENT = "Арзёбии худкор аз рӯи қоидаҳои шаффоф. Муҳаққиқ метавонад холҳоро санҷида, тағйир диҳад."
+
+
+def auto_evaluate(response: SurveyResponse, *, force: bool = False) -> Evaluation | None:
+    """Score a completed response with the criteria's automatic rules.
+
+    Manual evaluations and automatic ones already marked as reviewed are never
+    overwritten (unless ``force`` for an unreviewed automatic one).
+    Returns None when nothing was done.
+    """
+    from .autoscore import collect, score_criterion
+
+    if not response.is_completed:
+        return None
+    criteria = [c for c in EvaluationCriterion.objects.filter(questionnaire_id=response.questionnaire_id) if c.auto_rule]
+    if not criteria:
+        return None
+    existing = Evaluation.objects.filter(response=response).first()
+    if existing is not None:
+        if not existing.is_automatic or existing.status == Evaluation.Status.REVIEWED:
+            return None
+        if not force:
+            return None
+    answers = collect(response)
+    scores: dict[int, Decimal | None] = {}
+    details = []
+    for c in criteria:
+        value, notes = score_criterion(c.auto_rule, answers, c.max_score)
+        scores[c.pk] = value
+        details.append({"criterion": c.name, "score": str(value) if value is not None else None, "max": str(c.max_score), "notes": notes})
+    owner = response.questionnaire.owner
+    return save_evaluation(
+        response, owner, scores=scores, comment=AUTO_COMMENT, recommendations="", reviewed=False,
+        automatic=True, auto_details=details,
+    )
+
+
+def auto_evaluate_pending(questionnaire=None, *, force: bool = False) -> int:
+    qs = SurveyResponse.objects.filter(status=SurveyResponse.Status.COMPLETED).select_related("questionnaire")
+    if questionnaire is not None:
+        qs = qs.filter(questionnaire=questionnaire)
+    if not force:
+        qs = qs.filter(evaluation__isnull=True)
+    done = 0
+    for r in qs.order_by("pk"):
+        if auto_evaluate(r, force=force) is not None:
+            done += 1
+    return done

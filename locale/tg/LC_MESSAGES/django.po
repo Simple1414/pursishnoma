@@ -3597,3 +3597,43 @@ msgstr "Нусха бардоштани меъёрҳо"
 
 msgid "%(n)s criteria copied."
 msgstr "%(n)s меъёр нусхабардорӣ шуд."
+
+msgid "Run automatic evaluation"
+msgstr "Арзёбии худкор"
+
+msgid "Automatic"
+msgstr "Худкор"
+
+msgid "Automatic evaluation"
+msgstr "Арзёбии худкор"
+
+msgid "automatic evaluation"
+msgstr "арзёбии худкор"
+
+msgid "automatic scoring rule"
+msgstr "қоидаи арзёбии худкор"
+
+msgid ""
+"Transparent rule used for automatic evaluation; empty means manual scoring "
+"only."
+msgstr ""
+"Қоидаи шаффоф барои арзёбии худкор; агар холӣ бошад, танҳо арзёбии дастӣ."
+
+msgid ""
+"Scores were calculated by transparent rules from the answers. Check them; if"
+" you change a score and save, the evaluation becomes manual."
+msgstr ""
+"Холҳо аз рӯи қоидаҳои шаффоф аз ҷавобҳо ҳисоб карда шудаанд. Онҳоро санҷед; "
+"агар холеро тағйир дода нигоҳ доред, арзёбӣ дастӣ мешавад."
+
+msgid ""
+"%(n)s responses were evaluated automatically. Review the scores and mark "
+"them as reviewed."
+msgstr ""
+"%(n)s ҷавоб худкор арзёбӣ шуд. Холҳоро санҷед ва ҳамчун баррасишуда қайд "
+"кунед."
+
+msgid ""
+"No responses needed automatic evaluation (or no criteria have automatic "
+"rules)."
+msgstr "Ҷавобе барои арзёбии худкор нест (ё меъёрҳо қоидаи худкор надоранд)."
