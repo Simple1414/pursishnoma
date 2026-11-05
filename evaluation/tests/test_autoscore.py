@@ -105,6 +105,18 @@ class AutoScoreTests(TestCase):
         self.assertIsNone(auto_evaluate(r, force=True))
         self.assertEqual(Evaluation.objects.get(response=r).comment, "manual")
 
+    def test_empty_manual_evaluation_is_replaced_keeping_comment(self):
+        r = answer(self.qn, self.full_answers())
+        save_evaluation(r, self.admin, scores={}, comment="saved before criteria", recommendations="rec", reviewed=False)
+        out = StringIO()
+        call_command("auto_evaluate", stdout=out)
+        ev = Evaluation.objects.get(response=r)
+        self.assertTrue(ev.is_automatic)
+        self.assertEqual(ev.final_score, Decimal("100.00"))
+        self.assertIn("saved before criteria", ev.comment)
+        self.assertEqual(ev.recommendations, "rec")
+        self.assertEqual(ev.history.count(), 2, "previous version kept in history")
+
     def test_public_submission_is_evaluated_automatically(self):
         r = answer(self.qn, self.full_answers(), submit=False)
         client = self.client_class()

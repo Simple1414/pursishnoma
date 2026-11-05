@@ -6,6 +6,7 @@ from typing import Mapping
 
 from django.core.exceptions import ValidationError
 from django.db import transaction
+from django.db.models import Q
 from django.utils.translation import gettext as _
 
 from surveys.models import SurveyResponse
@@ -105,10 +106,17 @@ def auto_evaluate(response: SurveyResponse, *, force: bool = False) -> Evaluatio
     if not criteria:
         return None
     existing = Evaluation.objects.filter(response=response).first()
+    keep_comment = ""
     if existing is not None:
-        if not existing.is_automatic or existing.status == Evaluation.Status.REVIEWED:
+        if existing.status == Evaluation.Status.REVIEWED:
             return None
-        if not force:
+        if not existing.is_automatic:
+            # A manual evaluation with at least one score is the researcher's work: never replace it.
+            # An empty one (saved before criteria existed) is replaced, keeping its text.
+            if existing.scores.exists():
+                return None
+            keep_comment = existing.comment
+        elif not force:
             return None
     answers = collect(response)
     scores: dict[int, Decimal | None] = {}
@@ -118,8 +126,10 @@ def auto_evaluate(response: SurveyResponse, *, force: bool = False) -> Evaluatio
         scores[c.pk] = value
         details.append({"criterion": c.name, "score": str(value) if value is not None else None, "max": str(c.max_score), "notes": notes})
     owner = response.questionnaire.owner
+    comment = f"{keep_comment}\n\n{AUTO_COMMENT}".strip() if keep_comment else AUTO_COMMENT
+    recommendations = existing.recommendations if existing is not None and not existing.is_automatic else ""
     return save_evaluation(
-        response, owner, scores=scores, comment=AUTO_COMMENT, recommendations="", reviewed=False,
+        response, owner, scores=scores, comment=comment, recommendations=recommendations, reviewed=False,
         automatic=True, auto_details=details,
     )
 
@@ -129,7 +139,8 @@ def auto_evaluate_pending(questionnaire=None, *, force: bool = False) -> int:
     if questionnaire is not None:
         qs = qs.filter(questionnaire=questionnaire)
     if not force:
-        qs = qs.filter(evaluation__isnull=True)
+        # not evaluated yet, or only an empty unreviewed evaluation
+        qs = qs.filter(Q(evaluation__isnull=True) | Q(evaluation__scores__isnull=True, evaluation__status=Evaluation.Status.IN_REVIEW)).distinct()
     done = 0
     for r in qs.order_by("pk"):
         if auto_evaluate(r, force=force) is not None:
