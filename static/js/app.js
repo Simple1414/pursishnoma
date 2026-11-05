@@ -22,7 +22,7 @@
   }
 
   /* ---------------------------------------------------------------- charts */
-  const palette = () => [rgb("royal"), rgb("gold"), rgb("success"), rgb("navy"), rgb("warning"), rgb("danger"), "#7C93C3", "#A58A4F", "#3C6E71", "#9A6FB0"];
+  const palette = () => [rgb("royal"), rgb("electric", 0.55), rgb("success"), rgb("navy"), rgb("warning"), "#8B5CF6", "#0EA5E9", "#F43F5E", "#94A3B8", "#14B8A6"];
   const registry = new Map();
 
   function buildConfig(spec) {
@@ -35,7 +35,7 @@
       animation: { duration: 450 },
       plugins: {
         legend: { display: false, labels: { color: text, boxWidth: 12, font: { family: "Inter Variable, Inter, system-ui" } } },
-        tooltip: { backgroundColor: "rgba(16,42,67,0.95)", padding: 10, cornerRadius: 8, titleFont: { weight: "600" } },
+        tooltip: { backgroundColor: "rgba(10,20,38,0.95)", padding: 10, cornerRadius: 10, titleFont: { weight: "600" }, boxPadding: 4 },
       },
       scales: {
         x: { grid: { color: grid, drawBorder: false }, ticks: { color: text, font: { size: 11 } } },
@@ -63,11 +63,36 @@
         base.scales.y.stacked = true;
       }
       type = "bar";
+    } else if (type === "trend") {
+      /* Two smooth area series (e.g. started vs completed per day). */
+      const tones = [["electric", 0.55, 0.10], ["royal", 1, 0.22]];
+      datasets = (spec.datasets || []).map((d, i) => {
+        const [tone, line, fillTop] = tones[i % tones.length];
+        return {
+          label: d.label, data: d.values, borderColor: rgb(tone, line), borderWidth: i === 1 ? 2.5 : 2,
+          borderDash: i === 0 ? [5, 4] : [], tension: 0.38, pointRadius: 0, pointHoverRadius: 4, pointHitRadius: 12, fill: true,
+          backgroundColor: (ctx) => {
+            const area = ctx.chart.chartArea;
+            if (!area) return rgb(tone, fillTop);
+            const g = ctx.chart.ctx.createLinearGradient(0, area.top, 0, area.bottom);
+            g.addColorStop(0, rgb(tone, fillTop)); g.addColorStop(1, rgb(tone, 0));
+            return g;
+          },
+        };
+      });
+      base.interaction = { mode: "index", intersect: false };
+      base.plugins.legend.display = false;
+      base.scales.x.grid.display = false;
+      base.scales.x.ticks.maxTicksLimit = 8;
+      base.scales.y.grid.color = rgb("border", 0.7);
+      base.scales.y.border = { display: false };
+      base.scales.x.border = { display: false };
+      type = "line";
     } else if (type === "line") {
       datasets = [{ data: spec.values, label: spec.dataset_label || "", borderColor: rgb("royal"), backgroundColor: rgb("royal", 0.12), fill: true, tension: 0.3, pointRadius: 3 }];
     } else {
       const horizontal = !!spec.horizontal;
-      datasets = [{ data: spec.values, label: spec.dataset_label || "n", backgroundColor: type === "histogram" ? rgb("gold", 0.85) : rgb("royal", 0.88), hoverBackgroundColor: rgb("gold"), borderRadius: 6, maxBarThickness: 44, categoryPercentage: type === "histogram" ? 1 : 0.8, barPercentage: type === "histogram" ? 0.98 : 0.8 }];
+      datasets = [{ data: spec.values, label: spec.dataset_label || "n", backgroundColor: type === "histogram" ? rgb("electric", 0.8) : rgb("royal", 0.88), hoverBackgroundColor: rgb("electric"), borderRadius: 6, maxBarThickness: 44, categoryPercentage: type === "histogram" ? 1 : 0.8, barPercentage: type === "histogram" ? 0.98 : 0.8 }];
       if (horizontal) base.indexAxis = "y";
       type = "bar";
     }
@@ -85,6 +110,8 @@
       if (!canvas) return;
       if (registry.has(spec.id)) registry.get(spec.id).destroy();
       registry.set(spec.id, new window.Chart(canvas, buildConfig(spec)));
+      const frame = canvas.closest("[data-chart]");
+      if (frame) frame.classList.add("is-ready");
     });
   }
 
@@ -105,6 +132,19 @@
   }
 
   document.addEventListener("DOMContentLoaded", () => renderCharts());
+  /* Error state: the chart library failed to load. */
+  window.addEventListener("load", () => {
+    if (window.Chart) { if (document.querySelector("[data-chart]:not(.is-ready)")) renderCharts(); return; }
+    document.querySelectorAll("[data-chart]").forEach((el) => el.classList.add("is-error"));
+  });
+  /* "/" focuses the global search, unless the user is typing. */
+  document.addEventListener("keydown", (e) => {
+    if (e.key !== "/" || e.ctrlKey || e.metaKey || e.altKey) return;
+    const t = e.target;
+    if (t && (t.isContentEditable || ["INPUT", "TEXTAREA", "SELECT"].includes(t.tagName))) return;
+    const box = document.getElementById("rs-search");
+    if (box && box.offsetParent !== null) { e.preventDefault(); box.focus(); }
+  });
   document.addEventListener("rs:theme", () => renderCharts());
 
   /* ---------------------------------------------------------------- Alpine components */
@@ -115,6 +155,13 @@
       sidebar: false,
       dark: document.documentElement.classList.contains("dark"),
       toggleTheme() { this.dark = !this.dark; setTheme(this.dark ? "dark" : "light"); },
+      collapsed: document.documentElement.classList.contains("rs-collapsed"),
+      toggleCollapse() {
+        this.collapsed = !this.collapsed;
+        document.documentElement.classList.toggle("rs-collapsed", this.collapsed);
+        try { localStorage.setItem("rs-sidebar", this.collapsed ? "collapsed" : "expanded"); } catch (e) { /* ignore */ }
+        setTimeout(() => registry.forEach((c) => c.resize()), 320);
+      },
     });
 
     Alpine.data("toasts", () => ({

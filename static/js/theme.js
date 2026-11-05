@@ -5,4 +5,5 @@
   if (!mode) mode = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
   if (mode === "dark") document.documentElement.classList.add("dark");
   document.documentElement.classList.add("rs-js");
+  try { if (localStorage.getItem("rs-sidebar") === "collapsed") document.documentElement.classList.add("rs-collapsed"); } catch (e) { /* storage unavailable */ }
 })();

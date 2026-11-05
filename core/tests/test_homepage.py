@@ -54,11 +54,16 @@ class HomepageTests(TestCase):
         s.save()
         self.assertIsNone(self.get().context["public_stats"])
 
-    def test_calls_to_action_point_to_real_pages(self):
+    def test_public_links_point_to_real_pages(self):
         r = self.get()
-        for name in ("surveys:create", "surveys:import", "core:guide", "core:privacy", "login"):
+        for name in ("core:guide", "core:privacy", "login"):
             self.assertContains(r, f'href="{reverse(name)}', msg_prefix=name)
-        # "Create research" is protected: anonymous visitors are sent to sign in.
+
+    def test_no_create_research_buttons_for_visitors(self):
+        r = self.get()
+        self.assertNotContains(r, reverse("surveys:create"))
+        self.assertNotContains(r, reverse("surveys:import"))
+        # The builder itself stays protected.
         self.assertRedirects(self.client.get(reverse("surveys:create")), f"{reverse('login')}?next={reverse('surveys:create')}")
 
     def test_platform_name_in_title_and_header(self):
@@ -111,3 +116,59 @@ class StartPageHeaderTests(TestCase):
         self.assertContains(r, "bsu-emblem")
         self.assertContains(r, "ДОНИШГОҲИ ДАВЛАТИИ БОХТАР")
         self.assertContains(r, "rs-justify")
+
+
+@override_settings(LANGUAGE_CODE="en")
+class DashboardTests(TestCase):
+    def setUp(self):
+        self.alice = make_user("alice")
+        self.bob = make_user("bob")
+        self.mine = make_questionnaire(self.alice, title="Alice study")
+        self.other = make_questionnaire(self.bob, title="Bob study")
+        add_response(self.mine, completed=True)
+        add_response(self.mine, completed=False)
+        add_response(self.other, completed=True)
+        add_response(self.other, completed=True)
+
+    def test_figures_are_scoped_to_the_researcher(self):
+        from core.dashboard import build
+
+        dash = build(self.alice)
+        self.assertEqual([k.count for k in dash.kpis[:3]], [1, 2, 1])
+        self.assertEqual(dash.kpis[3].value, "50%")
+        self.assertEqual([p.title for p in dash.projects], ["Alice study"])
+        self.assertEqual(sum(dash.trend_chart["datasets"][1]["values"]), 1)
+        self.assertTrue(all(r.questionnaire_id == self.mine.pk for r in dash.recent))
+
+    def test_notifications_reflect_pending_reviews(self):
+        from core.dashboard import build
+
+        titles = [n.title for n in build(self.alice).notices]
+        self.assertIn("Responses await review", titles)
+
+    def test_dashboard_page_renders_for_researcher_and_is_protected(self):
+        url = reverse("core:dashboard")
+        self.assertRedirects(self.client.get(url), f"{reverse('login')}?next={url}")
+        self.client.force_login(self.alice)
+        r = self.client.get(url)
+        self.assertContains(r, "Alice study")
+        self.assertNotContains(r, "Bob study")
+        self.assertContains(r, 'id="chart-trend"')
+        self.assertContains(r, 'id="notifications"')
+
+    def test_empty_dashboard(self):
+        carol = make_user("carol")
+        self.client.force_login(carol)
+        r = self.client.get(reverse("core:dashboard"))
+        self.assertContains(r, "No responses yet")
+        self.assertNotContains(r, 'id="chart-trend"')
+
+
+class InstructionsAudienceMigrationTests(TestCase):
+    def test_audience_line_includes_pupils_and_teachers(self):
+        qn = make_questionnaire(make_user("owner"))
+        mig = importlib.import_module("surveys.migrations.0009_instructions_audience")
+        Questionnaire.objects.filter(pk=qn.pk).update(instructions=f"{mig.OLD}\nМуҳтарам респондент!")
+        mig.forwards(apps, None)
+        qn.refresh_from_db()
+        self.assertTrue(qn.instructions.startswith("(барои хонандагон, донишҷӯён ва омӯзгорони"))

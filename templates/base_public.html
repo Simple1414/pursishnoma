@@ -32,9 +32,8 @@
       {% if user.is_authenticated and user.is_staff_member %}
         <a href="{% url 'core:dashboard' %}" class="rs-btn-navy rs-btn-sm hidden !h-9 !px-4 md:inline-flex">{% translate "Dashboard" %}</a>
       {% else %}
-        <a href="{% url 'login' %}" class="rs-btn-ghost rs-btn-sm hidden !h-9 !px-3 !text-rs-text md:inline-flex">{% translate "Sign in" %}</a>
+        <a href="{% url 'login' %}" class="rs-btn-secondary rs-btn-sm hidden !h-9 !px-4 md:inline-flex">{% icon "lock" "h-4 w-4" %}{% translate "Sign in" %}</a>
       {% endif %}
-      <a href="{% url 'surveys:create' %}" class="rs-btn-cta rs-btn-sm hidden !h-9 !px-4 md:inline-flex">{% icon "plus" "h-4 w-4" %}{% translate "Create research" %}</a>
       <button type="button" class="rs-btn-secondary rs-btn-sm !h-10 !w-10 !p-0 xl:hidden" @click="open = !open" :aria-expanded="open.toString()" aria-expanded="false" aria-controls="mobile-menu">
         <span class="sr-only">{% translate "Menu" %}</span>
         <span x-show="!open">{% icon "menu" "h-5 w-5" %}</span><span x-show="open" x-cloak>{% icon "x" "h-5 w-5" %}</span>
@@ -54,12 +53,12 @@
       <a class="rounded-xl px-3 py-3 text-[15px] font-medium text-rs-text hover:bg-rs-raised hover:no-underline" href="{% url 'core:home' %}#how">{% translate "How it works" %}</a>
       <div class="mt-2 border-t border-rs-border pt-4 sm:hidden">{% include "includes/language_switcher.html" %}</div>
       <div class="mt-4 grid grid-cols-2 gap-2 pb-2">
+        <a href="{% url 'core:home' %}#research" class="rs-btn-cta !py-3">{% translate "Take part" %}</a>
         {% if user.is_authenticated and user.is_staff_member %}
         <a href="{% url 'core:dashboard' %}" class="rs-btn-secondary !py-3">{% translate "Dashboard" %}</a>
         {% else %}
         <a href="{% url 'login' %}" class="rs-btn-secondary !py-3">{% translate "Sign in" %}</a>
         {% endif %}
-        <a href="{% url 'surveys:create' %}" class="rs-btn-cta !py-3">{% translate "Create research" %}</a>
       </div>
     </nav>
   </div>

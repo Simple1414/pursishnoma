@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-06 01:04+0500\n"
+"POT-Creation-Date: 2026-11-06 01:25+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -357,6 +357,193 @@ msgstr "Русский"
 msgid "English"
 msgstr "Английский"
 
+#: core/dashboard.py:29
+msgid "Questionnaire created"
+msgstr "Анкета создана"
+
+#: core/dashboard.py:30
+msgid "Questionnaire imported from Word"
+msgstr "Анкета импортирована из Word"
+
+#: core/dashboard.py:31
+msgid "Questionnaire edited"
+msgstr "Анкета изменена"
+
+#: core/dashboard.py:32
+msgid "Questionnaire approved"
+msgstr "Анкета утверждена"
+
+#: core/dashboard.py:33
+msgid "Questionnaire published"
+msgstr "Анкета опубликована"
+
+#: core/dashboard.py:34
+msgid "Data collection closed"
+msgstr "Сбор данных закрыт"
+
+#: core/dashboard.py:35
+msgid "Data collection reopened"
+msgstr "Сбор данных возобновлён"
+
+#: core/dashboard.py:36
+msgid "Questionnaire duplicated"
+msgstr "Анкета скопирована"
+
+#: core/dashboard.py:37
+msgid "Response evaluated"
+msgstr "Ответ оценён"
+
+#: core/dashboard.py:38
+msgid "Automatic evaluation run"
+msgstr "Выполнена автоматическая оценка"
+
+#: core/dashboard.py:39
+msgid "Evaluation criteria updated"
+msgstr "Критерии оценки обновлены"
+
+#: core/dashboard.py:40
+msgid "Report created"
+msgstr "Отчёт создан"
+
+#: core/dashboard.py:41
+msgid "Data exported"
+msgstr "Данные экспортированы"
+
+#: core/dashboard.py:42
+msgid "Findings generated"
+msgstr "Выводы сформированы"
+
+#: core/dashboard.py:126
+msgid "< 1 min"
+msgstr "< 1 мин"
+
+#: core/dashboard.py:127
+#, python-format
+msgid "%(m)s min"
+msgstr "%(m)s мин"
+
+#: core/dashboard.py:148
+msgid "Active studies"
+msgstr "Активные исследования"
+
+#: core/dashboard.py:149
+#, python-format
+msgid "%(n)s in total"
+msgstr "всего %(n)s"
+
+#: core/dashboard.py:150 reports/renderers.py:86 templates/base_app.html:32
+#: templates/core/home.html:115 templates/core/home.html:213
+#: templates/surveys/list.html:21 templates/surveys/participants.html:3
+#: templates/surveys/participants.html:4 templates/surveys/participants.html:6
+msgid "Participants"
+msgstr "Участники"
+
+#: core/dashboard.py:152 templates/core/home.html:119
+msgid "Completed responses"
+msgstr "Завершённых ответов"
+
+#: core/dashboard.py:154 core/dashboard.py:201
+#: templates/analytics/overview.html:10
+msgid "Completion rate"
+msgstr "Доля завершения"
+
+#: core/dashboard.py:155
+msgid "completed of started"
+msgstr "завершено из начатых"
+
+#: core/dashboard.py:163 reports/renderers.py:268 reports/renderers.py:322
+#: templates/analytics/overview.html:9 templates/core/dashboard.html:84
+#: templates/surveys/response_detail.html:8
+msgid "Started"
+msgstr "Начато"
+
+#: core/dashboard.py:164 surveys/forms.py:222 surveys/models.py:336
+#: templates/core/dashboard.html:85 templates/surveys/list.html:21
+msgid "Completed"
+msgstr "Завершённые"
+
+#: core/dashboard.py:202 templates/core/dashboard.html:152
+#, python-format
+msgid "%(c)s of %(s)s started"
+msgstr "%(c)s из %(s)s начатых"
+
+#: core/dashboard.py:203
+msgid "Evaluation coverage"
+msgstr "Охват оценкой"
+
+#: core/dashboard.py:205
+#, python-format
+msgid "%(n)s responses scored"
+msgstr "оценено ответов: %(n)s"
+
+#: core/dashboard.py:206
+msgid "Reviewed by a person"
+msgstr "Проверено человеком"
+
+#: core/dashboard.py:208
+#, python-format
+msgid "%(n)s reviewed"
+msgstr "проверено: %(n)s"
+
+#: core/dashboard.py:209
+msgid "Average score"
+msgstr "Средний балл"
+
+#: core/dashboard.py:211
+#, python-format
+msgid "Median time: %(t)s"
+msgstr "Медианное время: %(t)s"
+
+#: core/dashboard.py:226
+msgid "Responses await review"
+msgstr "Ответы ждут проверки"
+
+#: core/dashboard.py:227
+#, python-format
+msgid "%(n)s completed responses have not been reviewed by a person yet."
+msgstr "Завершённых ответов, ещё не проверенных человеком: %(n)s."
+
+#: core/dashboard.py:232
+msgid "Closes soon"
+msgstr "Скоро закрывается"
+
+#: core/dashboard.py:233
+#, python-format
+msgid "“%(t)s” closes on %(d)s."
+msgstr "«%(t)s» закрывается %(d)s."
+
+#: core/dashboard.py:237
+msgid "Not yet published"
+msgstr "Ещё не опубликовано"
+
+#: core/dashboard.py:238
+#, python-format
+msgid "%(n)s questionnaires are drafts or approved but not published."
+msgstr "Анкет в черновике или утверждённых, но не опубликованных: %(n)s."
+
+#: core/dashboard.py:242
+msgid "Unfinished responses"
+msgstr "Незавершённые ответы"
+
+#: core/dashboard.py:243
+#, python-format
+msgid "%(n)s participants started more than a day ago and have not submitted."
+msgstr ""
+"Участников, начавших больше суток назад и не отправивших ответы: %(n)s."
+
+#: core/dashboard.py:246
+msgid "All caught up"
+msgstr "Всё в порядке"
+
+#: core/dashboard.py:246
+msgid "Nothing needs your attention right now."
+msgstr "Сейчас ничего не требует вашего внимания."
+
+#: core/dashboard.py:254
+#, python-format
+msgid "New response %(ref)s"
+msgstr "Новый ответ %(ref)s"
+
 #: core/forms.py:33
 msgid "Password"
 msgstr "Пароль"
@@ -421,44 +608,44 @@ msgstr "настройки сайта"
 msgid "Too many login attempts. Please wait and try again."
 msgstr "Слишком много попыток входа. Подождите и попробуйте снова."
 
-#: core/views.py:121
+#: core/views.py:105
 msgid "User created."
 msgstr "Пользователь создан."
 
-#: core/views.py:123 templates/core/users.html:8
+#: core/views.py:107 templates/core/users.html:8
 msgid "New user"
 msgstr "Новый пользователь"
 
-#: core/views.py:132
+#: core/views.py:116
 msgid "You cannot deactivate or demote your own account."
 msgstr ""
 "Нельзя деактивировать собственную учётную запись или понизить её роль."
 
-#: core/views.py:136
+#: core/views.py:120
 msgid "User updated."
 msgstr "Пользователь обновлён."
 
-#: core/views.py:149
+#: core/views.py:133
 msgid "Settings saved."
 msgstr "Настройки сохранены."
 
-#: core/views.py:163
+#: core/views.py:147
 msgid "Debug mode disabled"
 msgstr "Режим отладки отключён"
 
-#: core/views.py:164
+#: core/views.py:148
 msgid "HTTPS enforced (secure cookies, HSTS)"
 msgstr "HTTPS обязателен (защищённые cookie, HSTS)"
 
-#: core/views.py:165
+#: core/views.py:149
 msgid "Secret key configured from environment"
 msgstr "Секретный ключ задан через переменные окружения"
 
-#: core/views.py:166
+#: core/views.py:150
 msgid "PostgreSQL database"
 msgstr "База данных PostgreSQL"
 
-#: core/views.py:167
+#: core/views.py:151
 msgid "Password hashing: PBKDF2"
 msgstr "Хеширование паролей: PBKDF2"
 
@@ -656,14 +843,6 @@ msgstr "Ответы (коды)"
 msgid "Answers (long)"
 msgstr "Ответы (длинный формат)"
 
-#: reports/renderers.py:86 templates/base_app.html:27
-#: templates/core/dashboard.html:21 templates/core/home.html:115
-#: templates/core/home.html:213 templates/surveys/list.html:21
-#: templates/surveys/participants.html:3 templates/surveys/participants.html:4
-#: templates/surveys/participants.html:6
-msgid "Participants"
-msgstr "Участники"
-
 #: reports/renderers.py:87
 msgid "Evaluations"
 msgstr "Оценки"
@@ -701,7 +880,8 @@ msgstr "Завершённые ответы (N)"
 msgid "Source"
 msgstr "Источник"
 
-#: reports/renderers.py:126 templates/surveys/detail.html:130
+#: reports/renderers.py:126 templates/base_app.html:33
+#: templates/surveys/detail.html:130
 msgid "Responses"
 msgstr "Ответы"
 
@@ -797,18 +977,11 @@ msgstr ""
 msgid "Participants and sample"
 msgstr "Участники и выборка"
 
-#: reports/renderers.py:268 reports/renderers.py:322
-#: templates/analytics/overview.html:9
-#: templates/surveys/response_detail.html:8
-msgid "Started"
-msgstr "Начато"
-
 #: reports/renderers.py:268
 msgid "Completed (N)"
 msgstr "Завершено (N)"
 
 #: reports/renderers.py:268 surveys/forms.py:222 surveys/models.py:335
-#: templates/core/dashboard.html:23
 msgid "Incomplete"
 msgstr "Незавершённые"
 
@@ -859,14 +1032,16 @@ msgstr "Рекомендации"
 msgid "Individual response %(id)s"
 msgstr "Индивидуальный ответ %(id)s"
 
-#: reports/renderers.py:322 surveys/forms.py:222 templates/core/users.html:16
+#: reports/renderers.py:322 surveys/forms.py:222
+#: templates/core/dashboard.html:211 templates/core/users.html:16
 #: templates/evaluation/queue.html:22 templates/reports/list.html:13
 #: templates/surveys/list.html:21 templates/surveys/responses.html:20
 msgid "Status"
 msgstr "Статус"
 
-#: reports/renderers.py:324 templates/evaluation/queue.html:22
-#: templates/public/done.html:16 templates/surveys/response_detail.html:8
+#: reports/renderers.py:324 templates/core/dashboard.html:211
+#: templates/evaluation/queue.html:22 templates/public/done.html:16
+#: templates/surveys/response_detail.html:8
 #: templates/surveys/responses.html:20
 msgid "Submitted"
 msgstr "Отправлено"
@@ -879,8 +1054,9 @@ msgstr "Оценка (отдельно от исходных ответов)"
 msgid "Criterion"
 msgstr "Критерий"
 
-#: reports/renderers.py:343 templates/evaluation/evaluate.html:43
-#: templates/evaluation/queue.html:22 templates/surveys/responses.html:20
+#: reports/renderers.py:343 templates/core/dashboard.html:211
+#: templates/evaluation/evaluate.html:43 templates/evaluation/queue.html:22
+#: templates/surveys/responses.html:20
 msgid "Score"
 msgstr "Балл"
 
@@ -1012,24 +1188,17 @@ msgstr "Поиск"
 msgid "All"
 msgstr "Все"
 
-#: surveys/forms.py:222 surveys/models.py:336 templates/core/dashboard.html:22
-#: templates/surveys/list.html:21
-msgid "Completed"
-msgstr "Завершённые"
-
 #: surveys/forms.py:224 templates/evaluation/evaluate.html:15
 #: templates/evaluation/queue.html:6 templates/surveys/response_detail.html:44
 #: templates/surveys/response_print.html:7
 msgid "Evaluation"
 msgstr "Оценка"
 
-#: surveys/forms.py:225 templates/core/dashboard.html:24
-#: templates/evaluation/queue.html:12
+#: surveys/forms.py:225 templates/evaluation/queue.html:12
 msgid "Awaiting evaluation"
 msgstr "Ожидают оценки"
 
-#: surveys/forms.py:225 templates/core/dashboard.html:25
-#: templates/evaluation/queue.html:13
+#: surveys/forms.py:225 templates/evaluation/queue.html:13
 msgid "Evaluated"
 msgstr "Оценённые"
 
@@ -1489,8 +1658,8 @@ msgstr "Раздел 1"
 msgid "Questionnaire created. Add your questions."
 msgstr "Анкета создана. Добавьте вопросы."
 
-#: surveys/views.py:89 templates/core/dashboard.html:14
-#: templates/surveys/import.html:37 templates/surveys/list.html:8
+#: surveys/views.py:89 templates/surveys/import.html:37
+#: templates/surveys/list.html:8
 msgid "New questionnaire"
 msgstr "Новая анкета"
 
@@ -1658,7 +1827,7 @@ msgid "Download chart (PNG)"
 msgstr "Скачать диаграмму (PNG)"
 
 #: templates/analytics/_tabs.html:3 templates/analytics/overview.html:3
-#: templates/analytics/overview.html:4 templates/base_app.html:35
+#: templates/analytics/overview.html:4
 msgid "Statistical Analytics"
 msgstr "Статистический анализ"
 
@@ -1698,7 +1867,7 @@ msgid "Not statistically significant at α = %(a)s."
 msgstr "Статистически незначимо при α = %(a)s."
 
 #: templates/analytics/assistant.html:3 templates/analytics/assistant.html:4
-#: templates/analytics/assistant.html:7 templates/base_app.html:37
+#: templates/analytics/assistant.html:7 templates/base_app.html:40
 #: templates/core/settings.html:16
 msgid "AI Research Assistant"
 msgstr "AI-ассистент исследователя"
@@ -1888,7 +2057,7 @@ msgstr "В скобках — проценты по строке."
 msgid "Research Intelligence Center"
 msgstr "Центр интеллектуального анализа исследований"
 
-#: templates/analytics/intelligence.html:4 templates/base_app.html:36
+#: templates/analytics/intelligence.html:4 templates/base_app.html:39
 msgid "Research Intelligence"
 msgstr "Интеллект-анализ"
 
@@ -2128,10 +2297,6 @@ msgstr "завершённых ответов"
 msgid "incomplete"
 msgstr "незавершённых"
 
-#: templates/analytics/overview.html:10
-msgid "Completion rate"
-msgstr "Доля завершения"
-
 #: templates/analytics/overview.html:11
 msgid "Median time"
 msgstr "Медианное время"
@@ -2181,16 +2346,16 @@ msgstr "Выберите анкету"
 msgid "All analyses use only completed responses stored in the database."
 msgstr "Все анализы используют только завершённые ответы из базы данных."
 
-#: templates/analytics/pick.html:10 templates/core/dashboard.html:46
+#: templates/analytics/pick.html:10 templates/core/dashboard.html:162
 msgid "No questionnaires yet"
 msgstr "Пока нет анкет"
 
-#: templates/analytics/pick.html:10 templates/core/dashboard.html:46
+#: templates/analytics/pick.html:10 templates/core/dashboard.html:162
 #: templates/surveys/list.html:30
 msgid "Import Word questionnaire"
 msgstr "Импорт анкеты из Word"
 
-#: templates/base.html:8 templates/registration/login.html:14
+#: templates/base.html:8
 msgid "Intelligent Platform for Scientific Research and Survey Analytics"
 msgstr "Интеллектуальная платформа для научных исследований и анализа опросов"
 
@@ -2202,100 +2367,126 @@ msgstr "Перейти к содержимому"
 msgid "Main navigation"
 msgstr "Главное меню"
 
-#: templates/base_app.html:14 templates/core/home.html:164
-msgid "Research analytics"
-msgstr "Аналитика исследований"
+#: templates/base_app.html:16 templates/registration/login.html:18
+msgid "Research intelligence"
+msgstr "Научная аналитика"
 
-#: templates/base_app.html:16
+#: templates/base_app.html:19
 msgid "Close menu"
 msgstr "Закрыть меню"
 
-#: templates/base_app.html:20 templates/base_public.html:33
-#: templates/base_public.html:58 templates/core/dashboard.html:3
-#: templates/core/dashboard.html:4
-msgid "Dashboard"
-msgstr "Панель управления"
+#: templates/base_app.html:24 templates/base_public.html:19
+#: templates/base_public.html:50
+msgid "Research"
+msgstr "Исследования"
 
-#: templates/base_app.html:21 templates/surveys/detail.html:4
-#: templates/surveys/form.html:4 templates/surveys/list.html:3
-#: templates/surveys/list.html:4 templates/surveys/list.html:7
-msgid "My Questionnaires"
-msgstr "Мои анкеты"
+#: templates/base_app.html:25 templates/core/dashboard.html:3
+#: templates/core/dashboard.html:4 templates/core/home.html:262
+msgid "Overview"
+msgstr "Обзор"
 
-#: templates/base_app.html:22 templates/surveys/import.html:3
-#: templates/surveys/import.html:4 templates/surveys/import.html:6
-msgid "Survey Builder"
-msgstr "Конструктор анкет"
+#: templates/base_app.html:26
+msgid "My research"
+msgstr "Мои исследования"
 
-#: templates/base_app.html:25 templates/reports/exports.html:6
+#: templates/base_app.html:27 templates/base_app.html:95
+#: templates/core/dashboard.html:44
+msgid "Create research"
+msgstr "Создать исследование"
+
+#: templates/base_app.html:28 templates/core/dashboard.html:43
+msgid "Import from Word"
+msgstr "Импорт из Word"
+
+#: templates/base_app.html:31 templates/reports/exports.html:6
 #: templates/surveys/participants.html:6 templates/surveys/responses.html:6
 msgid "Data"
 msgstr "Данные"
 
-#: templates/base_app.html:28 templates/surveys/compare.html:4
-#: templates/surveys/response_detail.html:4 templates/surveys/responses.html:3
-#: templates/surveys/responses.html:4 templates/surveys/responses.html:6
-msgid "Individual Responses"
-msgstr "Индивидуальные ответы"
-
-#: templates/base_app.html:29 templates/evaluation/evaluate.html:4
+#: templates/base_app.html:34 templates/evaluation/evaluate.html:4
 #: templates/evaluation/queue.html:3 templates/evaluation/queue.html:4
 #: templates/evaluation/queue.html:6
 msgid "Response Evaluation"
 msgstr "Оценка ответов"
 
-#: templates/base_app.html:33
+#: templates/base_app.html:37
 msgid "Analysis"
 msgstr "Анализ"
 
-#: templates/base_app.html:38 templates/reports/edit.html:4
-#: templates/reports/list.html:3 templates/reports/list.html:4
-msgid "Reports Generator"
-msgstr "Генератор отчётов"
+#: templates/base_app.html:38 templates/base_public.html:21
+#: templates/base_public.html:52 templates/core/dashboard.html:155
+#: templates/core/home.html:246 templates/surveys/detail.html:16
+msgid "Analytics"
+msgstr "Аналитика"
 
-#: templates/base_app.html:39 templates/reports/exports.html:3
+#: templates/base_app.html:41 templates/reports/list.html:6
+msgid "Reports"
+msgstr "Отчёты"
+
+#: templates/base_app.html:42 templates/reports/exports.html:3
 #: templates/reports/exports.html:4 templates/reports/exports.html:6
 msgid "Export Center"
 msgstr "Центр экспорта"
 
-#: templates/base_app.html:44 templates/core/security.html:6
-#: templates/core/settings.html:6 templates/core/users.html:7
-msgid "Administration"
-msgstr "Администрирование"
+#: templates/base_app.html:45 templates/base_app.html:47
+#: templates/core/settings.html:3 templates/core/settings.html:4
+#: templates/core/settings.html:6
+msgid "Settings"
+msgstr "Настройки"
 
-#: templates/base_app.html:46 templates/core/user_form.html:4
+#: templates/base_app.html:48 templates/core/user_form.html:4
 #: templates/core/users.html:3 templates/core/users.html:4
 #: templates/core/users.html:7
 msgid "User Management"
 msgstr "Управление пользователями"
 
-#: templates/base_app.html:47 templates/core/settings.html:3
-#: templates/core/settings.html:4 templates/core/settings.html:6
-msgid "Settings"
-msgstr "Настройки"
-
-#: templates/base_app.html:48 templates/core/security.html:3
+#: templates/base_app.html:49 templates/core/security.html:3
 #: templates/core/security.html:4 templates/core/security.html:6
 msgid "Security"
 msgstr "Безопасность"
 
-#: templates/base_app.html:61
+#: templates/base_app.html:51
+msgid "Change password"
+msgstr "Сменить пароль"
+
+#: templates/base_app.html:57
+msgid "Expand sidebar"
+msgstr "Развернуть меню"
+
+#: templates/base_app.html:57 templates/base_app.html:58
+msgid "Collapse sidebar"
+msgstr "Свернуть меню"
+
+#: templates/base_app.html:67
 msgid "Sign out"
 msgstr "Выйти"
 
-#: templates/base_app.html:70
+#: templates/base_app.html:76
 msgid "Open menu"
 msgstr "Открыть меню"
 
-#: templates/base_app.html:71
+#: templates/base_app.html:77
 msgid "Breadcrumb"
 msgstr "Навигационная цепочка"
 
-#: templates/base_app.html:76 templates/base_public.html:28
+#: templates/base_app.html:81
+msgid "Search research"
+msgstr "Поиск исследований"
+
+#: templates/base_app.html:83
+msgid "Search research…"
+msgstr "Поиск исследований…"
+
+#: templates/base_app.html:88 templates/core/dashboard.html:9
+#: templates/core/dashboard.html:14 templates/core/dashboard.html:168
+msgid "Notifications"
+msgstr "Уведомления"
+
+#: templates/base_app.html:90 templates/base_public.html:28
 msgid "Light mode"
 msgstr "Светлая тема"
 
-#: templates/base_app.html:76 templates/base_public.html:28
+#: templates/base_app.html:90 templates/base_public.html:28
 msgid "Dark mode"
 msgstr "Тёмная тема"
 
@@ -2307,47 +2498,42 @@ msgstr "главная страница"
 msgid "Research platform"
 msgstr "Исследовательская платформа"
 
-#: templates/base_public.html:18 templates/base_public.html:50
+#: templates/base_public.html:18 templates/base_public.html:49
 msgid "Home"
 msgstr "Главная"
 
-#: templates/base_public.html:19 templates/base_public.html:51
-msgid "Research"
-msgstr "Исследования"
-
-#: templates/base_public.html:20 templates/base_public.html:52
-#: templates/base_public.html:92 templates/core/home.html:136
+#: templates/base_public.html:20 templates/base_public.html:51
+#: templates/base_public.html:91 templates/core/home.html:136
 msgid "Features"
 msgstr "Возможности"
 
-#: templates/base_public.html:21 templates/base_public.html:53
-#: templates/core/home.html:246 templates/surveys/detail.html:16
-msgid "Analytics"
-msgstr "Аналитика"
-
-#: templates/base_public.html:22 templates/base_public.html:54
+#: templates/base_public.html:22 templates/base_public.html:53
 #: templates/core/home.html:310
 msgid "How it works"
 msgstr "Как это работает"
 
+#: templates/base_public.html:33 templates/base_public.html:58
+msgid "Dashboard"
+msgstr "Панель управления"
+
 #: templates/base_public.html:35 templates/base_public.html:60
-#: templates/registration/login.html:3 templates/registration/login.html:28
+#: templates/registration/login.html:3 templates/registration/login.html:87
 msgid "Sign in"
 msgstr "Войти"
 
-#: templates/base_public.html:37 templates/base_public.html:62
-msgid "Create research"
-msgstr "Создать исследование"
-
-#: templates/base_public.html:39
+#: templates/base_public.html:38
 msgid "Menu"
 msgstr "Меню"
 
-#: templates/base_public.html:49
+#: templates/base_public.html:48
 msgid "Mobile navigation"
 msgstr "Мобильное меню"
 
-#: templates/base_public.html:86 templates/core/home.html:19
+#: templates/base_public.html:56 templates/core/home.html:216
+msgid "Take part"
+msgstr "Принять участие"
+
+#: templates/base_public.html:85 templates/core/home.html:19
 msgid ""
 "A digital platform for designing, conducting and analysing scientific and "
 "social research."
@@ -2355,105 +2541,196 @@ msgstr ""
 "Цифровая платформа для разработки, проведения и анализа научных и социальных"
 " исследований."
 
-#: templates/base_public.html:88 templates/base_public.html:89
+#: templates/base_public.html:87 templates/base_public.html:88
 msgid "Platform"
 msgstr "Платформа"
 
-#: templates/base_public.html:91 templates/core/guide.html:25
+#: templates/base_public.html:90 templates/core/guide.html:25
+#: templates/core/home.html:333
 msgid "Open studies"
 msgstr "Открытые исследования"
 
-#: templates/base_public.html:93 templates/core/guide.html:3
+#: templates/base_public.html:92 templates/core/guide.html:3
 #: templates/core/guide.html:15
 msgid "Video guide"
 msgstr "Видеоинструкция"
 
-#: templates/base_public.html:94 templates/registration/login.html:20
+#: templates/base_public.html:93 templates/registration/login.html:51
 msgid "Researcher sign in"
 msgstr "Вход для исследователей"
 
-#: templates/base_public.html:97 templates/base_public.html:98
+#: templates/base_public.html:96 templates/base_public.html:97
 #: templates/core/privacy.html:8
 msgid "Documents"
 msgstr "Документы"
 
-#: templates/base_public.html:100 templates/core/privacy.html:3
+#: templates/base_public.html:99 templates/core/privacy.html:3
 #: templates/core/privacy.html:9
 msgid "Privacy policy"
 msgstr "Политика конфиденциальности"
 
-#: templates/base_public.html:101 templates/core/home.html:31
+#: templates/base_public.html:100 templates/core/home.html:31
 #: templates/core/privacy.html:20 templates/public/landing.html:94
 msgid "Informed consent"
 msgstr "Информированное согласие"
 
-#: templates/base_public.html:105
+#: templates/base_public.html:104
 msgid "Contact"
 msgstr "Контакты"
 
-#: templates/base_public.html:110
+#: templates/base_public.html:109
 msgid "Contact details will be published by the administrator."
 msgstr "Контактные данные опубликует администратор."
 
-#: templates/base_public.html:116
+#: templates/base_public.html:115
 msgid "All rights reserved."
 msgstr "Все права защищены."
 
-#: templates/base_public.html:117
+#: templates/base_public.html:116
 msgid "Science is the driving force of society’s progress"
 msgstr "Наука — движущая сила прогресса общества"
 
-#: templates/core/dashboard.html:9
+#: templates/core/dashboard.html:36
 #, python-format
 msgid "Welcome, %(name)s"
 msgstr "Добро пожаловать, %(name)s"
 
-#: templates/core/dashboard.html:10
-msgid ""
-"Overview of your research activity across all questionnaires you manage."
-msgstr "Обзор вашей исследовательской активности по всем управляемым анкетам."
+#: templates/core/dashboard.html:38
+#, python-format
+msgid "Completed responses in the last 7 days: %(n)s."
+msgstr "Завершённых ответов за последние 7 дней: %(n)s."
 
-#: templates/core/dashboard.html:13 templates/surveys/list.html:8
-msgid "Import Word"
-msgstr "Импорт Word"
+#: templates/core/dashboard.html:39
+msgid "All figures are calculated from the responses stored in the database."
+msgstr "Все показатели рассчитываются по ответам, хранящимся в базе данных."
 
-#: templates/core/dashboard.html:18
+#: templates/core/dashboard.html:50
 msgid "Key figures"
 msgstr "Ключевые показатели"
 
-#: templates/core/dashboard.html:20 templates/core/dashboard.html:32
-#: templates/core/users.html:16
-msgid "Questionnaires"
-msgstr "Анкеты"
+#: templates/core/dashboard.html:64
+msgid "vs previous 7 days"
+msgstr "к прошлым 7 дням"
 
-#: templates/core/dashboard.html:26
-msgid "Average score"
-msgstr "Средний балл"
+#: templates/core/dashboard.html:82
+msgid "Response activity"
+msgstr "Активность ответов"
 
-#: templates/core/dashboard.html:32 templates/core/dashboard.html:52
+#: templates/core/dashboard.html:82
+msgid "last 30 days"
+msgstr "последние 30 дней"
+
+#: templates/core/dashboard.html:91 templates/core/dashboard.html:103
+msgid "The chart could not be loaded. Refresh the page to try again."
+msgstr "Не удалось загрузить график. Обновите страницу."
+
+#: templates/core/dashboard.html:92
+msgid "Started and completed responses per day for the last 30 days"
+msgstr "Начатые и завершённые ответы по дням за последние 30 дней"
+
+#: templates/core/dashboard.html:98
+msgid "Who took part"
+msgstr "Кто участвовал"
+
+#: templates/core/dashboard.html:104
+msgid "Completed responses by participant status"
+msgstr "Завершённые ответы по статусу участника"
+
+#: templates/core/dashboard.html:107
+msgid "No status data yet"
+msgstr "Пока нет данных о статусе"
+
+#: templates/core/dashboard.html:107
+msgid "Enable the “Your status” field to see who takes part."
+msgstr "Включите поле «Ваш статус», чтобы видеть, кто участвует."
+
+#: templates/core/dashboard.html:117
+msgid "Getting started"
+msgstr "Начало работы"
+
+#: templates/core/dashboard.html:118 templates/core/dashboard.html:226
+msgid "No responses yet"
+msgstr "Пока нет ответов"
+
+#: templates/core/dashboard.html:119
+msgid ""
+"Charts and indicators appear here as soon as the first participant starts a "
+"questionnaire."
+msgstr ""
+"Графики и показатели появятся, как только первый участник начнёт анкету."
+
+#: templates/core/dashboard.html:121
+msgid "Import or create a questionnaire."
+msgstr "Импортируйте или создайте анкету."
+
+#: templates/core/dashboard.html:122
+msgid "Approve and publish it."
+msgstr "Утвердите и опубликуйте её."
+
+#: templates/core/dashboard.html:123
+msgid "Share the link or QR code with participants."
+msgstr "Поделитесь ссылкой или QR-кодом с участниками."
+
+#: templates/core/dashboard.html:137 templates/core/home.html:111
+msgid "Research projects"
+msgstr "Исследовательские проекты"
+
+#: templates/core/dashboard.html:138 templates/core/dashboard.html:206
 msgid "View all"
 msgstr "Смотреть все"
 
-#: templates/core/dashboard.html:39
+#: templates/core/dashboard.html:147
 #, python-format
 msgid "%(n)s questions · %(c)s completed"
 msgstr "%(n)s вопросов · %(c)s завершено"
 
-#: templates/core/dashboard.html:46
+#: templates/core/dashboard.html:147
+msgid "until"
+msgstr "до"
+
+#: templates/core/dashboard.html:150
+msgid "Completion"
+msgstr "Завершение"
+
+#: templates/core/dashboard.html:156 templates/core/home.html:204
+#: templates/surveys/detail.html:122 templates/surveys/responses.html:29
+msgid "Open"
+msgstr "Открыть"
+
+#: templates/core/dashboard.html:162
 msgid "Import a Word questionnaire or build one from scratch."
 msgstr "Импортируйте анкету из Word или создайте с нуля."
 
-#: templates/core/dashboard.html:52
-msgid "Latest responses"
+#: templates/core/dashboard.html:182
+msgid "Research performance"
+msgstr "Показатели исследования"
+
+#: templates/core/dashboard.html:205
+msgid "Recent responses"
 msgstr "Последние ответы"
 
-#: templates/core/dashboard.html:64
-msgid "No responses yet"
-msgstr "Пока нет ответов"
+#: templates/core/dashboard.html:211
+msgid "Reference"
+msgstr "Номер"
 
-#: templates/core/dashboard.html:64
+#: templates/core/dashboard.html:211 templates/evaluation/queue.html:22
+#: templates/surveys/participants.html:19
+#: templates/surveys/response_detail.html:26
+#: templates/surveys/responses.html:20
+msgid "Participant"
+msgstr "Участник"
+
+#: templates/core/dashboard.html:226
 msgid "Publish a questionnaire and share its link to start collecting data."
 msgstr "Опубликуйте анкету и поделитесь ссылкой, чтобы начать сбор данных."
+
+#: templates/core/dashboard.html:232
+msgid "Research activity"
+msgstr "Активность исследований"
+
+#: templates/core/dashboard.html:248
+msgid "No activity yet"
+msgstr "Пока нет активности"
 
 #: templates/core/guide.html:4
 msgid "How to fill in a questionnaire: a one-minute video guide for students."
@@ -2524,21 +2801,22 @@ msgstr "Начните исследование."
 msgid "Turn data into knowledge."
 msgstr "Превратите данные в знания."
 
-#: templates/core/home.html:21 templates/core/home.html:342
-msgid "Create a new study"
-msgstr "Создать новое исследование"
+#: templates/core/home.html:21
+msgid "Take part in research"
+msgstr "Участвовать в исследовании"
 
 #: templates/core/home.html:22
 msgid "Explore the platform"
 msgstr "Изучить платформу"
 
-#: templates/core/home.html:26
-msgid "Taking part in a survey?"
-msgstr "Участвуете в опросе?"
+#: templates/core/home.html:26 templates/public/landing.html:50
+msgid "First time?"
+msgstr "Впервые?"
 
-#: templates/core/home.html:26
-msgid "See the open studies"
-msgstr "Открытые исследования"
+#: templates/core/home.html:26 templates/core/home.html:195
+#: templates/core/home.html:334
+msgid "Video guide (1 min)"
+msgstr "Видеоинструкция (1 мин)"
 
 #: templates/core/home.html:30
 msgid "Anonymous and confidential"
@@ -2559,14 +2837,6 @@ msgstr "Ключевой вывод"
 #: templates/core/home.html:106
 msgid "Platform statistics"
 msgstr "Статистика платформы"
-
-#: templates/core/home.html:111
-msgid "Research projects"
-msgstr "Исследовательские проекты"
-
-#: templates/core/home.html:119
-msgid "Completed responses"
-msgstr "Завершённых ответов"
 
 #: templates/core/home.html:123
 msgid "Active surveys"
@@ -2624,6 +2894,10 @@ msgstr "Автосохранение на каждом шаге"
 msgid "Consent and anonymity"
 msgstr "Согласие и анонимность"
 
+#: templates/core/home.html:164
+msgid "Research analytics"
+msgstr "Аналитика исследований"
+
 #: templates/core/home.html:165
 msgid ""
 "Distributions, cross-tabulations and statistical tests with the sample size "
@@ -2666,15 +2940,6 @@ msgstr ""
 "Участие добровольное. Перед началом каждое исследование объясняет свою цель "
 "и то, как будут использованы ваши ответы."
 
-#: templates/core/home.html:195
-msgid "Video guide (1 min)"
-msgstr "Видеоинструкция (1 мин)"
-
-#: templates/core/home.html:204 templates/surveys/detail.html:122
-#: templates/surveys/responses.html:29
-msgid "Open"
-msgstr "Открыть"
-
 #: templates/core/home.html:205 templates/public/fill.html:12
 #: templates/public/landing.html:29
 msgid "Scientific questionnaire"
@@ -2702,10 +2967,6 @@ msgstr "Срок"
 msgid "Open-ended"
 msgstr "Без срока"
 
-#: templates/core/home.html:216
-msgid "Take part"
-msgstr "Принять участие"
-
 #: templates/core/home.html:217
 msgid "For pupils, students and teachers"
 msgstr "Для школьников, студентов и преподавателей"
@@ -2730,7 +2991,7 @@ msgstr "Отвечайте по разделам"
 msgid "Answers are saved automatically."
 msgstr "Ответы сохраняются автоматически."
 
-#: templates/core/home.html:226 templates/core/home.html:326
+#: templates/core/home.html:226 templates/core/home.html:317
 msgid "Submit your answers"
 msgstr "Отправьте ответы"
 
@@ -2779,10 +3040,6 @@ msgid "Charts exported as PNG for articles"
 msgstr "Экспорт графиков в PNG для статей"
 
 #: templates/core/home.html:262
-msgid "Overview"
-msgstr "Обзор"
-
-#: templates/core/home.html:262
 msgid "Cross-tab"
 msgstr "Сопряжённость"
 
@@ -2803,91 +3060,45 @@ msgstr ""
 "исследователю."
 
 #: templates/core/home.html:311
-msgid "Three steps — for every role"
-msgstr "Три шага — для каждой роли"
+msgid "Three steps to take part"
+msgstr "Три шага для участия"
 
-#: templates/core/home.html:312
-msgid "Choose your role"
-msgstr "Выберите роль"
-
-#: templates/core/home.html:313
-msgid "For researchers"
-msgstr "Исследователям"
-
-#: templates/core/home.html:314
-msgid "For participants"
-msgstr "Участникам"
-
-#: templates/core/home.html:319
-msgid "Create the research"
-msgstr "Создайте исследование"
-
-#: templates/core/home.html:319
-msgid ""
-"Import your Word questionnaire or build one; set participant fields, consent"
-" and evaluation criteria."
-msgstr ""
-"Импортируйте анкету из Word или создайте новую; настройте поля участника, "
-"согласие и критерии оценки."
-
-#: templates/core/home.html:320
-msgid "Collect responses"
-msgstr "Соберите ответы"
-
-#: templates/core/home.html:320
-msgid ""
-"Publish and share the link or QR code. Every answer is stored securely in "
-"the database."
-msgstr ""
-"Опубликуйте и поделитесь ссылкой или QR-кодом. Каждый ответ надёжно хранится"
-" в базе данных."
-
-#: templates/core/home.html:321
-msgid "Analyse the results"
-msgstr "Проанализируйте результаты"
-
-#: templates/core/home.html:321
-msgid ""
-"Statistics, automatic evaluation and a scientific report ready for export."
-msgstr ""
-"Статистика, автоматическая оценка и научный отчёт, готовый к экспорту."
-
-#: templates/core/home.html:324
+#: templates/core/home.html:315
 msgid "Open the link"
 msgstr "Откройте ссылку"
 
-#: templates/core/home.html:324
+#: templates/core/home.html:315
 msgid ""
 "Get the link or QR code from your teacher. No registration or password is "
 "needed."
 msgstr ""
 "Получите ссылку или QR-код у преподавателя. Регистрация и пароль не нужны."
 
-#: templates/core/home.html:325
+#: templates/core/home.html:316
 msgid "Answer the questions"
 msgstr "Ответьте на вопросы"
 
-#: templates/core/home.html:325
+#: templates/core/home.html:316
 msgid ""
 "Move section by section. Answers are saved automatically at every step."
 msgstr ""
 "Двигайтесь по разделам. Ответы сохраняются автоматически на каждом шаге."
 
-#: templates/core/home.html:326
+#: templates/core/home.html:317
 msgid "Press “Submit answers” and keep the confirmation number."
 msgstr "Нажмите «Отправить ответы» и сохраните номер подтверждения."
 
-#: templates/core/home.html:338
-msgid "Start your next study today"
-msgstr "Начните следующее исследование сегодня"
+#: templates/core/home.html:329
+msgid "Your answers move science forward"
+msgstr "Ваши ответы двигают науку вперёд"
 
-#: templates/core/home.html:339
-msgid "Import an existing questionnaire and publish it in minutes."
-msgstr "Импортируйте готовую анкету и опубликуйте её за несколько минут."
-
-#: templates/core/home.html:343
-msgid "Import from Word"
-msgstr "Импорт из Word"
+#: templates/core/home.html:330
+msgid ""
+"It takes about fifteen minutes, it is anonymous and you can stop at any "
+"time."
+msgstr ""
+"Это займёт около пятнадцати минут, анонимно, и прекратить можно в любой "
+"момент."
 
 #: templates/core/privacy.html:10
 #, python-format
@@ -2961,6 +3172,11 @@ msgstr ""
 msgid "You can also write to"
 msgstr "Также можно написать на"
 
+#: templates/core/security.html:6 templates/core/settings.html:6
+#: templates/core/users.html:7
+msgid "Administration"
+msgstr "Администрирование"
+
 #: templates/core/security.html:6
 msgid "Configuration checks and the audit log of security-relevant actions."
 msgstr ""
@@ -3033,14 +3249,14 @@ msgstr ""
 "locale/ru). Формулировки анкеты редактируются прямо в конструкторе для языка"
 " каждой анкеты."
 
-#: templates/core/user_form.html:11 templates/surveys/form.html:22
+#: templates/core/user_form.html:11 templates/surveys/form.html:23
 #: templates/surveys/participant_fields.html:13
 #: templates/surveys/section_form.html:8
 msgid "Save"
 msgstr "Сохранить"
 
 #: templates/core/user_form.html:11 templates/surveys/confirm_delete.html:9
-#: templates/surveys/form.html:22 templates/surveys/question_form.html:9
+#: templates/surveys/form.html:23 templates/surveys/question_form.html:9
 #: templates/surveys/question_form.html:44
 #: templates/surveys/section_form.html:8
 msgid "Cancel"
@@ -3060,6 +3276,10 @@ msgstr "Поиск пользователей…"
 #: templates/core/users.html:16
 msgid "Role"
 msgstr "Роль"
+
+#: templates/core/users.html:16
+msgid "Questionnaires"
+msgstr "Анкеты"
 
 #: templates/core/users.html:16
 msgid "Last login"
@@ -3250,12 +3470,6 @@ msgstr "Все анкеты"
 msgid "Criteria"
 msgstr "Критерии"
 
-#: templates/evaluation/queue.html:22 templates/surveys/participants.html:19
-#: templates/surveys/response_detail.html:26
-#: templates/surveys/responses.html:20
-msgid "Participant"
-msgstr "Участник"
-
 #: templates/evaluation/queue.html:26
 msgid "Not started"
 msgstr "Не начата"
@@ -3426,10 +3640,6 @@ msgid ""
 msgstr "Сбор данных завершён или приостановлен. Спасибо за интерес."
 
 #: templates/public/landing.html:50
-msgid "First time?"
-msgstr "Впервые?"
-
-#: templates/public/landing.html:50
 msgid "Watch the one-minute video guide."
 msgstr "Посмотрите одноминутную видеоинструкцию."
 
@@ -3469,22 +3679,59 @@ msgstr "Для участия необходимо согласие."
 msgid "Begin the questionnaire"
 msgstr "Начать анкету"
 
-#: templates/registration/login.html:13
+#: templates/registration/login.html:22
 msgid "Rigorous data. Transparent analysis. Credible conclusions."
 msgstr "Точные данные. Прозрачный анализ. Достоверные выводы."
 
-#: templates/registration/login.html:21
+#: templates/registration/login.html:24
+msgid "Statistics with the sample size behind every result"
+msgstr "Статистика с объёмом выборки для каждого результата"
+
+#: templates/registration/login.html:25
+msgid "Automatic and expert evaluation of responses"
+msgstr "Автоматическая и экспертная оценка ответов"
+
+#: templates/registration/login.html:26
+msgid "Reports in Word, PDF and Excel"
+msgstr "Отчёты в Word, PDF и Excel"
+
+#: templates/registration/login.html:52
 msgid ""
 "Participants do not need an account — open the questionnaire link you "
 "received."
 msgstr ""
 "Участникам не нужна учётная запись — откройте полученную ссылку на анкету."
 
-#: templates/registration/login.html:30
+#: templates/registration/login.html:76
+msgid "Hide password"
+msgstr "Скрыть пароль"
+
+#: templates/registration/login.html:76
+msgid "Show password"
+msgstr "Показать пароль"
+
+#: templates/registration/login.html:80
+msgid "Caps Lock is on."
+msgstr "Включён Caps Lock."
+
+#: templates/registration/login.html:87
+msgid "Signing in…"
+msgstr "Вход…"
+
+#: templates/registration/login.html:93
 msgid ""
 "Protected connection. Repeated failed attempts are temporarily blocked."
 msgstr ""
 "Защищённое соединение. Повторные неудачные попытки временно блокируются."
+
+#: templates/registration/login.html:96
+msgid "Back to the home page"
+msgstr "Вернуться на главную"
+
+#: templates/reports/edit.html:4 templates/reports/list.html:3
+#: templates/reports/list.html:4
+msgid "Reports Generator"
+msgstr "Генератор отчётов"
 
 #: templates/reports/edit.html:7
 msgid "Report editor"
@@ -3601,10 +3848,6 @@ msgid "No exports yet."
 msgstr "Экспортов пока нет."
 
 #: templates/reports/list.html:6
-msgid "Reports"
-msgstr "Отчёты"
-
-#: templates/reports/list.html:6
 msgid "Scientific Reports Generator"
 msgstr "Генератор научных отчётов"
 
@@ -3652,6 +3895,12 @@ msgstr "Нет ответа"
 msgid "Compare responses"
 msgstr "Сравнение ответов"
 
+#: templates/surveys/compare.html:4 templates/surveys/response_detail.html:4
+#: templates/surveys/responses.html:3 templates/surveys/responses.html:4
+#: templates/surveys/responses.html:6
+msgid "Individual Responses"
+msgstr "Индивидуальные ответы"
+
 #: templates/surveys/compare.html:4
 msgid "Compare"
 msgstr "Сравнить"
@@ -3668,6 +3917,12 @@ msgstr "Удалить безвозвратно?"
 #, python-format
 msgid "“%(t)s” and its structure will be deleted. This cannot be undone."
 msgstr "«%(t)s» и её структура будут удалены. Это действие нельзя отменить."
+
+#: templates/surveys/detail.html:4 templates/surveys/form.html:4
+#: templates/surveys/list.html:3 templates/surveys/list.html:4
+#: templates/surveys/list.html:7
+msgid "My Questionnaires"
+msgstr "Мои анкеты"
 
 #: templates/surveys/detail.html:11
 #, python-format
@@ -3845,13 +4100,18 @@ msgstr "Удалить анкету"
 msgid "Research information"
 msgstr "Сведения об исследовании"
 
-#: templates/surveys/form.html:18
+#: templates/surveys/form.html:19
 msgid "Participants see"
 msgstr "Участники видят"
 
-#: templates/surveys/form.html:20
+#: templates/surveys/form.html:21
 msgid "Schedule"
 msgstr "Сроки"
+
+#: templates/surveys/import.html:3 templates/surveys/import.html:4
+#: templates/surveys/import.html:6
+msgid "Survey Builder"
+msgstr "Конструктор анкет"
 
 #: templates/surveys/import.html:6
 msgid "Create a questionnaire"
@@ -3929,6 +4189,10 @@ msgstr "Создайте пустую анкету и добавьте разд�
 #: templates/surveys/list.html:7
 msgid "Research instruments"
 msgstr "Исследовательские инструменты"
+
+#: templates/surveys/list.html:8
+msgid "Import Word"
+msgstr "Импорт Word"
 
 #: templates/surveys/list.html:17
 msgid "Search by title or author…"

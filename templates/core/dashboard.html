@@ -1,44 +1,160 @@
 {% extends "base_app.html" %}
 {% load i18n rs_tags humanize %}
-{% block title %}{% translate "Dashboard" %}{% endblock %}
-{% block breadcrumbs %}<span class="text-rs-text font-medium">{% translate "Dashboard" %}</span>{% endblock %}
-{% block content %}
-<div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-8">
-  <div>
-    <p class="rs-eyebrow">{% now "j F Y" %}</p>
-    <h1 class="rs-title mt-1.5">{% blocktranslate with name=user.first_name|default:user.username %}Welcome, {{ name }}{% endblocktranslate %}</h1>
-    <p class="rs-subtitle mt-1">{% translate "Overview of your research activity across all questionnaires you manage." %}</p>
-  </div>
-  <div class="flex flex-wrap gap-2">
-    <a href="{% url 'surveys:import' %}" class="rs-btn-secondary">{% icon "upload" "h-4 w-4" %}{% translate "Import Word" %}</a>
-    <a href="{% url 'surveys:create' %}" class="rs-btn-primary">{% icon "plus" "h-4 w-4" %}{% translate "New questionnaire" %}</a>
+{% block title %}{% translate "Overview" %}{% endblock %}
+{% block breadcrumbs %}<span class="font-medium text-rs-text">{% translate "Overview" %}</span>{% endblock %}
+
+{% block topbar_bell %}
+{% with alerts=dash.notices %}
+<div class="relative" x-data="{ open: false }" @keydown.escape="open = false" @click.outside="open = false">
+  <button type="button" class="rs-btn-ghost rs-btn-sm relative !h-9 !w-9 !p-0" @click="open = !open" :aria-expanded="open.toString()" aria-expanded="false" aria-label="{% translate 'Notifications' %}">
+    {% icon "bell" "h-[18px] w-[18px]" %}
+    {% if alerts.0.level != "success" %}<span class="absolute right-1.5 top-1.5 h-2 w-2 rounded-full bg-rs-danger ring-2 ring-rs-bg"></span>{% endif %}
+  </button>
+  <div x-show="open" x-cloak x-transition.origin.top.right class="absolute right-0 top-11 z-50 w-[min(22rem,calc(100vw-2rem))] overflow-hidden rounded-2xl border border-rs-border bg-rs-surface shadow-lift">
+    <p class="border-b border-rs-border px-4 py-3 text-sm font-semibold text-rs-navy">{% translate "Notifications" %}</p>
+    <ul class="max-h-80 divide-y divide-rs-border overflow-y-auto">
+      {% for n in alerts %}
+      <li><a href="{{ n.url }}" class="flex gap-3 px-4 py-3 text-sm transition hover:bg-rs-raised hover:no-underline">
+        <span class="mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg {% if n.level == 'warning' %}bg-rs-warning/15 text-rs-warning{% elif n.level == 'success' %}bg-rs-success/10 text-rs-success{% else %}bg-rs-royal/10 text-rs-royal{% endif %}">{% icon n.icon "h-4 w-4" %}</span>
+        <span class="min-w-0"><span class="block font-medium text-rs-text">{{ n.title }}</span><span class="block text-xs leading-relaxed text-rs-muted">{{ n.text }}</span></span>
+      </a></li>
+      {% endfor %}
+    </ul>
   </div>
 </div>
+{% endwith %}
+{% endblock %}
 
-<section aria-label="{% translate 'Key figures' %}" class="grid grid-cols-2 lg:grid-cols-4 xl:grid-cols-7 gap-3 sm:gap-4">
-  {% with c=cards %}
-  <a href="{% url 'surveys:list' %}" class="rs-stat hover:shadow-lift transition no-underline"><span class="rs-stat-label">{% translate "Questionnaires" %}</span><span class="rs-stat-value">{{ c.questionnaires|intcomma }}</span></a>
-  <a href="{% url 'surveys:participants' %}" class="rs-stat hover:shadow-lift transition"><span class="rs-stat-label">{% translate "Participants" %}</span><span class="rs-stat-value">{{ c.participants|intcomma }}</span></a>
-  <a href="{% url 'surveys:responses' %}?status=completed" class="rs-stat hover:shadow-lift transition"><span class="rs-stat-label">{% translate "Completed" %}</span><span class="rs-stat-value text-rs-success">{{ c.completed|intcomma }}</span></a>
-  <a href="{% url 'surveys:responses' %}?status=in_progress" class="rs-stat hover:shadow-lift transition"><span class="rs-stat-label">{% translate "Incomplete" %}</span><span class="rs-stat-value">{{ c.incomplete|intcomma }}</span></a>
-  <a href="{% url 'evaluation:queue' %}?state=pending" class="rs-stat hover:shadow-lift transition"><span class="rs-stat-label">{% translate "Awaiting evaluation" %}</span><span class="rs-stat-value text-rs-accent">{{ c.awaiting|intcomma }}</span></a>
-  <a href="{% url 'evaluation:queue' %}?state=reviewed" class="rs-stat hover:shadow-lift transition"><span class="rs-stat-label">{% translate "Evaluated" %}</span><span class="rs-stat-value">{{ c.evaluated|intcomma }}</span></a>
-  <div class="rs-stat col-span-2 lg:col-span-1"><span class="rs-stat-label">{% translate "Average score" %}</span><span class="rs-stat-value">{% if c.avg_score is not None %}{{ c.avg_score|floatformat:1 }}<span class="text-base text-rs-muted">%</span>{% else %}—{% endif %}</span></div>
-  {% endwith %}
+{% block content %}
+{# ============================================================ welcome #}
+<section class="relative isolate mb-6 overflow-hidden rounded-3xl border border-rs-border bg-rs-surface px-5 py-6 shadow-card sm:px-8 sm:py-8">
+  <div aria-hidden="true" class="pointer-events-none absolute -right-24 -top-32 -z-10 h-80 w-80 rounded-full bg-[radial-gradient(closest-side,rgb(var(--rs-electric)/0.22),transparent)]"></div>
+  <div aria-hidden="true" class="rs-grid-bg pointer-events-none absolute inset-0 -z-10 opacity-50 dark:opacity-20"></div>
+  <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+    <div>
+      <p class="rs-eyebrow">{% now "l, j F Y" %}</p>
+      <h1 class="mt-2 text-2xl font-bold tracking-[-0.025em] text-rs-navy sm:text-[2rem]">{% blocktranslate with name=user.first_name|default:user.username %}Welcome, {{ name }}{% endblocktranslate %}</h1>
+      <p class="mt-2 max-w-2xl text-[15px] text-rs-muted">
+        {% blocktranslate with n=dash.week %}Completed responses in the last 7 days: {{ n }}.{% endblocktranslate %}
+        {% translate "All figures are calculated from the responses stored in the database." %}
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-2">
+      <a href="{% url 'surveys:import' %}" class="rs-btn-secondary">{% icon "upload" "h-4 w-4" %}{% translate "Import from Word" %}</a>
+      <a href="{% url 'surveys:create' %}" class="rs-btn-cta">{% icon "plus" "h-4 w-4" %}{% translate "Create research" %}</a>
+    </div>
+  </div>
 </section>
 
-<div class="mt-8 grid xl:grid-cols-[1.25fr_1fr] gap-6">
-  <section class="rs-card">
-    <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Questionnaires" %}</h2><a href="{% url 'surveys:list' %}" class="text-sm font-medium">{% translate "View all" %}</a></div>
-    {% if questionnaires %}
+{# ============================================================ KPIs #}
+<section aria-label="{% translate 'Key figures' %}" class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+  {% for k in dash.kpis %}
+  <a href="{{ k.url }}" class="rs-kpi rs-reveal group">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <p class="text-[13px] font-medium text-rs-muted">{{ k.label }}</p>
+        <p class="mt-2 text-[2rem] font-bold leading-none tracking-tight text-rs-navy tabular-nums" {% if k.count is not None %}data-count="{{ k.count }}"{% endif %}>{{ k.value }}</p>
+      </div>
+      <span class="rs-kpi-icon {% if k.tone == 'success' %}bg-rs-success/10 text-rs-success ring-rs-success/20{% elif k.tone == 'navy' %}bg-rs-navy/[0.06] text-rs-navy ring-rs-navy/10{% elif k.tone == 'electric' %}bg-rs-electric/10 text-rs-electric ring-rs-electric/20{% else %}bg-rs-royal/10 text-rs-royal ring-rs-royal/20{% endif %}">{% icon k.icon "h-5 w-5" %}</span>
+    </div>
+    <div class="mt-4 flex items-end justify-between gap-3">
+      <p class="text-xs text-rs-muted">
+        {% if k.delta is not None %}
+          <span class="rs-delta {% if k.delta > 0 %}bg-rs-success/10 text-rs-success{% elif k.delta < 0 %}bg-rs-danger/10 text-rs-danger{% else %}bg-rs-raised text-rs-muted{% endif %}">{% if k.delta > 0 %}↑ +{% elif k.delta < 0 %}↓ {% endif %}{{ k.delta }}</span>
+          <span class="ml-1">{% translate "vs previous 7 days" %}</span>
+        {% else %}{{ k.hint }}{% endif %}
+      </p>
+      {% if k.spark %}
+      <svg viewBox="0 0 100 28" class="h-8 w-24 shrink-0 overflow-visible {% if k.tone == 'success' %}text-rs-success{% else %}text-rs-electric{% endif %}" preserveAspectRatio="none" aria-hidden="true">
+        <polyline points="{{ k.spark }}" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round" stroke-linecap="round" vector-effect="non-scaling-stroke"/>
+      </svg>
+      {% endif %}
+    </div>
+  </a>
+  {% endfor %}
+</section>
+
+{% if dash.has_data %}
+{# ============================================================ charts #}
+<div class="mt-6 grid gap-6 xl:grid-cols-3">
+  <section class="rs-panel xl:col-span-2">
+    <div class="rs-panel-head">
+      <h2 class="rs-panel-title">{% icon "trend" "h-[18px] w-[18px] text-rs-royal" %}{% translate "Response activity" %}<span class="text-xs font-normal text-rs-muted">· {% translate "last 30 days" %}</span></h2>
+      <div class="flex items-center gap-4 text-xs text-rs-muted">
+        <span class="flex items-center gap-1.5"><span class="h-0.5 w-4 border-t-2 border-dashed border-rs-electric"></span>{% translate "Started" %}</span>
+        <span class="flex items-center gap-1.5"><span class="h-0.5 w-4 rounded bg-rs-royal"></span>{% translate "Completed" %}</span>
+      </div>
+    </div>
+    <div class="p-4 sm:p-6">
+      <div data-chart class="h-64 sm:h-72">
+        <div class="rs-chart-skeleton" aria-hidden="true">{% for h in "3546475869"|make_list %}<span class="rs-skeleton flex-1" style="height: {{ h }}0%"></span>{% endfor %}</div>
+        <div class="rs-chart-error">{% icon "alert" "h-5 w-5" %}{% translate "The chart could not be loaded. Refresh the page to try again." %}</div>
+        <canvas id="chart-trend" role="img" aria-label="{% translate 'Started and completed responses per day for the last 30 days' %}"></canvas>
+      </div>
+    </div>
+  </section>
+
+  <section class="rs-panel">
+    <div class="rs-panel-head"><h2 class="rs-panel-title">{% icon "users" "h-[18px] w-[18px] text-rs-royal" %}{% translate "Who took part" %}</h2></div>
+    <div class="p-4 sm:p-6">
+      {% if dash.status_chart %}
+      <div data-chart class="h-64 sm:h-72">
+        <div class="rs-chart-skeleton !items-center !justify-center" aria-hidden="true"><span class="rs-skeleton h-40 w-40 !rounded-full"></span></div>
+        <div class="rs-chart-error">{% icon "alert" "h-5 w-5" %}{% translate "The chart could not be loaded. Refresh the page to try again." %}</div>
+        <canvas id="chart-status" role="img" aria-label="{% translate 'Completed responses by participant status' %}"></canvas>
+      </div>
+      {% else %}
+      {% translate "No status data yet" as t %}{% translate "Enable the “Your status” field to see who takes part." as tx %}
+      {% include "includes/empty.html" with icon="users" title=t text=tx %}
+      {% endif %}
+    </div>
+  </section>
+</div>
+{% else %}
+<section class="rs-panel mt-6 overflow-hidden">
+  <div class="grid gap-0 lg:grid-cols-[1.1fr_1fr]">
+    <div class="p-6 sm:p-10">
+      <span class="rs-kicker"><span class="rs-kicker-dot"></span>{% translate "Getting started" %}</span>
+      <h2 class="mt-4 text-2xl font-bold tracking-tight">{% translate "No responses yet" %}</h2>
+      <p class="mt-2 max-w-md text-rs-muted">{% translate "Charts and indicators appear here as soon as the first participant starts a questionnaire." %}</p>
+      <ol class="mt-6 space-y-3 text-sm">
+        <li class="flex gap-3"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-xs font-bold text-rs-royal">1</span>{% translate "Import or create a questionnaire." %}</li>
+        <li class="flex gap-3"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-xs font-bold text-rs-royal">2</span>{% translate "Approve and publish it." %}</li>
+        <li class="flex gap-3"><span class="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-xs font-bold text-rs-royal">3</span>{% translate "Share the link or QR code with participants." %}</li>
+      </ol>
+    </div>
+    <div class="relative hidden items-end gap-3 border-l border-rs-border bg-rs-raised/60 p-10 lg:flex" aria-hidden="true">
+      {% for h in "3546475869"|make_list %}<span class="flex-1 rounded-t-lg bg-gradient-to-t from-rs-royal/25 to-rs-electric/10" style="height: {{ h }}0%"></span>{% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+
+{# ============================================================ projects + notifications #}
+<div class="mt-6 grid gap-6 xl:grid-cols-3">
+  <section class="rs-panel xl:col-span-2">
+    <div class="rs-panel-head">
+      <h2 class="rs-panel-title">{% icon "flask" "h-[18px] w-[18px] text-rs-royal" %}{% translate "Research projects" %}</h2>
+      <a href="{% url 'surveys:list' %}" class="text-sm font-medium">{% translate "View all" %}</a>
+    </div>
+    {% if dash.projects %}
     <ul class="divide-y divide-rs-border">
-      {% for q in questionnaires %}
-      <li class="px-5 sm:px-6 py-4 flex items-center gap-4">
+      {% for q in dash.projects %}
+      <li class="group flex flex-col gap-3 px-5 py-4 transition hover:bg-rs-raised/60 sm:flex-row sm:items-center sm:gap-5 sm:px-6">
         <div class="min-w-0 flex-1">
-          <a href="{{ q.get_absolute_url }}" class="font-semibold text-rs-text hover:text-rs-royal line-clamp-1">{{ q.title }}</a>
-          <p class="text-xs text-rs-muted mt-0.5">{% blocktranslate with n=q.question_count c=q.completed_count %}{{ n }} questions · {{ c }} completed{% endblocktranslate %}</p>
+          <div class="flex items-center gap-2"><span class="{{ q.status|status_badge }}">{{ q.get_status_display }}</span><span class="text-xs text-rs-muted tabular-nums">#{{ q.pk }}</span></div>
+          <a href="{{ q.get_absolute_url }}" class="mt-1.5 line-clamp-1 font-semibold text-rs-text hover:text-rs-royal">{{ q.title }}</a>
+          <p class="mt-0.5 text-xs text-rs-muted">{% blocktranslate with n=q.question_count c=q.completed_count %}{{ n }} questions · {{ c }} completed{% endblocktranslate %}{% if q.closes_at %} · {% translate "until" %} {{ q.closes_at|date:"d.m.Y" }}{% endif %}</p>
         </div>
-        <span class="{{ q.status|status_badge }}">{{ q.get_status_display }}</span>
+        <div class="w-full sm:w-44">
+          <div class="flex justify-between text-xs"><span class="text-rs-muted">{% translate "Completion" %}</span><span class="font-semibold tabular-nums text-rs-text">{{ q.rate|floatformat:0 }}%</span></div>
+          <div class="rs-progress mt-1.5"><span style="width: {{ q.rate|floatformat:0 }}%"></span></div>
+          <p class="mt-1 text-[11px] text-rs-muted tabular-nums">{% blocktranslate with c=q.completed_count s=q.participant_count %}{{ c }} of {{ s }} started{% endblocktranslate %}</p>
+        </div>
+        <div class="flex gap-1 sm:opacity-60 sm:transition sm:group-hover:opacity-100">
+          {% if q.status == "published" %}<a href="{% url 'analytics:overview' q.pk %}" class="rs-btn-ghost rs-btn-sm !px-2" title="{% translate 'Analytics' %}" aria-label="{% translate 'Analytics' %}">{% icon "chart" "h-4 w-4" %}</a>{% endif %}
+          <a href="{{ q.get_absolute_url }}" class="rs-btn-ghost rs-btn-sm !px-2" title="{% translate 'Open' %}" aria-label="{% translate 'Open' %}">{% icon "right" "h-4 w-4" %}</a>
+        </div>
       </li>
       {% endfor %}
     </ul>
@@ -48,22 +164,93 @@
     {% endif %}
   </section>
 
-  <section class="rs-card">
-    <div class="rs-card-header"><h2 class="text-lg font-semibold">{% translate "Latest responses" %}</h2><a href="{% url 'surveys:responses' %}" class="text-sm font-medium">{% translate "View all" %}</a></div>
-    {% if recent_responses %}
-    <ul class="divide-y divide-rs-border">
-      {% for r in recent_responses %}
-      <li class="px-5 sm:px-6 py-3.5 flex items-center gap-3">
-        <span class="font-mono text-xs text-rs-muted w-20 shrink-0">{{ r.reference }}</span>
-        <div class="min-w-0 flex-1"><a href="{{ r.get_absolute_url }}" class="text-sm font-medium text-rs-text hover:text-rs-royal line-clamp-1">{{ r.participant }}</a><p class="text-xs text-rs-muted line-clamp-1">{{ r.questionnaire.title }}</p></div>
-        <time class="text-xs text-rs-muted whitespace-nowrap" datetime="{{ r.submitted_at|date:'c' }}">{{ r.submitted_at|date:"d.m.Y H:i" }}</time>
-      </li>
+  <section id="notifications" class="rs-panel scroll-mt-24">
+    <div class="rs-panel-head"><h2 class="rs-panel-title">{% icon "bell" "h-[18px] w-[18px] text-rs-royal" %}{% translate "Notifications" %}</h2></div>
+    <ul class="space-y-2 p-3">
+      {% for n in dash.notices %}
+      <li><a href="{{ n.url }}" class="flex gap-3 rounded-xl border border-transparent p-3 transition hover:border-rs-border hover:bg-rs-raised/60 hover:no-underline">
+        <span class="mt-0.5 grid h-9 w-9 shrink-0 place-items-center rounded-xl {% if n.level == 'warning' %}bg-rs-warning/15 text-rs-warning{% elif n.level == 'success' %}bg-rs-success/10 text-rs-success{% else %}bg-rs-royal/10 text-rs-royal{% endif %}">{% icon n.icon "h-[18px] w-[18px]" %}</span>
+        <span class="min-w-0"><span class="block text-sm font-semibold text-rs-text">{{ n.title }}</span><span class="mt-0.5 block text-[13px] leading-relaxed text-rs-muted">{{ n.text }}</span></span>
+      </a></li>
       {% endfor %}
     </ul>
+  </section>
+</div>
+
+{# ============================================================ performance indicators #}
+<section class="rs-panel mt-6" aria-labelledby="perf-title">
+  <div class="rs-panel-head"><h2 id="perf-title" class="rs-panel-title">{% icon "activity" "h-[18px] w-[18px] text-rs-royal" %}{% translate "Research performance" %}</h2></div>
+  <div class="grid grid-cols-2 divide-rs-border lg:grid-cols-4 lg:divide-x">
+    {% for ind in dash.indicators %}
+    <div class="flex items-center gap-4 border-rs-border p-5 sm:p-6 {% if forloop.counter <= 2 %}border-b lg:border-b-0{% endif %} {% if forloop.counter|divisibleby:2 %}{% else %}border-r lg:border-r-0{% endif %}">
+      <svg viewBox="0 0 44 44" class="h-14 w-14 shrink-0 -rotate-90" aria-hidden="true">
+        <circle cx="22" cy="22" r="18" fill="none" stroke="rgb(var(--rs-raised))" stroke-width="5"/>
+        {% if ind.value is not None %}<circle cx="22" cy="22" r="18" fill="none" stroke="url(#rs-gauge)" stroke-width="5" stroke-linecap="round" pathLength="100" stroke-dasharray="{{ ind.value|floatformat:0 }} 100" class="transition-all duration-700"/>{% endif %}
+      </svg>
+      <div class="min-w-0">
+        <p class="text-xl font-bold tracking-tight text-rs-navy tabular-nums">{{ ind.display }}</p>
+        <p class="text-[13px] font-medium text-rs-text">{{ ind.label }}</p>
+        <p class="text-xs text-rs-muted">{{ ind.hint }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <svg width="0" height="0" class="absolute" aria-hidden="true"><defs><linearGradient id="rs-gauge" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2563EB"/><stop offset="1" stop-color="#60A5FA"/></linearGradient></defs></svg>
+</section>
+
+{# ============================================================ recent responses + timeline #}
+<div class="mt-6 grid gap-6 xl:grid-cols-3">
+  <section class="rs-panel xl:col-span-2">
+    <div class="rs-panel-head">
+      <h2 class="rs-panel-title">{% icon "inbox" "h-[18px] w-[18px] text-rs-royal" %}{% translate "Recent responses" %}</h2>
+      <a href="{% url 'surveys:responses' %}" class="text-sm font-medium">{% translate "View all" %}</a>
+    </div>
+    {% if dash.recent %}
+    <div class="rs-table-wrap">
+      <table class="rs-table">
+        <thead><tr><th>{% translate "Reference" %}</th><th>{% translate "Participant" %}</th><th class="hidden md:table-cell">{% translate "Status" %}</th><th>{% translate "Score" %}</th><th class="text-right">{% translate "Submitted" %}</th></tr></thead>
+        <tbody>
+          {% for r in dash.recent %}
+          <tr>
+            <td><a href="{{ r.get_absolute_url }}" class="font-mono text-xs font-semibold">{{ r.reference }}</a></td>
+            <td class="max-w-[16rem]"><p class="line-clamp-1 text-rs-text">{{ r.participant }}</p><p class="line-clamp-1 text-xs text-rs-muted">{{ r.questionnaire.title }}</p></td>
+            <td class="hidden md:table-cell"><span class="text-xs text-rs-muted">{{ r.participant.education_level|default:"—" }}</span></td>
+            <td>{% if r.evaluation and r.evaluation.final_score is not None %}<span class="rs-badge-approved tabular-nums">{{ r.evaluation.final_score|floatformat:1 }}%</span>{% else %}<span class="text-xs text-rs-muted">—</span>{% endif %}</td>
+            <td class="whitespace-nowrap text-right text-xs text-rs-muted"><time datetime="{{ r.submitted_at|date:'c' }}">{{ r.submitted_at|date:"d.m.Y H:i" }}</time></td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
     {% else %}
       {% translate "No responses yet" as t %}{% translate "Publish a questionnaire and share its link to start collecting data." as tx %}
       {% include "includes/empty.html" with icon="inbox" title=t text=tx %}
     {% endif %}
   </section>
+
+  <section class="rs-panel">
+    <div class="rs-panel-head"><h2 class="rs-panel-title">{% icon "history" "h-[18px] w-[18px] text-rs-royal" %}{% translate "Research activity" %}</h2></div>
+    {% if dash.events %}
+    <ol class="relative px-5 py-5 sm:px-6">
+      <span aria-hidden="true" class="absolute bottom-8 left-[2.15rem] top-8 w-px bg-rs-border sm:left-[2.4rem]"></span>
+      {% for e in dash.events %}
+      <li class="relative flex gap-3.5 pb-5 last:pb-0">
+        <span class="relative z-10 grid h-8 w-8 shrink-0 place-items-center rounded-full ring-4 ring-rs-surface {% if e.tone == 'success' %}bg-rs-success/15 text-rs-success{% else %}bg-rs-royal/10 text-rs-royal{% endif %}">{% icon e.icon "h-4 w-4" %}</span>
+        <div class="min-w-0 pt-0.5">
+          <p class="text-sm font-medium text-rs-text">{% if e.url %}<a href="{{ e.url }}" class="text-rs-text hover:text-rs-royal">{{ e.title }}</a>{% else %}{{ e.title }}{% endif %}</p>
+          {% if e.detail %}<p class="line-clamp-1 text-xs text-rs-muted">{{ e.detail }}</p>{% endif %}
+          <time class="text-[11px] text-rs-muted" datetime="{{ e.when|date:'c' }}">{{ e.when|naturaltime }}</time>
+        </div>
+      </li>
+      {% endfor %}
+    </ol>
+    {% else %}
+      {% translate "No activity yet" as t %}{% include "includes/empty.html" with icon="history" title=t %}
+    {% endif %}
+  </section>
 </div>
+
+{% if dash.has_data %}
+{% with charts=dash.chart_specs %}{% include "includes/charts_data.html" %}{% endwith %}
+{% endif %}
 {% endblock %}

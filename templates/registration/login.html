@@ -5,29 +5,95 @@
 {% block public_nav %}{% endblock %}
 {% block mobile_menu %}{% endblock %}
 {% block content %}
-<section class="min-h-[calc(100vh-8rem)] grid lg:grid-cols-2">
-  <div class="hidden lg:flex flex-col justify-between bg-[#0B1528] text-slate-200 p-12 relative overflow-hidden">
-    <div aria-hidden="true" class="absolute -bottom-32 -left-32 h-96 w-96 rounded-full bg-[#2563EB]/25 blur-3xl"></div>
-    <p class="rs-eyebrow !text-[#93C5FD]">{{ platform_name }}</p>
-    <div class="relative">
-      <p class="text-4xl font-bold tracking-tight leading-tight text-white">{% translate "Rigorous data. Transparent analysis. Credible conclusions." %}</p>
-      <p class="mt-5 text-slate-300 max-w-md">{{ site_settings.tagline|default:_("Intelligent Platform for Scientific Research and Survey Analytics") }}</p>
+<section class="grid min-h-[calc(100vh-4rem)] lg:min-h-[calc(100vh-72px)] lg:grid-cols-[1.05fr_1fr]">
+
+  {# ------------------------------------------------ brand panel #}
+  <div class="relative isolate hidden overflow-hidden bg-[#070F1F] text-slate-200 lg:flex lg:flex-col lg:justify-between lg:p-12 xl:p-16">
+    <div aria-hidden="true" class="rs-aurora absolute -left-40 -top-40 -z-10 h-[520px] w-[520px] rounded-full bg-[#2563EB]/40 blur-[110px]"></div>
+    <div aria-hidden="true" class="rs-aurora rs-aurora-2 absolute -bottom-48 right-[-10rem] -z-10 h-[560px] w-[560px] rounded-full bg-[#3B82F6]/30 blur-[120px]"></div>
+    <div aria-hidden="true" class="absolute inset-0 -z-10 opacity-[0.18]" style="background-image: linear-gradient(rgba(255,255,255,.14) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.14) 1px, transparent 1px); background-size: 48px 48px; -webkit-mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 30%, transparent 100%); mask-image: radial-gradient(ellipse 80% 70% at 30% 40%, #000 30%, transparent 100%);"></div>
+
+    <div class="rs-rise flex items-center gap-2.5">
+      <span class="h-1.5 w-1.5 rounded-full bg-[#60A5FA] shadow-[0_0_12px_#60A5FA]"></span>
+      <p class="text-[12px] font-semibold uppercase tracking-[0.2em] text-[#93C5FD]">{% translate "Research intelligence" %}</p>
     </div>
-    <p class="text-xs text-slate-400">© {% now "Y" %} {{ site_settings.organization_name }}</p>
+
+    <div class="relative">
+      <h2 class="rs-rise max-w-lg text-[2.6rem] font-bold leading-[1.1] tracking-[-0.03em] text-white xl:text-5xl" style="animation-delay: .08s">{% translate "Rigorous data. Transparent analysis. Credible conclusions." %}</h2>
+      <ul class="rs-rise mt-8 space-y-3.5 text-[15px] text-slate-300" style="animation-delay: .16s">
+        <li class="flex items-center gap-3"><span class="grid h-7 w-7 place-items-center rounded-lg bg-white/[0.07] text-[#93C5FD] ring-1 ring-white/10">{% icon "chart" "h-4 w-4" %}</span>{% translate "Statistics with the sample size behind every result" %}</li>
+        <li class="flex items-center gap-3"><span class="grid h-7 w-7 place-items-center rounded-lg bg-white/[0.07] text-[#93C5FD] ring-1 ring-white/10">{% icon "award" "h-4 w-4" %}</span>{% translate "Automatic and expert evaluation of responses" %}</li>
+        <li class="flex items-center gap-3"><span class="grid h-7 w-7 place-items-center rounded-lg bg-white/[0.07] text-[#93C5FD] ring-1 ring-white/10">{% icon "report" "h-4 w-4" %}</span>{% translate "Reports in Word, PDF and Excel" %}</li>
+      </ul>
+
+      {# floating glass cards: interface illustration, no data #}
+      <div aria-hidden="true" class="pointer-events-none relative mt-12 h-44">
+        <div class="rs-float absolute left-0 top-0 w-64 rounded-2xl border border-white/10 bg-white/[0.06] p-4 shadow-2xl backdrop-blur-md">
+          <div class="flex items-center justify-between"><span class="h-2 w-20 rounded bg-white/20"></span><span class="h-2 w-8 rounded bg-[#60A5FA]/60"></span></div>
+          <svg viewBox="0 0 200 60" class="mt-4 h-14 w-full" preserveAspectRatio="none"><defs><linearGradient id="lg-a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3B82F6" stop-opacity=".5"/><stop offset="1" stop-color="#3B82F6" stop-opacity="0"/></linearGradient></defs><path d="M0 50 C 30 44, 45 30, 70 34 S 120 14, 150 18 S 185 6, 200 4 L200 60 L0 60Z" fill="url(#lg-a)"/><path d="M0 50 C 30 44, 45 30, 70 34 S 120 14, 150 18 S 185 6, 200 4" fill="none" stroke="#93C5FD" stroke-width="2"/></svg>
+        </div>
+        <div class="rs-float rs-float-2 absolute left-56 top-16 w-52 rounded-2xl border border-white/10 bg-white/[0.08] p-4 shadow-2xl backdrop-blur-md">
+          <div class="flex items-center gap-2.5"><span class="grid h-8 w-8 place-items-center rounded-lg bg-emerald-400/15 text-emerald-300">{% icon "check" "h-4 w-4" %}</span><span class="space-y-1.5"><span class="block h-2 w-20 rounded bg-white/25"></span><span class="block h-1.5 w-14 rounded bg-white/10"></span></span></div>
+          <div class="mt-3 flex h-10 items-end gap-1.5">{% for h in "4769583"|make_list %}<span class="flex-1 rounded-t bg-gradient-to-t from-[#2563EB] to-[#60A5FA]" style="height: {{ h }}0%"></span>{% endfor %}</div>
+        </div>
+      </div>
+    </div>
+
+    <p class="text-xs text-slate-500">© {% now "Y" %} {{ platform_name }} · {{ site_settings.organization_name }}</p>
   </div>
-  <div class="flex items-center justify-center px-4 py-12">
-    <div class="w-full max-w-sm">
-      <h1 class="rs-title">{% translate "Researcher sign in" %}</h1>
-      <p class="rs-subtitle mt-2">{% translate "Participants do not need an account — open the questionnaire link you received." %}</p>
-      <form method="post" class="mt-8 space-y-5" novalidate>
-        {% csrf_token %}
-        {% if form.non_field_errors %}<div class="rs-alert-danger" role="alert">{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div>{% endif %}
-        {% field form.username %}
-        {% field form.password %}
-        <input type="hidden" name="next" value="{{ next }}">
-        <button class="rs-btn-primary w-full !py-3">{% translate "Sign in" %}</button>
-      </form>
-      <p class="mt-6 text-xs text-rs-muted flex items-center gap-2">{% icon "lock" "h-3.5 w-3.5" %}{% translate "Protected connection. Repeated failed attempts are temporarily blocked." %}</p>
+
+  {# ------------------------------------------------ form #}
+  <div class="relative isolate flex items-center justify-center px-4 py-10 sm:px-6 sm:py-16">
+    <div aria-hidden="true" class="rs-grid-bg pointer-events-none absolute inset-0 -z-10 opacity-60 dark:opacity-20 lg:hidden"></div>
+    <div class="rs-rise w-full max-w-[420px]" style="animation-delay: .05s">
+      <div class="rounded-3xl border border-rs-border bg-rs-surface/90 p-6 shadow-glow backdrop-blur sm:p-9">
+        <span class="grid h-12 w-12 place-items-center rounded-2xl bg-gradient-to-br from-rs-royal to-rs-electric text-white shadow-[0_10px_24px_-10px_rgb(var(--rs-royal)/0.9)]">{% icon "lock" "h-5 w-5" %}</span>
+        <h1 class="mt-6 text-2xl font-bold tracking-[-0.02em] text-rs-navy sm:text-[1.75rem]">{% translate "Researcher sign in" %}</h1>
+        <p class="mt-2 text-sm leading-relaxed text-rs-muted">{% translate "Participants do not need an account — open the questionnaire link you received." %}</p>
+
+        <form method="post" class="mt-8 space-y-5" novalidate x-data="{ busy: false, show: false, caps: false }" @submit="busy = true">
+          {% csrf_token %}
+          {% if form.non_field_errors %}
+          <div class="rs-alert-danger animate-[rs-shake_.4s_ease-in-out]" role="alert">{% icon "alert" "h-4 w-4 shrink-0 mt-0.5 text-rs-danger" %}<div>{% for e in form.non_field_errors %}<p>{{ e }}</p>{% endfor %}</div></div>
+          {% endif %}
+
+          <div>
+            <label for="{{ form.username.id_for_label }}" class="rs-label">{{ form.username.label }}</label>
+            <div class="rs-input-icon relative">
+              <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-rs-muted">{% icon "users" "h-[18px] w-[18px]" %}</span>
+              {{ form.username }}
+            </div>
+            {% for e in form.username.errors %}<p class="rs-error">{{ e }}</p>{% endfor %}
+          </div>
+
+          <div>
+            <label for="{{ form.password.id_for_label }}" class="rs-label">{{ form.password.label }}</label>
+            <div class="rs-input-icon relative" x-ref="pw" @keyup="caps = $event.getModifierState && $event.getModifierState('CapsLock')">
+              <span class="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-rs-muted">{% icon "lock" "h-[18px] w-[18px]" %}</span>
+              {{ form.password }}
+              <button type="button" class="absolute right-2 top-1/2 grid h-8 w-8 -translate-y-1/2 place-items-center rounded-lg text-rs-muted transition hover:bg-rs-raised hover:text-rs-text"
+                      @click="show = !show; $refs.pw.querySelector('input').type = show ? 'text' : 'password'"
+                      :aria-label="show ? '{% translate "Hide password" %}' : '{% translate "Show password" %}'" aria-label="{% translate 'Show password' %}">
+                <span x-show="!show">{% icon "eye" "h-[18px] w-[18px]" %}</span><span x-show="show" x-cloak>{% icon "eye-off" "h-[18px] w-[18px]" %}</span>
+              </button>
+            </div>
+            <p class="rs-help !text-rs-warning" x-show="caps" x-cloak>{% icon "alert" "inline h-3.5 w-3.5" %} {% translate "Caps Lock is on." %}</p>
+            {% for e in form.password.errors %}<p class="rs-error">{{ e }}</p>{% endfor %}
+          </div>
+
+          <input type="hidden" name="next" value="{{ next }}">
+          <button type="submit" class="rs-btn-cta rs-btn-lg group w-full" :disabled="busy">
+            <span x-show="busy" x-cloak class="rs-spinner"></span>
+            <span x-text="busy ? '{% translate "Signing in…" %}' : '{% translate "Sign in" %}'">{% translate "Sign in" %}</span>
+            <span x-show="!busy">{% icon "right" "h-4 w-4 transition group-hover:translate-x-0.5" %}</span>
+          </button>
+        </form>
+
+        <div class="mt-7 flex items-start gap-2.5 rounded-2xl bg-rs-raised/70 px-4 py-3 text-xs leading-relaxed text-rs-muted">
+          {% icon "shield" "h-4 w-4 shrink-0 text-rs-success" %}<span>{% translate "Protected connection. Repeated failed attempts are temporarily blocked." %}</span>
+        </div>
+      </div>
+      <a href="{% url 'core:home' %}" class="mt-6 flex items-center justify-center gap-1.5 text-sm font-medium text-rs-muted hover:text-rs-royal hover:no-underline">{% icon "left" "h-4 w-4" %}{% translate "Back to the home page" %}</a>
     </div>
   </div>
 </section>

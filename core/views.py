@@ -6,15 +6,15 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import views as auth_views
 from django.core.paginator import Paginator
-from django.db.models import Avg, Count, Q
+from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from django.utils.translation import gettext as _
 
-from evaluation.models import Evaluation
 from surveys.models import Participant, Questionnaire, SurveyResponse
 
 from .audit import log_action
+from .dashboard import build as build_dashboard
 from .forms import LoginForm, SiteSettingsForm, UserCreateForm, UserUpdateForm
 from .models import AuditLog, SiteSettings, User
 from .permissions import admin_required, staff_required
@@ -82,23 +82,7 @@ class RateLimitedLoginView(auth_views.LoginView):
 
 @staff_required
 def dashboard(request):
-    questionnaires = Questionnaire.objects.visible_to(request.user)
-    responses = SurveyResponse.objects.filter(questionnaire__in=questionnaires)
-    completed = responses.filter(status=SurveyResponse.Status.COMPLETED)
-    evaluations = Evaluation.objects.filter(response__in=completed)
-    reviewed = evaluations.filter(status=Evaluation.Status.REVIEWED)
-    cards = {
-        "questionnaires": questionnaires.count(),
-        "participants": responses.count(),
-        "completed": completed.count(),
-        "incomplete": responses.filter(status=SurveyResponse.Status.IN_PROGRESS).count(),
-        "awaiting": completed.exclude(evaluation__status=Evaluation.Status.REVIEWED).count(),
-        "evaluated": reviewed.count(),
-        "avg_score": evaluations.filter(final_score__isnull=False).aggregate(v=Avg("final_score"))["v"],
-    }
-    recent_responses = completed.select_related("questionnaire", "participant").order_by("-submitted_at")[:8]
-    top = questionnaires.with_counts().order_by("-updated_at")[:6]
-    return render(request, "core/dashboard.html", {"cards": cards, "recent_responses": recent_responses, "questionnaires": top})
+    return render(request, "core/dashboard.html", {"dash": build_dashboard(request.user)})
 
 
 # --------------------------------------------------------------------------- users

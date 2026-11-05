@@ -34,7 +34,7 @@ class AuthTests(TestCase):
     def test_login_and_dashboard(self):
         r = self.client.post(reverse("login"), {"username": "alice", "password": PASSWORD})
         self.assertRedirects(r, reverse("core:dashboard"))
-        self.assertContains(self.client.get(reverse("core:dashboard")), "rs-stat")
+        self.assertContains(self.client.get(reverse("core:dashboard")), "rs-kpi")
         self.assertTrue(AuditLog.objects.filter(action="login.success").exists())
 
     def test_failed_login_is_logged(self):
