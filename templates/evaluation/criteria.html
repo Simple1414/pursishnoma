@@ -3,7 +3,7 @@
 {% block title %}{% translate "Evaluation criteria" %}{% endblock %}
 {% block breadcrumbs %}<a href="{{ questionnaire.get_absolute_url }}" class="truncate max-w-[260px]">{{ questionnaire.title }}</a>{% icon "right" "h-4 w-4" %}<span class="text-rs-text font-medium">{% translate "Evaluation criteria" %}</span>{% endblock %}
 {% block content %}
-<div class="mb-6 max-w-3xl"><h1 class="rs-title">{% translate "Evaluation criteria" %}</h1><p class="rs-subtitle mt-1.5">{% translate "Define the scale for evaluating each participant: criterion, maximum score and weight. The weighted final score (0–100%) is calculated automatically." %}</p></div>
+<div class="mb-6 max-w-3xl"><p class="rs-eyebrow mb-1.5">#{{ questionnaire.pk }} · {{ questionnaire.get_status_display }}</p><h1 class="rs-title">{% translate "Evaluation criteria" %}</h1><p class="mt-1.5 font-semibold text-rs-navy">{{ questionnaire.title }}</p><p class="rs-subtitle mt-1.5">{% translate "Define the scale for evaluating each participant: criterion, maximum score and weight. The weighted final score (0–100%) is calculated automatically." %}</p></div>
 <form method="post" class="rs-card max-w-5xl" novalidate>{% csrf_token %}{{ formset.management_form }}
   {% if formset.non_form_errors %}<div class="rs-alert-danger m-5">{{ formset.non_form_errors }}</div>{% endif %}
   <div class="rs-table-wrap"><table class="rs-table">
