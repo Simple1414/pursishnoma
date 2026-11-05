@@ -36,6 +36,11 @@ def home(request):
     return render(request, "core/home.html", {"public_stats": public_stats, "open_studies": open_studies})
 
 
+def guide(request):
+    """Public one-minute video guide for first-time participants."""
+    return render(request, "core/guide.html")
+
+
 class RateLimitedLoginView(auth_views.LoginView):
     template_name = "registration/login.html"
     authentication_form = LoginForm

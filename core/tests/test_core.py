@@ -118,3 +118,14 @@ class EnsureAdminCommandTests(TestCase):
                 os.environ.pop("DJANGO_ADMIN_PASSWORD")
         user = User.objects.get(username="boss")
         self.assertTrue(user.is_platform_admin)
+
+
+class VideoGuideTests(TestCase):
+    def test_guide_page_is_public_and_linked(self):
+        r = self.client.get(reverse("core:guide"))
+        self.assertEqual(r.status_code, 200)
+        self.assertContains(r, "video/rs-dastur.mp4")
+        self.assertContains(r, "playsinline")
+        self.assertContains(self.client.get("/"), reverse("core:guide"))
+        qn = make_questionnaire(make_user("alice"))
+        self.assertContains(self.client.get(reverse("public:landing", args=[qn.public_id])), reverse("core:guide"))

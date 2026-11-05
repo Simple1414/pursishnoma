@@ -3612,3 +3612,58 @@ msgid ""
 msgstr ""
 "Нет ответов для автоматической оценки (или у критериев нет автоматических "
 "правил)."
+
+msgid "Video guide"
+msgstr "Видеоинструкция"
+
+msgid "minute"
+msgstr "минута"
+
+msgid "How to fill in a questionnaire: a one-minute video guide for students."
+msgstr "Как заполнить анкету: одноминутная видеоинструкция для студентов."
+
+msgid "Video guide: how to fill in a questionnaire"
+msgstr "Видеоинструкция: как заполнить анкету"
+
+msgid "Download the video"
+msgstr "Скачать видео"
+
+msgid "How to fill in a questionnaire"
+msgstr "Как заполнить анкету"
+
+msgid ""
+"For students who take part in a scientific survey for the first time. The "
+"video has Tajik subtitles; you can watch it without sound."
+msgstr ""
+"Для студентов, впервые участвующих в научном опросе. В видео есть субтитры "
+"на таджикском; его можно смотреть без звука."
+
+msgid ""
+"Open the link or QR code from your teacher — no registration is needed."
+msgstr "Откройте ссылку или QR-код от преподавателя — регистрация не нужна."
+
+msgid ""
+"Read the purpose, tick the consent box and press “Begin the questionnaire”."
+msgstr "Прочитайте цель, отметьте согласие и нажмите «Начать анкету»."
+
+msgid ""
+"Answer the questions section by section and press “Next”; answers are saved "
+"automatically."
+msgstr ""
+"Отвечайте на вопросы по разделам и нажимайте «Далее»; ответы сохраняются "
+"автоматически."
+
+msgid ""
+"In the last section press “Submit answers” and keep your confirmation ID."
+msgstr ""
+"В последнем разделе нажмите «Отправить ответы» и сохраните номер "
+"подтверждения."
+
+msgid "Video guide (1 min)"
+msgstr "Видеоинструкция (1 мин)"
+
+msgid "First time?"
+msgstr "Впервые?"
+
+msgid "Watch the one-minute video guide."
+msgstr "Посмотрите одноминутную видеоинструкцию."

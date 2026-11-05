@@ -16,6 +16,7 @@
       <p class="mt-6 text-lg text-rs-muted max-w-xl leading-relaxed">{{ site_settings.tagline|default:_("Intelligent Platform for Scientific Research and Survey Analytics") }}. {% translate "Design scientific questionnaires, collect responses securely, evaluate each participant and turn real data into transparent statistical reports." %}</p>
       <div class="mt-8 flex flex-wrap gap-3">
         <a href="#participate" class="rs-btn-primary !px-5 !py-3">{% translate "Take part in a study" %}</a>
+        <a href="{% url 'core:guide' %}" class="rs-btn-gold !px-5 !py-3">{% icon "eye" "h-4 w-4" %}{% translate "Video guide (1 min)" %}</a>
         <a href="{% url 'login' %}" class="rs-btn-secondary !px-5 !py-3">{% icon "lock" "h-4 w-4" %}{% translate "Researcher sign in" %}</a>
       </div>
       <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4 text-sm">

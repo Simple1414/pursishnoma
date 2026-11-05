@@ -19,6 +19,10 @@
     <p class="text-rs-muted mt-2 text-sm">{% if not_yet_open %}{% translate "It has not opened yet." %}{% else %}{% translate "Data collection has finished or is paused. Thank you for your interest." %}{% endif %}</p>
   </div>
   {% else %}
+  <a href="{% url 'core:guide' %}" target="_blank" rel="noopener" class="mt-6 flex items-center gap-3 rounded-2xl border border-rs-gold/40 bg-rs-gold/10 px-4 py-3 text-sm text-rs-text hover:bg-rs-gold/15 no-underline">
+    <span class="h-9 w-9 shrink-0 rounded-full bg-rs-gold text-[#1a1406] grid place-items-center">{% icon "right" "h-4 w-4" %}</span>
+    <span><strong>{% translate "First time?" %}</strong> {% translate "Watch the one-minute video guide." %}</span>
+  </a>
   <div class="mt-8 space-y-5">
     {% if questionnaire.objective %}<section class="rs-card rs-card-pad"><h2 class="text-lg font-semibold">{% translate "Purpose of the research" %}</h2><p class="mt-2 text-rs-muted rs-prose">{{ questionnaire.objective }}</p></section>{% endif %}
     {% if questionnaire.description %}<section class="rs-card rs-card-pad"><p class="text-rs-muted rs-prose text-sm">{{ questionnaire.description }}</p></section>{% endif %}
