@@ -33,11 +33,11 @@ PARTICIPANT_VARIABLES = [
 ]
 PARTICIPANT_LABELS = {
     "gender": "Gender",
-    "academic_year": "Academic year",
-    "faculty": "Faculty",
-    "specialty": "Specialty",
-    "university": "University",
-    "education_level": "Education level",
+    "academic_year": "Year or grade",
+    "faculty": "Faculty / department",
+    "specialty": "Specialty / field of study",
+    "university": "Educational institution",
+    "education_level": "Level of education",
     "group_name": "Group",
 }
 

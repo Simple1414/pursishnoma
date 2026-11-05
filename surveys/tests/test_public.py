@@ -167,3 +167,40 @@ class PublicFlowTests(TestCase):
         for _ in range(4):
             self.client_class().post(self.start, {"consent": "on"})
         self.assertEqual(SurveyResponse.objects.count(), 2)
+
+
+class InstitutionFieldsTests(TestCase):
+    """Schools, colleges and universities can all describe themselves."""
+
+    def setUp(self):
+        self.qn = make_questionnaire(make_user("owner"))
+        import importlib
+
+        from django.apps import apps
+
+        importlib.import_module("surveys.migrations.0004_institution_fields").forwards(apps, None)
+
+    def test_published_questionnaire_collects_institution_details(self):
+        fields = {f.key: f for f in self.qn.participant_fields.filter(enabled=True)}
+        self.assertEqual(set(fields), {"education_level", "university", "faculty", "specialty"})
+        self.assertTrue(fields["education_level"].required and fields["university"].required)
+        self.assertFalse(fields["faculty"].required or fields["specialty"].required)
+        self.assertEqual(fields["university"].label, "Муассисаи таҳсилотӣ")
+        page = self.client.get(reverse("public:landing", args=[self.qn.public_id]))
+        self.assertContains(page, "Хонандаи мактаб")
+        self.assertContains(page, "Донишҷӯи коллеҷ / литсей")
+
+    def test_school_pupil_can_start_without_faculty(self):
+        f = {pf.key: pf.form_name for pf in self.qn.participant_fields.filter(enabled=True)}
+        r = self.client.post(reverse("public:start", args=[self.qn.public_id]), {
+            "consent": "on", f["education_level"]: "Хонандаи мактаб", f["university"]: "Мактаби №5, ш. Бохтар",
+        })
+        self.assertEqual(r.status_code, 302)
+        p = Participant.objects.get()
+        self.assertEqual((p.education_level, p.university, p.faculty), ("Хонандаи мактаб", "Мактаби №5, ш. Бохтар", ""))
+
+    def test_institution_is_required_and_level_must_be_valid(self):
+        f = {pf.key: pf.form_name for pf in self.qn.participant_fields.filter(enabled=True)}
+        r = self.client.post(reverse("public:start", args=[self.qn.public_id]), {"consent": "on", f["education_level"]: "Invalid"})
+        self.assertEqual(r.status_code, 400)
+        self.assertFalse(Participant.objects.exists())

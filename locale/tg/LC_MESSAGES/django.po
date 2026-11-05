@@ -3694,3 +3694,42 @@ msgstr "Бори аввал?"
 
 msgid "Watch the one-minute video guide."
 msgstr "Видеодастури якдақиқаинаро тамошо кунед."
+
+msgid "Level of education"
+msgstr "Сатҳи таҳсилот"
+
+msgid "Educational institution"
+msgstr "Муассисаи таҳсилотӣ"
+
+msgid "Faculty / department"
+msgstr "Факултет / шуъба"
+
+msgid "Specialty / field of study"
+msgstr "Ихтисос / самт"
+
+msgid "Year or grade"
+msgstr "Курс ё синф"
+
+msgid "School pupil"
+msgstr "Хонандаи мактаб"
+
+msgid "College / lyceum student"
+msgstr "Донишҷӯи коллеҷ / литсей"
+
+msgid "University student (bachelor)"
+msgstr "Донишҷӯи донишгоҳ (бакалавр)"
+
+msgid "Master's or doctoral student"
+msgstr "Магистрант / докторант"
+
+msgid "Other"
+msgstr "Дигар"
+
+msgid "Name of your university, college or school"
+msgstr "Номи донишгоҳ, коллеҷ ё мактаби шумо"
+
+msgid "If applicable — school pupils can leave it empty"
+msgstr "Агар бошад — хонандагони мактаб метавонанд холӣ гузоранд"
+
+msgid "For example: 2nd year or 10th grade"
+msgstr "Масалан: курси 2 ё синфи 10"

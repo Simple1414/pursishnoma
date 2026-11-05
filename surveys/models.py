@@ -240,6 +240,17 @@ class AnswerOption(models.Model):
         return self.text
 
 
+# Stored values are fixed Tajik texts (the label shown follows the interface language),
+# so analytics groups stay identical whatever language a participant used.
+EDUCATION_LEVEL_CHOICES = [
+    ("Хонандаи мактаб", _("School pupil")),
+    ("Донишҷӯи коллеҷ / литсей", _("College / lyceum student")),
+    ("Донишҷӯи донишгоҳ (бакалавр)", _("University student (bachelor)")),
+    ("Магистрант / докторант", _("Master's or doctoral student")),
+    ("Дигар", _("Other")),
+]
+
+
 class ParticipantField(models.Model):
     """Which participant attributes a questionnaire collects (all optional by default)."""
 
@@ -247,11 +258,11 @@ class ParticipantField(models.Model):
         NAME = "name", _("Participant name")
         AGE = "age", _("Age")
         GENDER = "gender", _("Gender")
-        EDUCATION = "education_level", _("Education level")
-        UNIVERSITY = "university", _("University")
-        FACULTY = "faculty", _("Faculty")
-        SPECIALTY = "specialty", _("Specialty")
-        ACADEMIC_YEAR = "academic_year", _("Academic year")
+        EDUCATION = "education_level", _("Level of education")
+        UNIVERSITY = "university", _("Educational institution")
+        FACULTY = "faculty", _("Faculty / department")
+        SPECIALTY = "specialty", _("Specialty / field of study")
+        ACADEMIC_YEAR = "academic_year", _("Year or grade")
         GROUP = "group_name", _("Group")
         CUSTOM = "custom", _("Custom field")
 

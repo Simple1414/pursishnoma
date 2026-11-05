@@ -3667,3 +3667,42 @@ msgstr "Впервые?"
 
 msgid "Watch the one-minute video guide."
 msgstr "Посмотрите одноминутную видеоинструкцию."
+
+msgid "Level of education"
+msgstr "Уровень образования"
+
+msgid "Educational institution"
+msgstr "Учебное заведение"
+
+msgid "Faculty / department"
+msgstr "Факультет / отделение"
+
+msgid "Specialty / field of study"
+msgstr "Специальность / направление"
+
+msgid "Year or grade"
+msgstr "Курс или класс"
+
+msgid "School pupil"
+msgstr "Школьник"
+
+msgid "College / lyceum student"
+msgstr "Студент колледжа / лицея"
+
+msgid "University student (bachelor)"
+msgstr "Студент вуза (бакалавриат)"
+
+msgid "Master's or doctoral student"
+msgstr "Магистрант / докторант"
+
+msgid "Other"
+msgstr "Другое"
+
+msgid "Name of your university, college or school"
+msgstr "Название вашего вуза, колледжа или школы"
+
+msgid "If applicable — school pupils can leave it empty"
+msgstr "Если есть — школьники могут оставить пустым"
+
+msgid "For example: 2nd year or 10th grade"
+msgstr "Например: 2 курс или 10 класс"

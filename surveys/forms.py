@@ -9,7 +9,7 @@ from django.utils.translation import gettext_lazy as _
 
 from core.forms import StyledFormMixin
 
-from .models import AnswerOption, Participant, ParticipantField, Question, Questionnaire, Section
+from .models import EDUCATION_LEVEL_CHOICES, AnswerOption, Participant, ParticipantField, Question, Questionnaire, Section
 
 DATETIME_WIDGET = forms.DateTimeInput(attrs={"type": "datetime-local"}, format="%Y-%m-%dT%H:%M")
 
@@ -134,13 +134,22 @@ class StartForm(forms.Form):
         super().__init__(*args, **kwargs)
         self.questionnaire = questionnaire
         self.field_defs = list(questionnaire.participant_fields.filter(enabled=True))
+        hints = {
+            ParticipantField.Key.UNIVERSITY: _("Name of your university, college or school"),
+            ParticipantField.Key.FACULTY: _("If applicable — school pupils can leave it empty"),
+            ParticipantField.Key.SPECIALTY: _("If applicable — school pupils can leave it empty"),
+            ParticipantField.Key.ACADEMIC_YEAR: _("For example: 2nd year or 10th grade"),
+        }
         for pf in self.field_defs:
             if pf.key == ParticipantField.Key.AGE:
-                field = forms.IntegerField(min_value=10, max_value=120)
+                field = forms.IntegerField(min_value=7, max_value=120)
+            elif pf.key == ParticipantField.Key.EDUCATION:
+                field = forms.ChoiceField(choices=[("", "—")] + EDUCATION_LEVEL_CHOICES)
             else:
                 field = forms.CharField(max_length=200)
             field.label = pf.label
             field.required = pf.required
+            field.help_text = hints.get(pf.key, "")
             field.widget.attrs["class"] = "rs-input"
             self.fields[pf.form_name] = field
         if questionnaire.require_consent:
