@@ -124,8 +124,25 @@ class VideoGuideTests(TestCase):
     def test_guide_page_is_public_and_linked(self):
         r = self.client.get(reverse("core:guide"))
         self.assertEqual(r.status_code, 200)
-        self.assertContains(r, "video/rs-dastur.mp4")
+        self.assertContains(r, "video/andesha-dastur.mp4")
         self.assertContains(r, "playsinline")
         self.assertContains(self.client.get("/"), reverse("core:guide"))
         qn = make_questionnaire(make_user("alice"))
         self.assertContains(self.client.get(reverse("public:landing", args=[qn.public_id])), reverse("core:guide"))
+
+
+class DefaultLanguageTests(TestCase):
+    def test_browser_language_is_ignored(self):
+        r = self.client.get("/", HTTP_ACCEPT_LANGUAGE="ru-RU,ru;q=0.9,en;q=0.8")
+        self.assertContains(r, 'lang="tg"')
+
+    def test_visitor_choice_is_kept(self):
+        self.client.post(reverse("set_language"), {"language": "en", "next": "/"})
+        r = self.client.get("/", HTTP_ACCEPT_LANGUAGE="ru")
+        self.assertContains(r, 'lang="en"')
+
+    def test_unknown_cookie_falls_back_to_tajik(self):
+        from django.conf import settings
+
+        self.client.cookies[settings.LANGUAGE_COOKIE_NAME] = "xx"
+        self.assertContains(self.client.get("/"), 'lang="tg"')

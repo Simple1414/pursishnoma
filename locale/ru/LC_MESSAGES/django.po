@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2026-11-06 01:25+0500\n"
+"POT-Creation-Date: 2026-11-06 22:39+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -2376,12 +2376,12 @@ msgid "Close menu"
 msgstr "Закрыть меню"
 
 #: templates/base_app.html:24 templates/base_public.html:19
-#: templates/base_public.html:50
+#: templates/base_public.html:49
 msgid "Research"
 msgstr "Исследования"
 
 #: templates/base_app.html:25 templates/core/dashboard.html:3
-#: templates/core/dashboard.html:4 templates/core/home.html:262
+#: templates/core/dashboard.html:4
 msgid "Overview"
 msgstr "Обзор"
 
@@ -2413,9 +2413,8 @@ msgstr "Оценка ответов"
 msgid "Analysis"
 msgstr "Анализ"
 
-#: templates/base_app.html:38 templates/base_public.html:21
-#: templates/base_public.html:52 templates/core/dashboard.html:155
-#: templates/core/home.html:246 templates/surveys/detail.html:16
+#: templates/base_app.html:38 templates/core/dashboard.html:155
+#: templates/surveys/detail.html:16
 msgid "Analytics"
 msgstr "Аналитика"
 
@@ -2482,11 +2481,11 @@ msgstr "Поиск исследований…"
 msgid "Notifications"
 msgstr "Уведомления"
 
-#: templates/base_app.html:90 templates/base_public.html:28
+#: templates/base_app.html:90 templates/base_public.html:27
 msgid "Light mode"
 msgstr "Светлая тема"
 
-#: templates/base_app.html:90 templates/base_public.html:28
+#: templates/base_app.html:90 templates/base_public.html:27
 msgid "Dark mode"
 msgstr "Тёмная тема"
 
@@ -2498,42 +2497,42 @@ msgstr "главная страница"
 msgid "Research platform"
 msgstr "Исследовательская платформа"
 
-#: templates/base_public.html:18 templates/base_public.html:49
+#: templates/base_public.html:18 templates/base_public.html:48
 msgid "Home"
 msgstr "Главная"
 
-#: templates/base_public.html:20 templates/base_public.html:51
-#: templates/base_public.html:91 templates/core/home.html:136
+#: templates/base_public.html:20 templates/base_public.html:50
+#: templates/base_public.html:89 templates/core/home.html:136
 msgid "Features"
 msgstr "Возможности"
 
-#: templates/base_public.html:22 templates/base_public.html:53
-#: templates/core/home.html:310
+#: templates/base_public.html:21 templates/base_public.html:51
+#: templates/core/home.html:244
 msgid "How it works"
 msgstr "Как это работает"
 
-#: templates/base_public.html:33 templates/base_public.html:58
+#: templates/base_public.html:32 templates/base_public.html:56
 msgid "Dashboard"
 msgstr "Панель управления"
 
-#: templates/base_public.html:35 templates/base_public.html:60
+#: templates/base_public.html:34 templates/base_public.html:58
 #: templates/registration/login.html:3 templates/registration/login.html:87
 msgid "Sign in"
 msgstr "Войти"
 
-#: templates/base_public.html:38
+#: templates/base_public.html:37
 msgid "Menu"
 msgstr "Меню"
 
-#: templates/base_public.html:48
+#: templates/base_public.html:47
 msgid "Mobile navigation"
 msgstr "Мобильное меню"
 
-#: templates/base_public.html:56 templates/core/home.html:216
+#: templates/base_public.html:54 templates/core/home.html:216
 msgid "Take part"
 msgstr "Принять участие"
 
-#: templates/base_public.html:85 templates/core/home.html:19
+#: templates/base_public.html:83 templates/core/home.html:19
 msgid ""
 "A digital platform for designing, conducting and analysing scientific and "
 "social research."
@@ -2541,52 +2540,52 @@ msgstr ""
 "Цифровая платформа для разработки, проведения и анализа научных и социальных"
 " исследований."
 
-#: templates/base_public.html:87 templates/base_public.html:88
+#: templates/base_public.html:85 templates/base_public.html:86
 msgid "Platform"
 msgstr "Платформа"
 
-#: templates/base_public.html:90 templates/core/guide.html:25
-#: templates/core/home.html:333
+#: templates/base_public.html:88 templates/core/guide.html:29
+#: templates/core/home.html:267
 msgid "Open studies"
 msgstr "Открытые исследования"
 
-#: templates/base_public.html:92 templates/core/guide.html:3
-#: templates/core/guide.html:15
+#: templates/base_public.html:90 templates/core/guide.html:3
+#: templates/core/guide.html:18
 msgid "Video guide"
 msgstr "Видеоинструкция"
 
-#: templates/base_public.html:93 templates/registration/login.html:51
+#: templates/base_public.html:91 templates/registration/login.html:51
 msgid "Researcher sign in"
 msgstr "Вход для исследователей"
 
-#: templates/base_public.html:96 templates/base_public.html:97
+#: templates/base_public.html:94 templates/base_public.html:95
 #: templates/core/privacy.html:8
 msgid "Documents"
 msgstr "Документы"
 
-#: templates/base_public.html:99 templates/core/privacy.html:3
+#: templates/base_public.html:97 templates/core/privacy.html:3
 #: templates/core/privacy.html:9
 msgid "Privacy policy"
 msgstr "Политика конфиденциальности"
 
-#: templates/base_public.html:100 templates/core/home.html:31
+#: templates/base_public.html:98 templates/core/home.html:31
 #: templates/core/privacy.html:20 templates/public/landing.html:94
 msgid "Informed consent"
 msgstr "Информированное согласие"
 
-#: templates/base_public.html:104
+#: templates/base_public.html:102
 msgid "Contact"
 msgstr "Контакты"
 
-#: templates/base_public.html:109
+#: templates/base_public.html:107
 msgid "Contact details will be published by the administrator."
 msgstr "Контактные данные опубликует администратор."
 
-#: templates/base_public.html:115
+#: templates/base_public.html:113
 msgid "All rights reserved."
 msgstr "Все права защищены."
 
-#: templates/base_public.html:116
+#: templates/base_public.html:114
 msgid "Science is the driving force of society’s progress"
 msgstr "Наука — движущая сила прогресса общества"
 
@@ -2733,44 +2732,56 @@ msgid "No activity yet"
 msgstr "Пока нет активности"
 
 #: templates/core/guide.html:4
-msgid "How to fill in a questionnaire: a one-minute video guide for students."
-msgstr "Как заполнить анкету: одноминутная видеоинструкция для студентов."
+msgid ""
+"How to fill in a questionnaire: a short video guide for pupils, students and"
+" teachers."
+msgstr ""
+"Как заполнить анкету: короткая видеоинструкция для школьников, студентов и "
+"преподавателей."
 
-#: templates/core/guide.html:9
+#: templates/core/guide.html:12
 msgid "Video guide: how to fill in a questionnaire"
 msgstr "Видеоинструкция: как заполнить анкету"
 
-#: templates/core/guide.html:11 templates/core/guide.html:26
+#: templates/core/guide.html:14 templates/core/guide.html:30
 msgid "Download the video"
 msgstr "Скачать видео"
 
-#: templates/core/guide.html:15
-msgid "minute"
-msgstr "минута"
+#: templates/core/guide.html:18
+msgid "about a minute"
+msgstr "около минуты"
 
-#: templates/core/guide.html:16
+#: templates/core/guide.html:19
 msgid "How to fill in a questionnaire"
 msgstr "Как заполнить анкету"
 
-#: templates/core/guide.html:17
+#: templates/core/guide.html:20
 msgid ""
-"For students who take part in a scientific survey for the first time. The "
-"video has Tajik subtitles; you can watch it without sound."
+"For pupils, students and teachers who take part in a scientific survey for "
+"the first time. The video has Tajik subtitles; you can watch it without "
+"sound."
 msgstr ""
-"Для студентов, впервые участвующих в научном опросе. В видео есть субтитры "
-"на таджикском; его можно смотреть без звука."
+"Для школьников, студентов и преподавателей, впервые участвующих в научном "
+"опросе. В видео есть таджикские субтитры; его можно смотреть без звука."
 
-#: templates/core/guide.html:19
+#: templates/core/guide.html:22
 msgid ""
 "Open the link or QR code from your teacher — no registration is needed."
 msgstr "Откройте ссылку или QR-код от преподавателя — регистрация не нужна."
 
-#: templates/core/guide.html:20
+#: templates/core/guide.html:23
+msgid ""
+"Choose your status — pupil, student or teacher — and enter your institution."
+msgstr ""
+"Выберите свой статус — школьник, студент или преподаватель — и укажите "
+"учреждение."
+
+#: templates/core/guide.html:24
 msgid ""
 "Read the purpose, tick the consent box and press “Begin the questionnaire”."
 msgstr "Прочитайте цель, отметьте согласие и нажмите «Начать анкету»."
 
-#: templates/core/guide.html:21
+#: templates/core/guide.html:25
 msgid ""
 "Answer the questions section by section and press “Next”; answers are saved "
 "automatically."
@@ -2778,7 +2789,7 @@ msgstr ""
 "Отвечайте на вопросы по разделам и нажимайте «Далее»; ответы сохраняются "
 "автоматически."
 
-#: templates/core/guide.html:22
+#: templates/core/guide.html:26
 msgid ""
 "In the last section press “Submit answers” and keep your confirmation ID."
 msgstr ""
@@ -2814,7 +2825,7 @@ msgid "First time?"
 msgstr "Впервые?"
 
 #: templates/core/home.html:26 templates/core/home.html:195
-#: templates/core/home.html:334
+#: templates/core/home.html:268
 msgid "Video guide (1 min)"
 msgstr "Видеоинструкция (1 мин)"
 
@@ -2991,7 +3002,7 @@ msgstr "Отвечайте по разделам"
 msgid "Answers are saved automatically."
 msgstr "Ответы сохраняются автоматически."
 
-#: templates/core/home.html:226 templates/core/home.html:317
+#: templates/core/home.html:226 templates/core/home.html:251
 msgid "Submit your answers"
 msgstr "Отправьте ответы"
 
@@ -3011,88 +3022,40 @@ msgstr ""
 "Сейчас нет открытых исследований. Если вы получили ссылку от исследователя, "
 "откройте её напрямую."
 
-#: templates/core/home.html:247
-msgid "From raw answers to scientific conclusions"
-msgstr "От сырых ответов — к научным выводам"
-
-#: templates/core/home.html:248
-msgid ""
-"Every chart shows its sample size. Significance is reported only together "
-"with the test that produced it."
-msgstr ""
-"Каждый график показывает объём выборки. Значимость сообщается только вместе "
-"с тестом, которым она получена."
-
-#: templates/core/home.html:250
-msgid "Distributions and Likert profiles for every question"
-msgstr "Распределения и профили Лайкерта по каждому вопросу"
-
-#: templates/core/home.html:251
-msgid "Cross-tabulations by status, institution and year"
-msgstr "Таблицы сопряжённости по статусу, учреждению и курсу"
-
-#: templates/core/home.html:252
-msgid "Findings linked to the questions they come from"
-msgstr "Выводы связаны с исходными вопросами"
-
-#: templates/core/home.html:253
-msgid "Charts exported as PNG for articles"
-msgstr "Экспорт графиков в PNG для статей"
-
-#: templates/core/home.html:262
-msgid "Cross-tab"
-msgstr "Сопряжённость"
-
-#: templates/core/home.html:262
-msgid "Tests"
-msgstr "Тесты"
-
-#: templates/core/home.html:294
-msgid "Finding"
-msgstr "Вывод"
-
-#: templates/core/home.html:301
-msgid ""
-"Illustration of the analytics interface. Real results are visible only to "
-"the researcher."
-msgstr ""
-"Иллюстрация интерфейса аналитики. Реальные результаты видны только "
-"исследователю."
-
-#: templates/core/home.html:311
+#: templates/core/home.html:245
 msgid "Three steps to take part"
 msgstr "Три шага для участия"
 
-#: templates/core/home.html:315
+#: templates/core/home.html:249
 msgid "Open the link"
 msgstr "Откройте ссылку"
 
-#: templates/core/home.html:315
+#: templates/core/home.html:249
 msgid ""
 "Get the link or QR code from your teacher. No registration or password is "
 "needed."
 msgstr ""
 "Получите ссылку или QR-код у преподавателя. Регистрация и пароль не нужны."
 
-#: templates/core/home.html:316
+#: templates/core/home.html:250
 msgid "Answer the questions"
 msgstr "Ответьте на вопросы"
 
-#: templates/core/home.html:316
+#: templates/core/home.html:250
 msgid ""
 "Move section by section. Answers are saved automatically at every step."
 msgstr ""
 "Двигайтесь по разделам. Ответы сохраняются автоматически на каждом шаге."
 
-#: templates/core/home.html:317
+#: templates/core/home.html:251
 msgid "Press “Submit answers” and keep the confirmation number."
 msgstr "Нажмите «Отправить ответы» и сохраните номер подтверждения."
 
-#: templates/core/home.html:329
+#: templates/core/home.html:263
 msgid "Your answers move science forward"
 msgstr "Ваши ответы двигают науку вперёд"
 
-#: templates/core/home.html:330
+#: templates/core/home.html:264
 msgid ""
 "It takes about fifteen minutes, it is anonymous and you can stop at any "
 "time."

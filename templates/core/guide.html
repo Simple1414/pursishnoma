@@ -1,29 +1,34 @@
 {% extends "base_public.html" %}
 {% load i18n static rs_tags %}
 {% block title %}{% translate "Video guide" %}{% endblock %}
-{% block meta_description %}{% translate "How to fill in a questionnaire: a one-minute video guide for students." %}{% endblock %}
+{% block meta_description %}{% translate "How to fill in a questionnaire: a short video guide for pupils, students and teachers." %}{% endblock %}
 {% block content %}
-<section class="max-w-5xl mx-auto px-4 sm:px-6 py-10 sm:py-14 grid lg:grid-cols-[minmax(0,420px)_1fr] gap-10 items-center">
-  <div class="mx-auto w-full max-w-[420px]">
-    <video class="w-full rounded-[28px] shadow-lift bg-[#0B1528] aspect-[9/16]" controls playsinline preload="metadata"
-           poster="{% static 'video/rs-dastur-poster.jpg' %}" aria-label="{% translate 'Video guide: how to fill in a questionnaire' %}">
-      <source src="{% static 'video/rs-dastur.mp4' %}" type="video/mp4">
-      <a href="{% static 'video/rs-dastur.mp4' %}">{% translate "Download the video" %}</a>
-    </video>
-  </div>
-  <div>
-    <p class="rs-eyebrow">{% translate "Video guide" %} · 1 {% translate "minute" %}</p>
-    <h1 class="mt-3 font-serif text-3xl sm:text-4xl font-semibold leading-tight">{% translate "How to fill in a questionnaire" %}</h1>
-    <p class="mt-4 text-rs-muted leading-relaxed">{% translate "For students who take part in a scientific survey for the first time. The video has Tajik subtitles; you can watch it without sound." %}</p>
-    <ol class="mt-6 space-y-3 text-sm">
-      <li class="flex gap-3"><span class="h-7 w-7 shrink-0 rounded-full bg-rs-royal/10 text-rs-royal grid place-items-center font-semibold">1</span><span>{% translate "Open the link or QR code from your teacher — no registration is needed." %}</span></li>
-      <li class="flex gap-3"><span class="h-7 w-7 shrink-0 rounded-full bg-rs-royal/10 text-rs-royal grid place-items-center font-semibold">2</span><span>{% translate "Read the purpose, tick the consent box and press “Begin the questionnaire”." %}</span></li>
-      <li class="flex gap-3"><span class="h-7 w-7 shrink-0 rounded-full bg-rs-royal/10 text-rs-royal grid place-items-center font-semibold">3</span><span>{% translate "Answer the questions section by section and press “Next”; answers are saved automatically." %}</span></li>
-      <li class="flex gap-3"><span class="h-7 w-7 shrink-0 rounded-full bg-rs-royal/10 text-rs-royal grid place-items-center font-semibold">4</span><span>{% translate "In the last section press “Submit answers” and keep your confirmation ID." %}</span></li>
-    </ol>
-    <div class="mt-8 flex flex-wrap gap-3">
-      <a href="{% url 'core:home' %}#participate" class="rs-btn-primary">{% translate "Open studies" %}{% icon "right" "h-4 w-4" %}</a>
-      <a href="{% static 'video/rs-dastur.mp4' %}" download class="rs-btn-secondary">{% icon "download" "h-4 w-4" %}{% translate "Download the video" %}</a>
+<section class="relative isolate overflow-hidden">
+  <div aria-hidden="true" class="rs-grid-bg pointer-events-none absolute inset-0 -z-10 opacity-60 dark:opacity-25"></div>
+  <div aria-hidden="true" class="pointer-events-none absolute -right-40 -top-40 -z-10 h-[520px] w-[520px] rounded-full bg-[radial-gradient(closest-side,rgb(var(--rs-electric)/0.2),transparent)]"></div>
+  <div class="rs-container grid items-center gap-10 py-10 sm:py-14 lg:grid-cols-[minmax(0,400px)_1fr] lg:gap-16">
+    <div class="mx-auto w-full max-w-[400px]">
+      <video class="aspect-[9/16] w-full rounded-[28px] bg-[#0A1426] shadow-glow ring-1 ring-rs-border" controls playsinline preload="metadata"
+             poster="{% static 'video/andesha-dastur-poster.jpg' %}" aria-label="{% translate 'Video guide: how to fill in a questionnaire' %}">
+        <source src="{% static 'video/andesha-dastur.mp4' %}" type="video/mp4">
+        <a href="{% static 'video/andesha-dastur.mp4' %}">{% translate "Download the video" %}</a>
+      </video>
+    </div>
+    <div>
+      <span class="rs-kicker"><span class="rs-kicker-dot"></span>{% translate "Video guide" %} · {% translate "about a minute" %}</span>
+      <h1 class="mt-5 text-3xl font-bold leading-tight tracking-[-0.025em] sm:text-[2.6rem]">{% translate "How to fill in a questionnaire" %}</h1>
+      <p class="rs-lead mt-4">{% translate "For pupils, students and teachers who take part in a scientific survey for the first time. The video has Tajik subtitles; you can watch it without sound." %}</p>
+      <ol class="mt-8 space-y-3">
+        <li class="flex gap-4 rounded-2xl border border-rs-border bg-rs-surface p-4 shadow-card"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-rs-royal text-sm font-bold">1</span><span class="pt-1 text-[15px] leading-relaxed">{% translate "Open the link or QR code from your teacher — no registration is needed." %}</span></li>
+        <li class="flex gap-4 rounded-2xl border border-rs-border bg-rs-surface p-4 shadow-card"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-rs-royal text-sm font-bold">2</span><span class="pt-1 text-[15px] leading-relaxed">{% translate "Choose your status — pupil, student or teacher — and enter your institution." %}</span></li>
+        <li class="flex gap-4 rounded-2xl border border-rs-border bg-rs-surface p-4 shadow-card"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-rs-royal text-sm font-bold">3</span><span class="pt-1 text-[15px] leading-relaxed">{% translate "Read the purpose, tick the consent box and press “Begin the questionnaire”." %}</span></li>
+        <li class="flex gap-4 rounded-2xl border border-rs-border bg-rs-surface p-4 shadow-card"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-rs-royal/10 text-rs-royal text-sm font-bold">4</span><span class="pt-1 text-[15px] leading-relaxed">{% translate "Answer the questions section by section and press “Next”; answers are saved automatically." %}</span></li>
+        <li class="flex gap-4 rounded-2xl border border-rs-border bg-rs-surface p-4 shadow-card"><span class="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-rs-success/10 text-rs-success text-sm font-bold">5</span><span class="pt-1 text-[15px] leading-relaxed">{% translate "In the last section press “Submit answers” and keep your confirmation ID." %}</span></li>
+      </ol>
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="{% url 'core:home' %}#research" class="rs-btn-cta rs-btn-lg">{% translate "Open studies" %}{% icon "right" "h-4 w-4" %}</a>
+        <a href="{% static 'video/andesha-dastur.mp4' %}" download class="rs-btn-secondary rs-btn-lg">{% icon "download" "h-4 w-4" %}{% translate "Download the video" %}</a>
+      </div>
     </div>
   </div>
 </section>

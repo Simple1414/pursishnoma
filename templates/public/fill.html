@@ -45,11 +45,11 @@
         <p class="flex-1 text-center text-xs text-rs-muted hidden sm:block">{% translate "Your answers are saved automatically on each step." %}</p>
         <span class="flex-1 sm:hidden"></span>
         <button type="button" class="rs-btn-primary" x-show="step < total - 1" @click="next()">{% translate "Next" %}{% icon "right" "h-4 w-4" %}</button>
-        <button type="submit" class="rs-btn-gold" x-show="step === total - 1" x-cloak :disabled="submitting">
+        <button type="submit" class="rs-btn-cta" x-show="step === total - 1" x-cloak :disabled="submitting">
           <span x-show="submitting" class="rs-spinner" x-cloak></span>{% translate "Submit answers" %}</button>
       </div>
     </nav>
-    <noscript><div class="mt-8"><button type="submit" class="rs-btn-gold w-full">{% translate "Submit answers" %}</button></div></noscript>
+    <noscript><div class="mt-8"><button type="submit" class="rs-btn-cta w-full">{% translate "Submit answers" %}</button></div></noscript>
   </form>
 </div>
 {% endblock %}
